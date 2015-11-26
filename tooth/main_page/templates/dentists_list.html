@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+    {% load django_markdown %}
+
+    {% block content %}
+        {% if object_list %}
+            {% for dentist in object_list %}
+            <div class="dentist">
+                <h1><a href="{{ dentist.get_absolute_url }}">{{ dentist.title }} {{ dentist.name }}  {{ dentist.surname }}</a></h1>
+                {{ dentist.profile_image  }}
+                <a style="float: right;" href="{{ dentist.get_absolute_url }}"> Więcej informacji ...</a>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No dentists found</p>
+        {% endif %}
+
+        <ul class="pager">
+            {% if page_obj.has_previous %}
+                <li class="previous"><a href="/{{ page_obj.previous_page_number }}/">Previous Page</a></li>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <li class="next"><a href="/{{ page_obj.next_page_number }}/">Next Page</a></li>
+            {% endif %}
+        </ul>
+
+    {% endblock %}

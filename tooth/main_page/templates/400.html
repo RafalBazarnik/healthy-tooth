@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% load django_markdown %}
+
+    {% block content %}
+        {% load staticfiles %}
+
+        <h1>Bad Request!</h1>
+
+        <p>Something went wrong and we got bad request. Please return to <a href="{% url 'index' %}">Home</a> page</p>
+
+    {% endblock %}

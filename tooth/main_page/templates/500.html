@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+    {% load django_markdown %}
+
+    {% block content %}
+        <h1>Page unavailable</h1>
+             <p>Sorry, but the requested page is unavailable due to a server hiccup.</p>
+
+             <p>Our underpaid, starving engineers have been notified, so check back later.</p>
+             <p>Return to <a href="{% url 'index' %}">Home</a> page</p>
+    {% endblock %}
