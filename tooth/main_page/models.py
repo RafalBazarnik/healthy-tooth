@@ -26,19 +26,19 @@ class Address(models.Model):
 		("WP", "wielkopolskie"),
 		("ZP", "zachodniopomorskie"),
 	)
-	province = models.CharField(choices=PROVINCE, max_length=20)
-	city = models.CharField(max_length=100)
-	street = models.CharField(max_length=100)
-	number = models.CharField(max_length=20)
+	province = models.CharField(choices=PROVINCE, null=True, max_length=20, help_text="Województwo")
+	city = models.CharField(max_length=100, null=True)
+	street = models.CharField(max_length=100, null=True)
+	number = models.CharField(max_length=20, null=True, help_text="Numer domu/mieszkania")
 
 	class Meta:
 		abstract = True
 			
 class Contact(Address):
 	phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
-	phone_number = models.CharField(validators=[phone_regex], blank=True, max_length=20)
-	phone_number_alt = models.CharField(validators=[phone_regex], blank=True, max_length=20)
-	email = models.EmailField()
+	phone_number = models.CharField(validators=[phone_regex], blank=True, max_length=15, help_text="Numer telefonu")
+	phone_number_alt = models.CharField(validators=[phone_regex], blank=True, max_length=15, help_text="Alternatywny numer telefonu")
+	email = models.EmailField(null=True)
 
 	class Meta:
 		abstract = True
@@ -46,11 +46,11 @@ class Contact(Address):
 def get_image_path(instance, filename):
 	return os.path.join('photos', str(filename))
 
-class Patient(models.Model):
+class Patient(Contact):
 	
-	name = models.CharField(max_length=100)
-	surname = models.CharField(max_length=100)
-	pesel = models.CharField(max_length=11, null=True)
+	name = models.CharField(max_length=100, help_text="Imię")
+	surname = models.CharField(max_length=100, help_text="Nazwisko")
+	pesel = models.CharField(max_length=11, null=True, help_text="Numer PESEL")
 	slug = models.SlugField(max_length=40, unique=True, blank=True, null=True)
 
 	def __str__(self):
@@ -65,8 +65,15 @@ class Patient(models.Model):
 
 
 class Event(models.Model):
+	EVENT_TYPES = (
+		("A1", "wizyta kontrolna"),
+		("A2", "leczenie kanałowe"),
+		("A3", "plombowanie"),
+		("A4", "inne"),
+	)
 	title = models.CharField(max_length=100)
 	date = models.DateTimeField()
+	event_type = models.CharField(choices=EVENT_TYPES, default="A4", max_length=20, help_text="Rodzaj wizyty")
 	text = MarkdownField()
 	subject = models.ForeignKey(Patient, blank=True, null=True)
 	slug = models.SlugField(max_length=40, unique=True, blank=True, null=True)
@@ -83,7 +90,7 @@ class Event(models.Model):
 
 class Office(Contact):
 	name = models.CharField(max_length=150)
-	office_id = models.CharField(max_length=10, unique=True, null=False, blank=False)
+	office_id = models.CharField(max_length=10, unique=True, null=False, blank=False, help_text="Indywidualna nazwa kodowa gabinetu")
 	slug = models.SlugField(max_length=40, unique=True, blank=True, null=True)
 
 	def __str__(self):
@@ -98,12 +105,13 @@ class Office(Contact):
 
 
 class Dentist(models.Model):
-	title = models.CharField(max_length=50)
+	professional_title = models.CharField(max_length=50, help_text="Tytuł zawodowy dentysty")
 	name = models.CharField(max_length=100)
 	surname = models.CharField(max_length=100)
 	biography = models.CharField(max_length=5000)
 	profile_image = models.ImageField(upload_to=get_image_path, blank=True, null=True)
 	pwz_number = models.CharField(max_length=87, null=True, help_text="7-cyfrowy numer prawa wykonywania zawodu (PWZ)")
+	specialties = models.CharField(max_length=50, null=True, help_text="Specjalizacja")
 	slug = models.SlugField(max_length=40, unique=True, blank=True, null=True)
 
 	def __str__(self):

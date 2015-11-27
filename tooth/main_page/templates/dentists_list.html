@@ -1,16 +1,60 @@
 {% extends "base.html" %}
 
     {% load django_markdown %}
+    {% load  static %}
 
     {% block content %}
-        {% if object_list %}
-            {% for dentist in object_list %}
-            <div class="dentist">
-                <h1><a href="{{ dentist.get_absolute_url }}">{{ dentist.title }} {{ dentist.name }}  {{ dentist.surname }}</a></h1>
-                {{ dentist.profile_image  }}
-                <a style="float: right;" href="{{ dentist.get_absolute_url }}"> Więcej informacji ...</a>
+        <h1 style="text-align: center;">Nasi Lekarze-Dentyści:</h1>
+            <h3>Skorzystaj z wyszukiwarki dentystów:</h3>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search for...">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">Go!</button>
+                </span>
             </div>
+        <BR>&nbsp;<BR>
+        {% if object_list %}
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Imię:</th>
+                    <th>Nazwisko:</th>
+                    <th>Tytuł zawodowy:</th>
+                    <th>Specjalizacja:</th>
+                    <th>Więcej informacji</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for dentist in object_list %}
+            <tr>
+                <td>
+                    {{ dentist.surname }}
+                </td>
+                <td>
+                    {{ dentist.name }}
+                </td>
+                <td>
+                    {{ dentist.professional_title }}
+                </td>
+                <td>
+                {% if dentist.specialties %}
+                    {{ dentist.specialties }}
+                {% else %}
+                    dentysta specjalizacji ogólnej
+                {% endif %}
+
+                </td>
+                <td>
+                    <a target="_blank" href="{{ dentist.get_absolute_url }}">więcej informacji...</a>
+                </td>
+            <!-- <div class="dentist">
+                <p1><a href="{{ dentist.get_absolute_url }}">{{ dentist.name }}  {{ dentist.surname }}, {{ dentist.professional_title }} </a>
+                <a style="display:inline;" href="{{ dentist.get_absolute_url }}"> więcej informacji ...</a></p1> -->
+            </div>
+            </tr>
             {% endfor %}
+            </tbody>
+            </table>
         {% else %}
             <p>No dentists found</p>
         {% endif %}
