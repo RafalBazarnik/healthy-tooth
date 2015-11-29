@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+    {% load django_markdown %}
+    {% load  static %}
+
+    {% block content %}
+    <section class="" id="dentist_header">
+        <div class="row">
+            <div class="col-md-2">
+            <a class="avatar">
+                <img src="{% static 'img/dentist-default.jpg' %}">
+            </a>
+            </div>
+            <div class="col-md-10">
+                <h1>{{ object.name }} {{ object.surname }}, {{ object.professional_title }}</h1>
+                <h4>Numer Prawa Wykonywania Zawodu (PWZ): {{ object.pwz_number }}<h4>
+            </div>
+        </div>
+    </section>
+    <section class="" id="dentist_body">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-10">
+                <div class="specialties">
+                    <h3>Specjalizacja:</h5>
+                    <p>{{ object.specialties }}</p>
+                </div>
+                <div class="biography"></div>
+                    <h3>Biografia:</h5>
+                    <p>{{ object.biography | markdown}}</p>
+            </div>
+        </div>
+    </section>
+    {% endblock %}

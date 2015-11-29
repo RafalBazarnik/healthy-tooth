@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+    {% load django_markdown %}
+    {% load  static %}
+
+    {% block title %}
+        Ząbek - nasze gabinety
+    {% endblock %}
+
+    {% block header %}
+        <h1>Nasze Gabinety:</h1>
+    {% endblock %}
+
+    {% block content %}
+        <h4>Skorzystaj z wyszukiwarki gabinetów</h4>
+        <div class="input-group" id="search-field">
+            <input type="text" class="form-control" placeholder="kryteria wyszukiwania...">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Szukaj!</button>
+            </span>
+        </div>
+        <BR>&nbsp;<BR>
+        {% if object_list %}
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nazwa:</th>
+                    <th>Województwo:</th>
+                    <th>Miasto:</th>
+                    <th>Adres:</th>
+                    <th>Telefon</th>
+                    <th>Więcej informacji</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for office in object_list %}
+            <tr>
+                <td>
+                    {{ office.name }}
+                </td>
+                <td>
+                    {{ office.province_verbose }}
+                </td>
+                <td>
+                    {{ office.city }}
+                </td>
+                <td>
+                    ul. {{ office.street}} {{ office.number }}
+                </td>
+                <td>
+                    {{ office.phone_number }}
+                </td>
+                <td>
+                    <a target="_blank" href="{{ office.get_absolute_url }}">więcej informacji...</a>
+                </td>
+            </div>
+            </tr>
+            {% endfor %}
+            </tbody>
+            </table>
+        {% else %}
+            <p>Nie znaleziono gabinetów!</p>
+        {% endif %}
+
+        <ul class="pager">
+            {% if page_obj.has_previous %}
+                <li class="previous"><a href="/{{ page_obj.previous_page_number }}/">Previous Page</a></li>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <li class="next"><a href="/{{ page_obj.next_page_number }}/">Next Page</a></li>
+            {% endif %}
+        </ul>
+
+    {% endblock %}

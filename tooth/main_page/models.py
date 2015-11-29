@@ -8,7 +8,7 @@ import os
 
 # Create your models here.
 class Address(models.Model):
-	PROVINCE = (
+	PROVINCE = [
 		("DS", "dolnośląskie"),
 		("KP", "kujawsko-pomorskie"),
 		("LU", "lubelskie"),
@@ -25,11 +25,14 @@ class Address(models.Model):
 		("WN", "warmińsko-mazurskie"),
 		("WP", "wielkopolskie"),
 		("ZP", "zachodniopomorskie"),
-	)
+	]
 	province = models.CharField(choices=PROVINCE, null=True, max_length=20, help_text="Województwo")
 	city = models.CharField(max_length=100, null=True)
 	street = models.CharField(max_length=100, null=True)
 	number = models.CharField(max_length=20, null=True, help_text="Numer domu/mieszkania")
+
+	def province_verbose(self):
+		return dict(Address.PROVINCE)[self.province]
 
 	class Meta:
 		abstract = True
@@ -89,6 +92,7 @@ class Event(models.Model):
 		verbose_name_plural = 'Events'
 
 class Office(Contact):
+	user = models.OneToOneField(User, blank=True, null=True)
 	name = models.CharField(max_length=150)
 	office_id = models.CharField(max_length=10, unique=True, null=False, blank=False, help_text="Indywidualna nazwa kodowa gabinetu")
 	slug = models.SlugField(max_length=40, unique=True, blank=True, null=True)

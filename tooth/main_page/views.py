@@ -7,7 +7,30 @@ from .forms import ContactForm
 from django.template.loader import get_template
 from django.core.mail import EmailMessage
 from django.template import Context
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 from . import models
+
+def login(request):
+	if request.method == 'POST':
+		username = request.POST.get('username')
+		password = request.PSOT.get('password')
+		user = authenticate(username=username, password=password)
+		if user:
+			if user.is_active:
+				login(request, user)
+				return HttpResponseRedirect('/account/')
+			else:
+				return HttpResponse("Twoje konto zostało zablokowane, skontaktuj się z administratorem.")
+		else:
+			return HttpResponse("Błędny login lub hasło")
+
+	else:
+		return render(request, 'login.html')
+
 
 class IndexView(TemplateView):
 	template_name = "index.html"
@@ -20,15 +43,27 @@ class PatientsListView(generic.ListView):
 	template_name = "patients_list.html"
 	paginate_by = 25
 
+class PatientDetailView(generic.DetailView):
+	model = models.Patient
+	template_name='patient_detail.html'
+
 class DentistsListView(generic.ListView):
 	queryset = models.Dentist.objects.all()
 	template_name = "dentists_list.html"
 	paginate_by = 25
 
+class DentistDetailView(generic.DetailView):
+	model = models.Dentist
+	template_name='dentist_detail.html'
+
 class OfficesListView(generic.ListView):
 	queryset = models.Office.objects.all()
 	template_name = "offices_list.html"
 	paginate_by = 25
+
+class OfficeDetailView(generic.DetailView):
+	model = models.Office
+	template_name='office_detail.html'
 
 def contact(request):
 	if request.method == 'GET':
@@ -45,6 +80,23 @@ def contact(request):
 				return HttpResponse('Invalid header found.')
 			return redirect('thanks')
 	return render(request, "contact.html", {'form': form})
+
+def patient_new(request):
+	if request.method == "POST":
+		form = NewPatientForm(request.POST)
+		if form.is_valid():
+			patient = form.save(commit=False)
+			patient.save()
+			return redirect('blog.views.post_detail', pk=post.pk)
+	else:
+		form = NewPatientForm()
+	return render(request, 'patient_new.html', {'form': form})
+
+def office_account(request):
+	if not request.user.is_authenticated():
+		return redirect('/login')
+	else:
+		return render_to_response('office_index.html', {}, context_instance=RequestContext(request))
 
 def message_sent(request):
 	return render_to_response('message_sent.html')

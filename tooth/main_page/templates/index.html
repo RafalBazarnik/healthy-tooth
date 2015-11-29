@@ -1,11 +1,17 @@
 {% extends "base.html" %}
 
 {% load django_markdown %}
+{% load staticfiles %}
+{% load  static %}
+
+	{% block title %}
+		Ząbek - strona główna
+	{% endblock %}
+
+	{% block header %}
+        <h1>Sieć gabinetów dentystycznych "Ząbek"</h1>
+    {% endblock %}
 
     {% block content %}
-        {% load staticfiles %}
-
-        <h1>Sieć gabinetów dentystycznych "Ząbek"</h1>
-
-
+    	<h3>Witamy!<h3>
     {% endblock %}

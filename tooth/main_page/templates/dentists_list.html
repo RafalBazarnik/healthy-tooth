@@ -3,15 +3,22 @@
     {% load django_markdown %}
     {% load  static %}
 
+    {% block title %}
+        Ząbek - nasi lekarze-dentyści
+    {% endblock %}
+
+    {% block header %}
+        <h1>Nasi Lekarze-Dentyści:</h1>
+    {% endblock %}
+
     {% block content %}
-        <h1 style="text-align: center;">Nasi Lekarze-Dentyści:</h1>
-            <h3>Skorzystaj z wyszukiwarki dentystów:</h3>
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search for...">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">Go!</button>
-                </span>
-            </div>
+        <h4>Skorzystaj z wyszukiwarki dentystów:</h4>
+        <div class="input-group" id="search-field">
+            <input type="text" class="form-control" placeholder="kryteria wyszukiwania...">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Szukaj!</button>
+            </span>
+        </div>
         <BR>&nbsp;<BR>
         {% if object_list %}
             <table class="table table-striped">
@@ -47,16 +54,13 @@
                 <td>
                     <a target="_blank" href="{{ dentist.get_absolute_url }}">więcej informacji...</a>
                 </td>
-            <!-- <div class="dentist">
-                <p1><a href="{{ dentist.get_absolute_url }}">{{ dentist.name }}  {{ dentist.surname }}, {{ dentist.professional_title }} </a>
-                <a style="display:inline;" href="{{ dentist.get_absolute_url }}"> więcej informacji ...</a></p1> -->
             </div>
             </tr>
             {% endfor %}
             </tbody>
             </table>
         {% else %}
-            <p>No dentists found</p>
+            <p>Nie znaleziono dentystów!</p>
         {% endif %}
 
         <ul class="pager">

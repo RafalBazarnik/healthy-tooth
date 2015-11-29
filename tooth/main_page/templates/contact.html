@@ -1,11 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<form method="post">
-	    {% csrf_token %}
-	    {{ form }}
-	    <div class="form-actions">
-	      <button type="submit">Send</button>
-	    </div>
-	</form>
+    <h1>Napisz do nas a skontaktujemy się z Toną</h1>
+    <form method="POST" class="post-form">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
 {% endblock %}

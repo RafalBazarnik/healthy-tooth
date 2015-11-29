@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+    {% load django_markdown %}
+    {% load  static %}
+
+    {% block title %}
+        Ząbek - kartoteka pacjentów
+    {% endblock %}
+
+    {% block header %}
+        <h1>Kartoteka pacjentów:</h1>
+    {% endblock %}
+
+    {% block content %}
+        <h4>Skorzystaj z wyszukiwarki pacjentów</h4>
+        <div class="input-group" id="search-field">
+            <input type="text" class="form-control" placeholder="kryteria wyszukiwania...">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Szukaj!</button>
+            </span>
+        </div>
+        <BR>&nbsp;<BR>
+        {% if object_list %}
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nazwisko:</th>
+                    <th>Imię:</th>
+                    <th>Pesel:</th>
+                    <th>Miasto</th>
+                    <th>Adres</th>
+                    <th>Telefon</th>
+                    <th>Adres email</th>
+                    <th>Więcej...</th>
+                    <th>Edycja</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for patient in object_list %}
+            <tr>
+                <td>
+                    {{ patient.surname }}
+                </td>
+                <td>
+                    {{ patient.name }}
+                </td>
+                <td>
+                    {{ patient.pesel }}
+                </td>
+                <td>
+                    {{ patient.city }}
+                </td>
+                <td>
+                    ul. {{ patient.street}} {{ patient.number }}
+                </td>
+                <td>
+                    {{ patient.phone_number }}
+                </td>
+                <td>
+                    {{ patient.email }}
+                </td>
+                <td>
+                    <a target="_blank" href="{{ patient.get_absolute_url }}">więcej...</a>
+                </td>
+                <td>
+                    <a href="#"></a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+            </table>
+        {% else %}
+            <p>Nie znaleziono pacjentów!</p>
+        {% endif %}
+
+        <ul class="pager">
+            {% if page_obj.has_previous %}
+                <li class="previous"><a href="/{{ page_obj.previous_page_number }}/">Previous Page</a></li>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <li class="next"><a href="/{{ page_obj.next_page_number }}/">Next Page</a></li>
+            {% endif %}
+        </ul>
+
+    {% endblock %}
