@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+    {% load django_markdown %}
+    {% load  static %}
+
+    {% block title %}
+        Ząbek - pacjent
+    {% endblock %}
+
+    {% block header %}
+        <h1>Pacjent:</h1>
+    {% endblock %}
+
+    {% block content %}
+    <section class="" id="patient_header">
+        <div class="row">
+            <div class="col-md-2">
+            <a class="avatar">
+                <img src="{% static 'img/patient-default.jpg' %}">
+            </a>
+            </div>
+            <div class="col-md-10">
+                <h1>{{ patient.name }} {{ patient.surname }}</h1>
+                <h4>Adres:  {{ patient.province_verbose }}, {{ patient.city }}, ul. {{ patient.street}} {{ patient.number }}<h4>
+                <h4>Telefon: {{ patient.phone_number }}, Telefon alternatywny: {{ patient.phone_number_alt }}</h4>
+                <h4>Adres email: <a href="mailto:{{ patient.email }}">{{ patient.email }}</a></h4>
+                <h4>Numer PESEL: {{ patient.pesel }}</h4>
+            </div>
+        </div>
+    </section>
+    <section class="" id="patient_body">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-10">
+                <div class="specialties">
+                    <h3>Inne dane:</h5>
+                </div>
+                <div class="biography"></div>
+                    <h3>Inne:</h5>
+                <div class="events">
+                    <h3>Wizyty i inne zdarzenia dotyczące pacjenta:</h3>
+                    {% if patient.event_set.all %}
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Lp.</th>
+                                <th>Tytuł:</th>
+                                <th>Data:</th>
+                                <th>Typ:</th>
+                                <th>Gabinet:</th>
+                                <th>Dentysta:</th>
+                                <th>Więcej...</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for event in patient.event_set.all %}
+                            <tr>event
+                                <th>{{ forloop.counter }}</th>
+                                <th>{{ event.title }}</th>
+                                <th>{{ event.date }}</th>
+                                <th>{{ event.event_type_verbose }}</th>
+                                <th><a href="/office/{{ event.office.slug }}">{{ event.office.name }}</th>
+                                <th><a href="/dentist/{{ event.dentist.slug }}">{{ event.dentist.surname }} {{ event.dentist.name }}</th>
+                                <th><a href="#">więcej...</th>
+                            </tr>
+                         {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                        <p>Nie znaleziono żadnych zdarzeń!</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endblock %}

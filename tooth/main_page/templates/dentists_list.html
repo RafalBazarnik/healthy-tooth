@@ -8,16 +8,25 @@
     {% endblock %}
 
     {% block header %}
+        {% if search_url in request.path %}
+        <h1>Wyniki wyszukiwania</h1>
+        <h2>Aby zobaczyć wszystkich Dentystów - <a href="{% url 'main_page:dentists' %}">kliknij</a></h2>
+        {% else %}
         <h1>Nasi Lekarze-Dentyści:</h1>
+        {% endif %}
     {% endblock %}
 
     {% block content %}
         <h4>Skorzystaj z wyszukiwarki dentystów:</h4>
         <div class="input-group" id="search-field">
-            <input type="text" class="form-control" placeholder="kryteria wyszukiwania...">
+        <form action="/search_dentist" method="GET">
+            <div style="float: left;" class="form-group">
+                <input type="text" name="q" placeholder="szukaj..." class="form-control"></input>
+            </div>
             <span class="input-group-btn">
-                <button class="btn btn-default" type="button">Szukaj!</button>
+            <button type="submit" class="btn btn-default">Szukaj!</button>
             </span>
+        </form>
         </div>
         <BR>&nbsp;<BR>
         {% if object_list %}
@@ -52,7 +61,7 @@
 
                 </td>
                 <td>
-                    <a target="_blank" href="{{ dentist.get_absolute_url }}">więcej informacji...</a>
+                    <a id="more_info" target="_blank" href="{{ dentist.get_absolute_url }}">więcej informacji...</a>
                 </td>
             </div>
             </tr>

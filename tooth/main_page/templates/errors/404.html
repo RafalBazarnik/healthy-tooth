@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+    {% load django_markdown %}
+
+    {% block title %}
+        Ząbek - Nie znaleziono strony
+    {% endblock %}
+
+    {% block header %}
+        <h1>Strona nie istnieje</h1>
+    {% endblock %}
+
+   {% block content %}
+        <span class="glyphicon glyphicon-alert bigicon"></span>
+        <p>Niestety nie mamy strony pod tym adresem. Mamy za to wiele innych ciekawych i przydatnych treści. Sprawdź na <a href="{% url 'main_page:index' %}">Stronie Głównej</a>
+    {% endblock %}

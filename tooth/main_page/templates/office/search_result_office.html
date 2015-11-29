@@ -1,0 +1,14 @@
+{% extends "office/offices_list.html" %}
+
+    {% load django_markdown %}
+    {% load  static %}
+
+    {% block title %}
+        ąbek - nasze gabinety - wyniki wyszukiwania
+    {% endblock %}
+
+    {% block header %}
+        <h1>Wyniki wyszukiwania</h1>
+        <a class="important" href="{% url 'main_page:offices' %}">Wróć do pełnego widoku...</a>
+    {% endblock %}
+

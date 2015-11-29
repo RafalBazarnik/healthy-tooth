@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+    {% load django_markdown %}
+
+	{% block title %}
+		Ząbek - wstęp wzbroniony
+	{% endblock %}
+
+	{% block header %}
+        <h1>Brak dostępu bez zalogowania</h1>
+    {% endblock %}
+
+   {% block content %}
+   		<span class="glyphicon glyphicon-alert bigicon"></span>
+        <p>Przepraszamy, ale ta część strony jest dostępna tylko dla zalogowanych użytkowników. <a href="{% url 'main_page:login' %}">Zaloguj się</a> lub wróć do <a href="{% url 'main_page:index' %}">Strony Głównej</a>
+    {% endblock %}

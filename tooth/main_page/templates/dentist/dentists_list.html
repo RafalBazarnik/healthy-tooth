@@ -4,17 +4,22 @@
     {% load  static %}
 
     {% block title %}
-        Ząbek - kartoteka pacjentów
+        Ząbek - nasi lekarze-dentyści
     {% endblock %}
 
     {% block header %}
-        <h1>Kartoteka pacjentów:</h1>
+        {% if search_url in request.path %}
+        <h1>Wyniki wyszukiwania</h1>
+        <h2>Aby zobaczyć wszystkich Dentystów - <a href="{% url 'main_page:dentists' %}">kliknij</a></h2>
+        {% else %}
+        <h1>Nasi Lekarze-Dentyści:</h1>
+        {% endif %}
     {% endblock %}
 
     {% block content %}
-        <h4>Skorzystaj z wyszukiwarki pacjentów</h4>
+        <h4>Skorzystaj z wyszukiwarki dentystów:</h4>
         <div class="input-group" id="search-field">
-        <form action="/search_patient" method="GET">
+        <form action="/search_dentist" method="GET">
             <div style="float: left;" class="form-group">
                 <input type="text" name="q" placeholder="szukaj..." class="form-control"></input>
             </div>
@@ -23,59 +28,50 @@
             </span>
         </form>
         </div>
-        <h5 class="important">Obecnie można wyszukiwać po: imieniu, nazwisku, peselu, mieście, ulicy, telefonie i adresie mailowym.</h5>
-        <br>&nbsp;</br>
+        <span class="glyphicon glyphicon-info-sign small-info-icon">&nbsp;</span>
+        <h5 class="info"> Obecnie można wyszukiwać po: imieniu, nazwisku, tytule zawodowym i specjalizacji.</h5>
+        <BR>&nbsp;<BR>
         {% if object_list %}
             <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Nazwisko:</th>
                     <th>Imię:</th>
-                    <th>Pesel:</th>
-                    <th>Miasto</th>
-                    <th>Adres</th>
-                    <th>Telefon</th>
-                    <th>Adres email</th>
-                    <th>Więcej...</th>
-                    <th>Edycja</th>
+                    <th>Nazwisko:</th>
+                    <th>Tytuł zawodowy:</th>
+                    <th>Specjalizacja:</th>
+                    <th>Więcej informacji</th>
                 </tr>
             </thead>
             <tbody>
-            {% for patient in object_list %}
+            {% for dentist in object_list %}
             <tr>
                 <td>
-                    {{ patient.surname }}
+                    {{ dentist.name }}
                 </td>
                 <td>
-                    {{ patient.name }}
+                    {{ dentist.surname }}
                 </td>
                 <td>
-                    {{ patient.pesel }}
+                    {{ dentist.professional_title }}
                 </td>
                 <td>
-                    {{ patient.city }}
+                {% if dentist.specialties %}
+                    {{ dentist.specialties }}
+                {% else %}
+                    dentysta specjalizacji ogólnej
+                {% endif %}
+
                 </td>
                 <td>
-                    ul. {{ patient.street}} {{ patient.number }}
+                    <a id="more_info" target="_blank" href="{{ dentist.get_absolute_url }}">więcej informacji...</a>
                 </td>
-                <td>
-                    {{ patient.phone_number }}
-                </td>
-                <td>
-                    {{ patient.email }}
-                </td>
-                <td>
-                    <a id="more_info" target="_blank" href="{{ patient.get_absolute_url }}">więcej...</a>
-                </td>
-                <td>
-                    <a href="#"></a>
-                </td>
+            </div>
             </tr>
             {% endfor %}
             </tbody>
             </table>
         {% else %}
-            <p>Nie znaleziono pacjentów!</p>
+            <p>Nie znaleziono dentystów!</p>
         {% endif %}
 
         <ul class="pager">

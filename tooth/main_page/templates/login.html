@@ -1,5 +1,13 @@
 {% extends 'base.html' %}
 
+    {% block title %}
+        Ząbek - logowanie do gabinetu
+    {% endblock %}
+
+    {% block header %}
+        <h1>Logowanie do gabinetu:</h1>
+    {% endblock %}
+
 {% block content %}
 	<form id="login_form" method="post" action="/account/">
 	    {% csrf_token %}

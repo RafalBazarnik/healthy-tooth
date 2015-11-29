@@ -17,5 +17,8 @@ urlpatterns = [
 	url(r'^patients', login_required(views.PatientsListView.as_view()), name='patients'),
 	url(r'^patient/(?P<slug>[a-zA-Z0-9-]+)/?', login_required(views.PatientDetailView.as_view()), name='patient' ),
 	url(r'^contact', views.contact, name='contact'),
-    url(r'^sent', views.message_sent, name='message_sent'),
+    url(r'^thanks', views.thanks, name='thanks'),
+    url(r'^search_dentist', views.search_dentist, name='search_dentist'),
+    url(r'^search_patient', views.search_patient, name='search_patient'),
+    url(r'^search_office', views.search_office, name='search_office'),
 ]

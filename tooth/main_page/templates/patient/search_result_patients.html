@@ -1,0 +1,14 @@
+{% extends "patient/patients_list.html" %}
+
+    {% load django_markdown %}
+    {% load  static %}
+
+    {% block title %}
+        Ząbek - kartoteka pacjentów - wyniki wyszukiwania
+    {% endblock %}
+
+    {% block header %}
+        <h1>Wyniki wyszukiwania</h1>
+        <a class="important" href="{% url 'main_page:patients' %}">Wróć do pełnego widoku...</a>
+    {% endblock %}
+

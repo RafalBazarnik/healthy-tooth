@@ -12,24 +12,31 @@
     {% endblock %}
 
     {% block content %}
-        <h4>Skorzystaj z wyszukiwarki gabinetów</h4>
+        <h4>Skorzystaj z wyszukiwarki gabinetów:</h4>
         <div class="input-group" id="search-field">
-            <input type="text" class="form-control" placeholder="kryteria wyszukiwania...">
+        <form action="/search_office" method="GET">
+            <div style="float: left;" class="form-group">
+                <input type="text" name="q" placeholder="szukaj..." class="form-control"></input>
+            </div>
             <span class="input-group-btn">
-                <button class="btn btn-default" type="button">Szukaj!</button>
+            <button type="submit" class="btn btn-default">Szukaj!</button>
             </span>
+        </form>
         </div>
+        <span class="glyphicon glyphicon-info-sign small-info-icon">&nbsp;</span>
+        <h5 class="info"> Obecnie można wyszukiwać po: nazwie, mieście, ulicy, telefonach i adresie mailowym.</h5>
         <BR>&nbsp;<BR>
         {% if object_list %}
             <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Nazwa:</th>
-                    <th>Województwo:</th>
                     <th>Miasto:</th>
                     <th>Adres:</th>
-                    <th>Telefon</th>
-                    <th>Więcej informacji</th>
+                    <th>Telefon:</th>
+                    <th>Telefon alternatywny:</th>
+                    <th>Adres email:</th>
+                    <th>Więcej informacji:</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,9 +44,6 @@
             <tr>
                 <td>
                     {{ office.name }}
-                </td>
-                <td>
-                    {{ office.province_verbose }}
                 </td>
                 <td>
                     {{ office.city }}
@@ -51,7 +55,13 @@
                     {{ office.phone_number }}
                 </td>
                 <td>
-                    <a target="_blank" href="{{ office.get_absolute_url }}">więcej informacji...</a>
+                    {{ office.phone_number_alt }}
+                </td>
+                <td>
+                    {{ office.email }}
+                </td>
+                <td>
+                    <a id="more_info" target="_blank" href="{{ office.get_absolute_url }}">więcej informacji...</a>
                 </td>
             </div>
             </tr>

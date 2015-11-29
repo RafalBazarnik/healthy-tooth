@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+    {% load django_markdown %}
+
+	{% block title %}
+		Ząbek - Wewnętrzny Błąd Serwera
+	{% endblock %}
+
+	{% block header %}
+        <h1>Wewnętrzny Błąd Serwera</h1>
+    {% endblock %}
+
+    {% block content %}
+             <p>Niestety strona jest niedostępna z powodu błedu serwera. Spróbuj ponownie za chwilę</p>
+              <a href="{% url 'main_page:contact' %}">Wyślij nam wiadomość</a> o napotkanym problemie lub/i wróć do <a href="{% url 'main_page:index' %}">Strony Głównej</a>
+    {% endblock %}

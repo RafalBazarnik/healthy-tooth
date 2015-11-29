@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+    {% load django_markdown %}
+
+	{% block title %}
+		Ząbek - serwer nie obsłużył żadania
+	{% endblock %}
+
+	{% block header %}
+        <h1>Błędne żądanie!</h1>
+    {% endblock %}
+
+   {% block content %}
+   		<span class="glyphicon glyphicon-alert bigicon"></span>
+        <p>Serwer nie był w stanie obsłużyć Twojego żądania. Wróć do <a href="{% url 'main_page:index' %}">Strony Głównej</a>
+    {% endblock %}

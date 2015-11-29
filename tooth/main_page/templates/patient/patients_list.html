@@ -12,7 +12,7 @@
     {% endblock %}
 
     {% block content %}
-        <h4>Skorzystaj z wyszukiwarki pacjentów</h4>
+        <h4>Skorzystaj z wyszukiwarki pacjentów:</h4>
         <div class="input-group" id="search-field">
         <form action="/search_patient" method="GET">
             <div style="float: left;" class="form-group">
@@ -23,8 +23,9 @@
             </span>
         </form>
         </div>
-        <h5 class="important">Obecnie można wyszukiwać po: imieniu, nazwisku, peselu, mieście, ulicy, telefonie i adresie mailowym.</h5>
-        <br>&nbsp;</br>
+        <span class="glyphicon glyphicon-info-sign small-info-icon">&nbsp;</span>
+        <h5 class="info">Obecnie można wyszukiwać po: imieniu, nazwisku, peselu, mieście, ulicy, telefonie i adresie mailowym.</h5>
+        <BR>&nbsp;<BR>
         {% if object_list %}
             <table class="table table-striped">
             <thead>

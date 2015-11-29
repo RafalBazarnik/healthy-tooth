@@ -33,3 +33,44 @@ body > .container {
   padding-right: 15px;
   padding-left: 15px;
 }
+
+/*kolor - ładny niebieski - color: #36A0FF;*/
+/*kolor - ładny pomarańczowy - color: #FC792B;*/
+/*kolor- szary - podstawowy - color: #f5f5f5;*/
+
+.page-header {
+  color: #36A0FF;
+}
+
+.navbar-brand {
+  color: #36A0FF;
+}
+
+#more_info {
+  color: #36A0FF;
+}
+
+.bigicon {
+  font-size: 35px;
+  color: #36A0FF;
+}
+
+img {
+   padding:1px;
+   border:1px solid #36A0FF;
+}
+
+.page-header > .important {
+  color: #FC792B;
+}
+
+.info {
+  color: #FC792B;
+}
+
+.small-info-icon {
+  float: left; 
+  vertical-align: middle;
+  font-size: 25px;
+  color: #FC792B;
+}

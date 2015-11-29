@@ -3,15 +3,23 @@
     {% load django_markdown %}
     {% load  static %}
 
+    {% block title %}
+        Ząbek - gabient
+    {% endblock %}
+
+    {% block header %}
+        <h1>Gabinet:</h1>
+    {% endblock %}
+
     {% block content %}
     <section class="" id="office_header">
         <div class="row">
-            <div class="col-md-2">
+            <div class="col-md-3">
             <a class="avatar">
                 <img src="{% static 'img/logo-default.jpg' %}">
             </a>
             </div>
-            <div class="col-md-10">
+            <div class="col-md-9">
                 <h1>{{ object.name }}</h1>
                 <h4>Adres:  {{ office.province_verbose }}, {{ office.city }}, ul. {{ office.street}} {{ office.number }}<h4>
                 <h4>Telefon: {{ office.phone_number }}, Telefon alternatywny: {{ office.phone_number_alt }}</h4>
@@ -21,13 +29,15 @@
     </section>
     <section class="" id="office_body">
         <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-10">
+            <div class="col-md-3"></div>
+            <div class="col-md-9">
                 <div class="specialties">
                     <h3>Opis:</h5>
+                    <p>{{ office.text }}<p>
                 </div>
                 <div class="biography"></div>
                     <h3>Cennik:</h5>
+                    <p>{{ office.price_list }}<p>
             </div>
         </div>
     </section>

@@ -1,0 +1,14 @@
+{% extends "dentist/dentists_list.html" %}
+
+    {% load django_markdown %}
+    {% load  static %}
+
+    {% block title %}
+        Ząbek - nasi lekarze-dentyści - wyniki wyszukiwania
+    {% endblock %}
+
+    {% block header %}
+        <h1>Wyniki wyszukiwania</h1>
+        <a class="important" href="{% url 'main_page:dentists' %}">Wróć do pełnego widoku...</a>
+    {% endblock %}
+

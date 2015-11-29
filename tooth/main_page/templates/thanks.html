@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load django_markdown %}
+{% load staticfiles %}
+{% load  static %}
+
+	{% block title %}
+		Ząbek - wiadomosc wysłana
+	{% endblock %}
+
+	{% block header %}
+        <h1>Wiadomość została wysłana</h1>
+    {% endblock %}
+
+    {% block content %}
+    	<h3><a href="{% url 'main_page:index' %}">Przejdź do strony głównej</a><h3>
+    {% endblock %}
