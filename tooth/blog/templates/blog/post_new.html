@@ -1,0 +1,27 @@
+{% extends "blog_base.html" %}
+
+{% load django_markdown %}
+{% load staticfiles %}
+{% load  static %}
+
+	{% block title %}
+		Ząbek - blog
+	{% endblock %}
+
+	{% block header %}
+        <h1>Oficjalny blog sieci gabinetów dentystycznych "Ząbek"</h1>
+    {% endblock %}
+
+    {% block content %}
+    	<h3>Formularz dodawania postów na blogu<h3>
+    	<p>Poniższy formularz pozwala na dodanie do bazy naszego firmowego bloga - nowego posta. Post zostanie opublikowany po zweryfikowaniu przez naszych specjalistów od marketingu i dentystyki - celem zachowania jednolitego podejścia. W przypadku pytań lub prośb o poprawki nasi pracownicy bedę się kontaktować bezpośrednio z autorem</p>
+        {% if messages %}
+                {% for message in messages %}
+                <p style="text-align: center;" class="important"><i class="glyphicon glyphicon-info-sign info">&nbsp;</i>{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+    	<form method="POST" class="post-form">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-primary btn-lg">Save</button>
+    </form>
+    {% endblock %}

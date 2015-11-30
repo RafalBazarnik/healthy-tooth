@@ -1,0 +1,41 @@
+{% extends "blog_base.html" %}
+
+{% load django_markdown %}
+{% load staticfiles %}
+{% load  static %}
+
+	{% block title %}
+		Ząbek - blog
+	{% endblock %}
+
+	{% block header %}
+        <h1>Oficjalny blog sieci gabinetów dentystycznych "Ząbek"</h1>
+    {% endblock %}
+
+    {% block content %}
+    <div class="post">
+        <h1>{{ object.title }}</h1>
+        <h3>{{ object.pub_date }}</h3>
+        {{ object.text|markdown }}
+        </div>
+        {% if object.category %}
+        <div class="category">
+            <span>Category: </span>
+        <a href="{{ object.category.get_absolute_url }}"><span class="label label-primary">{{ object.category.title }}</span></a>
+        </div>
+        {% endif %}
+        {% if object.tags %}
+        <div class="tags">
+            <span>Tagged under: </span>
+        {% for tag in object.tags.all %}
+        <a href="{{ tag.get_absolute_url }}"><span class="label label-success">{{ tag.title }}</span></a>
+        {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="comments">
+        <h4>Comments</h4>
+        <div class="fb-comments" data-href="http://{{ object.site }}{{ object.get_absolute_url }}" data-width="800" data-num-posts="10"></div>
+        </div>
+    </div>
+    {% endblock %}

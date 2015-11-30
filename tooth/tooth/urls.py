@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^admin', include(admin.site.urls)),
     url('^markdown/', include( 'django_markdown.urls')),
     url(r'^', include('main_page.urls', namespace="main_page")),
+    url(r'^blog', include('blog.urls'), namespace='blog'),
 ]
 
 from django.conf.urls import handler400, handler403, handler404, handler500

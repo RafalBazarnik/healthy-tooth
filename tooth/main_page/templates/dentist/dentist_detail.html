@@ -33,9 +33,14 @@
                     <h3>Specjalizacja:</h5>
                     <p>{{ object.specialties }}</p>
                 </div>
-                <div class="biography"></div>
+                <div class="biography">
                     <h3>Biografia:</h5>
-                    <p>{{ object.biography | markdown}}</p>
+                    <p>{{ object.biography | markdown}}</p></div>
+                    <h3>Komentarze:</h3>
+                <div class="comments">
+                    <h4>Comments</h4>
+                    <div class="fb-comments" data-href="http://{{ object.site }}{{ object.get_absolute_url }}" data-width="800" data-num-posts="10"></div>
+                    </div>
             </div>
         </div>
     </section>
