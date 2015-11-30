@@ -8,7 +8,8 @@ from . import views, models
 urlpatterns = [
 	url(r'^$', views.IndexView.as_view(), name='index'),
 	url(r'^about', views.AboutView.as_view(), name='about'),
-	url(r'^login', views.login, name='login'),
+	url(r'^login', views.login_user, name='login_user'),
+	url(r'^logout', views.logout_user, name='logout_user'),
 	url(r'^account', views.office_account, name='office_account'),
 	url(r'^dentists', views.DentistsListView.as_view(), name='dentists'),
 	url(r'^dentist/(?P<slug>[a-zA-Z0-9-]+)/?', views.DentistDetailView.as_view(), name='dentist'),

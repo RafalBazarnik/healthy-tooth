@@ -9,13 +9,22 @@
     {% endblock %}
 
 {% block content %}
-	<form id="login_form" method="post" action="/account/">
+	<form style="max-width: 330px; padding: 15px; margin: 0 auto;" class="form-signin" id="login_form" method="POST" action="/login/">
 	    {% csrf_token %}
-	        Username: <input type="text" name="username" value="" size="50" />
+	    	{% if messages %}
+	    		{% for message in messages %}
+	    		<p style="text-align: center;" class="important"><i class="glyphicon glyphicon-warning-sign info">&nbsp;</i>{{ message }}</p>
+	    		{% endfor %}
+	    	{% endif %}
+	        <p style="text-align: center;"><i class="glyphicon glyphicon-user bigicon"></i></p>
+	        <input class="form-control" type="text" placeholder="Nazwa użytkownika" name="username" value="" size="50" required="" autofocus=""/>
 	        <br />
-	        Password: <input type="password" name="password" value="" size="50" />
+	        <p style="text-align: center;"><i class="glyphicon glyphicon-lock bigicon"></i></p>
+	        <input class="form-control" type="password" placeholder="Hasło" name="password" value="" size="50" required="" autofocus=""/>
 	        <br />
 
-	    <input type="submit" value="submit" />
+	    <button class="btn btn-lg btn-primary btn-block" type="submit" value="submit">Zaloguj</button>
 	</form>
 {% endblock %}
+
+<input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">

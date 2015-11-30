@@ -60,7 +60,8 @@ img {
    border:1px solid #36A0FF;
 }
 
-.page-header > .important {
+.page-header > .important,
+.important {
   color: #FC792B;
 }
 
@@ -73,4 +74,8 @@ img {
   vertical-align: middle;
   font-size: 25px;
   color: #FC792B;
+}
+
+p.description {
+   text-align: justify;
 }

@@ -11,29 +11,38 @@ from django.template import Context
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Q
 from django.http import HttpResponseRedirect, HttpResponse, Http404
+from django.contrib import messages
 from . import models, forms
 
-def login(request):
+def login_user(request):
+	context =RequestContext(request)
+	
 	if request.method == 'POST':
 		username = request.POST.get('username')
-		password = request.PSOT.get('password')
+		password = request.POST.get('password')
 		user = authenticate(username=username, password=password)
 		if user:
 			if user.is_active:
 				login(request, user)
-				return HttpResponseRedirect('/account/')
+				return render(request, "office/office_index.html", {}, context)
 			else:
-				return HttpResponse("Twoje konto zostało zablokowane, skontaktuj się z administratorem.")
+				messages.add_message(request, messages.WARNING, "Twoje konto zostało zablokowane, skontaktuj się z administratorem!")
+				return render(request, 'login.html', {}, context)
 		else:
-			return HttpResponse("Błędny login lub hasło")
-
+			messages.add_message(request, messages.ERROR, "Błędny login lub hasło!")
+			return render(request, 'login.html', {}, context)
 	else:
-		return render(request, 'login.html')
+		return render(request, 'login.html', {}, context)
 
+@login_required
+def logout_user(request):
+	context = RequestContext(request)
+	logout(request)
+	return HttpResponseRedirect('/')
 
 class IndexView(TemplateView):
 	template_name = "index.html"
@@ -69,23 +78,23 @@ class OfficeDetailView(generic.DetailView):
 	template_name='office/office_detail.html'
 
 def contact(request):
-    if request.method == 'GET':
-        form = ContactForm()
-    else:
-        form = ContactForm(request.POST)
-        if form.is_valid():
-            subject = "Wiadomość od: " + form.cleaned_data['contact_name'] + " " + form.cleaned_data['contact_phone']
-            from_email = form.cleaned_data['contact_email']
-            message = form.cleaned_data['content']
-            try:
-                send_mail(subject, message, from_email, ['bazarnik.rafal@gmail.com'])
-            except BadHeaderError:
-                return HttpResponse('Nieprawidłowy nagłówek wiadomości! Proszę spróbuj ponownie!')
-            return redirect('main_page:thanks')
-    return render(request, "contact.html", {'form': form})
+	if request.method == 'GET':
+		form = ContactForm()
+	else:
+		form = ContactForm(request.POST)
+		if form.is_valid():
+			subject = "Wiadomość od: " + form.cleaned_data['contact_name'] + " " + form.cleaned_data['contact_phone']
+			from_email = form.cleaned_data['contact_email']
+			message = form.cleaned_data['content']
+			try:
+				send_mail(subject, message, from_email, ['bazarnik.rafal@gmail.com'])
+			except BadHeaderError:
+				return HttpResponse('Nieprawidłowy nagłówek wiadomości! Proszę spróbuj ponownie!')
+			return redirect('main_page:thanks')
+	return render(request, "contact.html", {'form': form})
 
 def thanks(request):
-    return render_to_response('thanks.html', {}, context_instance=RequestContext(request))
+	return render_to_response('thanks.html', {}, context_instance=RequestContext(request))
 
 # def patient_new(request):
 # 	if request.method == "POST":
@@ -129,56 +138,56 @@ def handler400(request):
 	return response
 
 def search_dentist(request):
-    query = request.GET.get('q', '')
-    page = request.GET.get('page', 1)
-    results = models.Dentist.objects.filter(Q(name__icontains=query) | Q(surname__icontains=query) | 
-    	Q(professional_title__icontains=query) | Q(specialties__icontains=query))
+	query = request.GET.get('q', '')
+	page = request.GET.get('page', 1)
+	results = models.Dentist.objects.filter(Q(name__icontains=query) | Q(surname__icontains=query) | 
+		Q(professional_title__icontains=query) | Q(specialties__icontains=query) | Q(pwz_number__icontains=query))
 
-    pages = Paginator(results, 5)
+	pages = Paginator(results, 5)
 
-    try:
-        returned_page = pages.page(page)
-    except EmptyPage:
-        returned_page = pages.page(pages.num_pages)
+	try:
+		returned_page = pages.page(page)
+	except EmptyPage:
+		returned_page = pages.page(pages.num_pages)
 
-    return render_to_response('dentist/search_result_dentists.html',
-                              {'page_obj': returned_page,
-                               'object_list': returned_page.object_list,
-                               'search': query})
+	return render_to_response('dentist/search_result_dentists.html',
+							  {'page_obj': returned_page,
+							   'object_list': returned_page.object_list,
+							   'search': query})
 
 def search_patient(request):
-    query = request.GET.get('q', '')
-    page = request.GET.get('page', 1)
-    results = models.Patient.objects.filter(Q(name__icontains=query) | Q(surname__icontains=query) | 
-    	Q(pesel__icontains=query) | Q(city__icontains=query) | Q(street__icontains=query) | Q(phone_number__icontains=query) |
-    	Q(email__icontains=query) )
+	query = request.GET.get('q', '')
+	page = request.GET.get('page', 1)
+	results = models.Patient.objects.filter(Q(name__icontains=query) | Q(surname__icontains=query) | 
+		Q(pesel__icontains=query) | Q(city__icontains=query) | Q(street__icontains=query) | Q(phone_number__icontains=query) |
+		Q(email__icontains=query) )
 
-    pages = Paginator(results, 5)
+	pages = Paginator(results, 5)
 
-    try:
-        returned_page = pages.page(page)
-    except EmptyPage:
-        returned_page = pages.page(pages.num_pages)
+	try:
+		returned_page = pages.page(page)
+	except EmptyPage:
+		returned_page = pages.page(pages.num_pages)
 
-    return render_to_response('patient/search_result_patients.html',
-                              {'page_obj': returned_page,
-                               'object_list': returned_page.object_list,
-                               'search': query})
+	return render_to_response('patient/search_result_patients.html',
+							  {'page_obj': returned_page,
+							   'object_list': returned_page.object_list,
+							   'search': query})
 
 def search_office(request):
-    query = request.GET.get('q', '')
-    page = request.GET.get('page', 1)
-    results = models.Office.objects.filter(Q(name__icontains=query) | Q(office_id__icontains=query) | 
-    	Q(email__icontains=query) | Q(city__icontains=query) | Q(street__icontains=query) | Q(phone_number__icontains=query))
+	query = request.GET.get('q', '')
+	page = request.GET.get('page', 1)
+	results = models.Office.objects.filter(Q(name__icontains=query) | Q(office_id__icontains=query) | 
+		Q(email__icontains=query) | Q(city__icontains=query) | Q(street__icontains=query) | Q(phone_number__icontains=query))
 
-    pages = Paginator(results, 5)
+	pages = Paginator(results, 5)
 
-    try:
-        returned_page = pages.page(page)
-    except EmptyPage:
-        returned_page = pages.page(pages.num_pages)
+	try:
+		returned_page = pages.page(page)
+	except EmptyPage:
+		returned_page = pages.page(pages.num_pages)
 
-    return render_to_response('office/search_result_office.html',
-                              {'page_obj': returned_page,
-                               'object_list': returned_page.object_list,
-                               'search': query})
+	return render_to_response('office/search_result_office.html',
+							  {'page_obj': returned_page,
+							   'object_list': returned_page.object_list,
+							   'search': query})
