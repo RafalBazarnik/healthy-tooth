@@ -12,9 +12,10 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-
+import os.path
+Temp_Path = os.path.realpath('.')
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
@@ -64,6 +65,9 @@ PASSWORD_HASHERS = (
         'django.contrib.auth.hashers.CryptPasswordHasher',
 )
 
+TEMPLATE_LOADERS = ('django.template.loaders.filesystem.Loader',
+ 'django.template.loaders.app_directories.Loader')
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -111,8 +115,7 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-
-TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'templates/'),)
+TEMPLATE_DIRS = (os.path.join(BASE_DIR, '/templates'),)
 
 # email:
 EMAIL_USE_TLS = True

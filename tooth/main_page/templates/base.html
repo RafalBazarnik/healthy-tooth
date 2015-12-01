@@ -24,15 +24,14 @@
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-
         <div id="fb-root"></div>
-            <script>(function(d, s, id) {
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) return;
-                    js = d.createElement(s); js.id = id;
-                    js.src = "//connect.facebook.net/pl_PL/all.js#xfbml=1"
-                    fjs.parentNode.insertBefore(js, fjs);
-                }(document, 'script', 'facebook-jssdk'));</script>
+        <script>(function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
 
 
         <nav class="navbar navbar-default navbar-fixed-top">
@@ -51,6 +50,7 @@
                         <li class="active"><a href="{% url 'main_page:index' %}">Home</a></li>
                         <li><a href="{% url 'main_page:offices' %}">Nasze Gabinety</a></li>
                         <li><a href="{% url 'main_page:dentists' %}">Nasi Dentyści</a></li>
+                        <li><a href="{% url 'blog:blog' %}">Nasz Blog</a></li>
                         <li><a href="{% url 'main_page:contact' %}">Kontakt</a></li>
                         <li><a href="{% url 'main_page:about' %}">O nas</a></li>
                         {% if user.is_authenticated %}

@@ -10,25 +10,25 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User
+from django.contrib.messages.views import SuccessMessageMixin
 from . import models
 from . import forms
 
 # Create your views here.
-
 class BlogIndex(generic.ListView):
-    queryset = models.Post.objects.all()
-    queryset = models.Entry.objects.published()
-    template_name = "blog/blog.html"
+    # queryset = models.Post.objects.all()
+    queryset = models.Post.objects.published()
+    template_name = "blog.html"
     paginate_by = 5
 
-class PostDetail(generic.DetailView):
+class PostDetail(SuccessMessageMixin, generic.DetailView):
     model = models.Post
-    template_name = "blog/post_detail.html"
+    template_name = "post_detail.html"
 
 class CategoryView(generic.ListView):
     model = models.Category
     paginate_by = 5
-    template_name = 'blog/category.html'
+    template_name = 'category.html'
 
     def get_queryset(self):
         slug = self.kwargs['slug']
@@ -50,7 +50,7 @@ class CategoryView(generic.ListView):
 class TagView(generic.ListView):
     model = models.Tag
     paginate_by = 5
-    template_name = 'blog/tag.html'
+    template_name = 'tag.html'
 
     def get_queryset(self):
         slug = self.kwargs['slug']
@@ -83,7 +83,7 @@ def search(request):
         returned_page = pages.page(pages.num_pages)
 
     # render result
-    return render_to_response('blog/search_result_blog.html',
+    return render_to_response('search_result_blog.html',
                               {'page_obj': returned_page,
                                'object_list': returned_page.object_list,
                                'search': query})
@@ -101,8 +101,9 @@ def post_new(request):
                 upload_user = request.user
                 is_published = False
                 post.save()
+                form = forms.NewPostForm()
                 messages.add_message(request, messages.SUCCESS, "Twój post został opublikowany! Już niedługo znajdzie się na naszym blogu! Dziękujemy :)")
-                return render(request, 'blog/post_edit.html', {'form': form}, context)
+                return render(request, 'post_new.html', {'form': form}, context)
         else:
-            form = PostForm()
-        return render(request, 'blog/post_new.html', {'form': form}, context)
+            form = forms.NewPostForm()
+        return render(request, 'post_new.html', {'form': form}, context)

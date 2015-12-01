@@ -100,11 +100,30 @@ class Dentist(models.Model):
 		return self.surname + self.name
 
 	def get_absolute_url(self):
-		return "dentist/{0}/".format(self.slug)
+		return "/dentist/{0}/".format(self.slug)
 
 	class Meta:
 		verbose_name = "Dentist"
 		verbose_name_plural = 'Dentists'
+
+class Office(Contact):
+	user = models.OneToOneField(User, blank=True, null=True)
+	name = models.CharField(max_length=150)
+	office_id = models.CharField(max_length=10, unique=True, null=False, blank=False, help_text="Indywidualna nazwa kodowa gabinetu")
+	text = MarkdownField(null=True, help_text="Informacje o gabiencie")
+	price_list = MarkdownField(null=True, help_text="Cennik")
+	slug = models.SlugField(max_length=100, unique=True, blank=True, null=True)
+	dentists = models.ManyToManyField(Dentist, blank=True)
+
+	def __str__(self):
+		return self.name
+
+	def get_absolute_url(self):
+		return "/office/{0}/".format(self.slug)
+
+	class Meta:
+		verbose_name = "Office"
+		verbose_name_plural = 'Offices'
 
 class Event(models.Model):
 	EVENT_TYPES = [
@@ -126,7 +145,7 @@ class Event(models.Model):
 		return self.title
 
 	def get_absolute_url(self):
-		return "patient/{0}/{1}/".format(self.subject.slug, self.slug)
+		return "/patient/{0}/{1}/".format(self.subject.slug, self.slug)
 
 	def event_type_verbose(self):
 		return dict(Event.EVENT_TYPES)[self.event_type]
@@ -134,22 +153,3 @@ class Event(models.Model):
 	class Meta:
 		verbose_name = "Event"
 		verbose_name_plural = 'Events'
-
-class Office(Contact):
-	user = models.OneToOneField(User, blank=True, null=True)
-	name = models.CharField(max_length=150)
-	office_id = models.CharField(max_length=10, unique=True, null=False, blank=False, help_text="Indywidualna nazwa kodowa gabinetu")
-	text = MarkdownField(null=True, help_text="Informacje o gabiencie")
-	price_list = MarkdownField(null=True, help_text="Cennik")
-	slug = models.SlugField(max_length=100, unique=True, blank=True, null=True)
-	dentists = models.ManyToManyField(Dentist, blank=True)
-
-	def __str__(self):
-		return self.name
-
-	def get_absolute_url(self):
-		return "office/{0}/".format(self.slug)
-
-	class Meta:
-		verbose_name = "Office"
-		verbose_name_plural = 'Offices'

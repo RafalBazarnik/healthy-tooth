@@ -79,3 +79,7 @@ img {
 p.description {
    text-align: justify;
 }
+
+a.post_title {
+  color: #36A0FF;
+}

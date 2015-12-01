@@ -15,7 +15,7 @@
     {% block content %}
     <div class="post">
         <h1>{{ object.title }}</h1>
-        <h3>{{ object.pub_date }}</h3>
+        <h5>{{ object.pub_date }}</h5>
         {{ object.text|markdown }}
         </div>
         {% if object.category %}
@@ -32,10 +32,7 @@
         {% endfor %}
         </div>
         {% endif %}
-
-        <div class="comments">
-        <h4>Comments</h4>
-        <div class="fb-comments" data-href="http://{{ object.site }}{{ object.get_absolute_url }}" data-width="800" data-num-posts="10"></div>
-        </div>
+        <br>&nbsp;</br>
+        <div class="fb-comments" data-href="http://localhost:8000/{{ object.slug }}" data-width="400" data-numposts="5"></div>
     </div>
     {% endblock %}

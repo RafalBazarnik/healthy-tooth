@@ -37,10 +37,9 @@
                     <h3>Biografia:</h5>
                     <p>{{ object.biography | markdown}}</p></div>
                     <h3>Komentarze:</h3>
+                            <br>&nbsp;</br>
                 <div class="comments">
-                    <h4>Comments</h4>
-                    <div class="fb-comments" data-href="http://{{ object.site }}{{ object.get_absolute_url }}" data-width="800" data-num-posts="10"></div>
-                    </div>
+                    <div class="fb-comments" data-href="http://localhost:8000/{{ object.slug }}" data-width="400" data-numposts="5"></div>
             </div>
         </div>
     </section>

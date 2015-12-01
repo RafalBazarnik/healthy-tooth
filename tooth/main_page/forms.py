@@ -22,4 +22,4 @@ class NewPatientForm(forms.ModelForm):
 		model = models.Patient
 		fields = ('name', 'surname', 'pesel', 'slug', 'phone_number', 'phone_number_alt', 'email', 'province', 'city', 'street', 'number')
 
-class EditPatientForm(forms.)
+# class EditPatientForm(forms.)
