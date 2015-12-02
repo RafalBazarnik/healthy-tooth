@@ -15,6 +15,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Q
 from django.http import HttpResponseRedirect, HttpResponse, Http404
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib import messages
 from . import models, forms
 
@@ -28,6 +29,7 @@ def login_user(request):
 		if user:
 			if user.is_active:
 				login(request, user)
+				# return redirect('/account')
 				return render(request, "office/office_index.html", {}, context)
 			else:
 				messages.add_message(request, messages.WARNING, "Twoje konto zostało zablokowane, skontaktuj się z administratorem!")
@@ -59,6 +61,17 @@ class PatientDetailView(generic.DetailView):
 	model = models.Patient
 	template_name='patient/patient_detail.html'
 
+class PatientCreateView(CreateView):
+	model = models.Patient
+	template_name = 'patient/new_patient.html'
+	# success_url=reverse_lazy('patients')
+	form_class = forms.NewPatientForm
+
+class PatientUpdateView(UpdateView):
+	model = models.Patient
+	template_name = 'patient/new_patient.html'
+	form_class = forms.NewPatientForm
+
 class DentistsListView(generic.ListView):
 	queryset = models.Dentist.objects.all()
 	template_name = "dentist/dentists_list.html"
@@ -68,6 +81,17 @@ class DentistDetailView(generic.DetailView):
 	model = models.Dentist
 	template_name='dentist/dentist_detail.html'
 
+class DentistCreateView(CreateView):
+	model = models.Dentist
+	template_name = 'dentist/new_dentist.html'
+	# success_url=reverse_lazy('dentists')
+	form_class = forms.NewDentistForm
+
+class DentistUpdateView(UpdateView):
+	model = models.Dentist
+	template_name = 'dentist/new_dentist.html'
+	form_class = forms.NewDentistForm
+
 class OfficesListView(generic.ListView):
 	queryset = models.Office.objects.all()
 	template_name = "office/offices_list.html"
@@ -76,6 +100,15 @@ class OfficesListView(generic.ListView):
 class OfficeDetailView(generic.DetailView):
 	model = models.Office
 	template_name='office/office_detail.html'
+
+class OfficeUpdateView(UpdateView):
+	model = models.Office
+	template_name='office/new_office.html'
+	form_class = forms.NewOfficeForm
+
+	def get_queryset(self):
+		object_list = super(OfficeUpdateView, self).get_queryset()
+		return object_list.filter(user=self.request.user)
 
 def contact(request):
 	if request.method == 'GET':
@@ -96,22 +129,19 @@ def contact(request):
 def thanks(request):
 	return render_to_response('thanks.html', {}, context_instance=RequestContext(request))
 
-# def patient_new(request):
-# 	if request.method == "POST":
-# 		form = NewPatientForm(request.POST)
-# 		if form.is_valid():
-# 			patient = form.save(commit=False)
-# 			patient.save()
-# 			return redirect('blog.views.post_detail', pk=post.pk)
+# def office_account(request):
+# 	if not request.user.is_authenticated():
+# 		return redirect('/login')
 # 	else:
-# 		form = NewPatientForm()
-# 	return render(request, 'patient_new.html', {'form': form})
+# 		return render_to_response('office/office_index.html', {}, context_instance=RequestContext(request))
 
-def office_account(request):
-	if not request.user.is_authenticated():
-		return redirect('/login')
-	else:
-		return render_to_response('office/office_index.html', {}, context_instance=RequestContext(request))
+class OfficeIndexView(generic.ListView):
+	queryset = models.Office.objects.all()
+	template_name = "office/office_index.html"
+
+	def get_queryset(self):
+		object_list = super(OfficeIndexView, self).get_queryset()
+		return object_list.filter(user=self.request.user)
 
 # page not found
 def handler404(request):

@@ -55,17 +55,24 @@
                         <li><a href="{% url 'main_page:about' %}">O nas</a></li>
                         {% if user.is_authenticated %}
                         <li class="dropdown">
+                        {% if not user.is_superuser %}
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Twój Gabinet <span class="caret"></span></a>
+                        {% else %}
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Linki do stron gabinetu<span class="caret"></span></a>
+                        {% endif %}
                             <ul class="dropdown-menu">
+                                <li><a href="{% url 'main_page:office_account' %}">Strona gabinetu</a></li>
                                 <li><a href="{% url 'main_page:patients' %}">Pacjenci</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
+                                <li><a href="{% url 'main_page:new_patient' %}">Dodaj pacjenta</a></li>
+                                <li><a href="{% url 'main_page:new_dentist' %}">Dodaj dentystę</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li class="dropdown-header">Inne:</li>
                                 <li><a href="{% url 'blog:post_new' %}">Wyślij post na bloga</a></li>
-                                <li><a href="#">One more separated link</a></li>
                             </ul>
                         </li>
+                        {% if not user.is_superuser %}
+                        <li><a href="{% url 'main_page:office_account' %}">Strona gabinetu</a></li>
+                        {% endif %}
                         {% endif %}
                     </ul>
                     <ul class="nav navbar-nav navbar-right">

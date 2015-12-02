@@ -37,6 +37,7 @@
                     <th>Telefon alternatywny:</th>
                     <th>Adres email:</th>
                     <th>Więcej informacji:</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -63,6 +64,13 @@
                 <td>
                     <a id="more_info" target="_blank" href="{{ office.get_absolute_url }}">więcej informacji...</a>
                 </td>
+                {% if user.is_authenticated %}
+                {% if office.user.id == request.user.id%}
+                    <td><a id="more_info" href="{{ office.get_edit_url }}">edytuj...</a></td>
+                {% else %}
+                    <td></td>
+                {% endif %}
+                {% endif %}
             </div>
             </tr>
             {% endfor %}

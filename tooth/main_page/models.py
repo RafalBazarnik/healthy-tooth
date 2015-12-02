@@ -28,8 +28,8 @@ class Address(models.Model):
 		("ZP", "zachodniopomorskie"),
 	]
 	province = models.CharField(choices=PROVINCE, null=True, max_length=20, help_text="Województwo")
-	city = models.CharField(max_length=100, null=True)
-	street = models.CharField(max_length=100, null=True)
+	city = models.CharField(max_length=100, null=True, help_text="Miasto/Miejscowość")
+	street = models.CharField(max_length=100, null=True, help_text="Ulica")
 	number = models.CharField(max_length=20, null=True, help_text="Numer domu/mieszkania")
 
 	def province_verbose(self):
@@ -42,7 +42,7 @@ class Contact(Address):
 	phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
 	phone_number = models.CharField(validators=[phone_regex], blank=True, max_length=15, help_text="Numer telefonu")
 	phone_number_alt = models.CharField(validators=[phone_regex], blank=True, max_length=15, help_text="Alternatywny numer telefonu")
-	email = models.EmailField(null=True)
+	email = models.EmailField(null=True, help_text="Adres email")
 
 	class Meta:
 		abstract = True
@@ -60,7 +60,8 @@ class Patient(Contact):
 	pesel = models.CharField(max_length=11, null=True, help_text="Numer PESEL", validators=[MaxLengthValidator(11), MinLengthValidator(11)])
 	sex = models.CharField(choices=SEX, null=True, max_length=20, help_text="Płeć")
 	age = models.CharField(null=True, max_length=3, help_text="Wiek")
-	slug = models.SlugField(max_length=40, unique=True, blank=True, null=True)
+	slug = models.SlugField(max_length=40, unique=True, blank=True, null=True,
+							help_text="Nazwa linku w postaci - nazwisko-imie-pesel - male litery, bez polskich znaków")
 
 	# def save(self, *args, **kwargs):
 	#     if not self.subject_init:
@@ -73,6 +74,9 @@ class Patient(Contact):
 	def get_absolute_url(self):
 		return "/patient/{0}/".format(self.slug)
 
+	def get_edit_url(self):
+		return "/patient/update/{0}/".format(self.slug)
+
 	def province_verbose(self):
 		return dict(Address.PROVINCE)[self.province]
 
@@ -82,25 +86,28 @@ class Patient(Contact):
 		day = int(pesel[4:6])
 
 	class Meta:
-		verbose_name = "Our Patient"
-		verbose_name_plural = 'Our Patients'
+		verbose_name = "Patient"
+		verbose_name_plural = 'Patients'
 
 class Dentist(models.Model):
 	professional_title = models.CharField(max_length=50, help_text="Tytuł zawodowy dentysty")
-	name = models.CharField(max_length=100)
-	surname = models.CharField(max_length=100)
-	biography = models.CharField(max_length=5000)
-	profile_image = models.ImageField(upload_to=get_image_path, blank=True, null=True)
+	name = models.CharField(max_length=100, help_text="Imię")
+	surname = models.CharField(max_length=100, help_text="Nazwisko")
+	biography = MarkdownField(null=True, help_text="Biografia")
+	profile_image = models.ImageField(upload_to=get_image_path, blank=True, null=True, help_text="Zdjęcie")
 	pwz_number = models.CharField(max_length=87, null=True, help_text="7-cyfrowy numer prawa wykonywania zawodu (PWZ)",
 		 validators=[MaxLengthValidator(7), MinLengthValidator(7)])
 	specialties = models.CharField(max_length=50, null=True, help_text="Specjalizacja")
-	slug = models.SlugField(max_length=40, unique=True, blank=True, null=True)
+	slug = models.SlugField(max_length=40, unique=True, blank=True, null=True, help_text="Nazwa linku w postaci - nazwisko-imie-pwz - male litery, bez polskich znaków")
 
 	def __str__(self):
 		return self.surname + self.name
 
 	def get_absolute_url(self):
 		return "/dentist/{0}/".format(self.slug)
+
+	def get_edit_url(self):
+		return "/dentist/update/{0}/".format(self.slug)
 
 	class Meta:
 		verbose_name = "Dentist"
@@ -118,8 +125,8 @@ class Office(Contact):
 	def __str__(self):
 		return self.name
 
-	def get_absolute_url(self):
-		return "/office/{0}/".format(self.slug)
+	def get_edit_url(self):
+		return "/office/update/{0}/".format(self.slug)
 
 	class Meta:
 		verbose_name = "Office"

@@ -17,9 +17,18 @@ class ContactForm(forms.Form):
 	content = forms.CharField(required=True, widget=forms.Textarea(attrs={'placeholder': ' Wiadomość'}))
 
 class NewPatientForm(forms.ModelForm):
-	
-	class Meta:
-		model = models.Patient
-		fields = ('name', 'surname', 'pesel', 'slug', 'phone_number', 'phone_number_alt', 'email', 'province', 'city', 'street', 'number')
+    class Meta:
+        model = models.Patient
+        fields = ['name', 'surname', 'pesel', 'sex', 'age', 'slug', 'phone_number', 'phone_number_alt',
+	 			  'email', 'province', 'city', 'street', 'number',]
 
-# class EditPatientForm(forms.)
+class NewDentistForm(forms.ModelForm):
+    class Meta:
+        model = models.Dentist
+        fields = ['professional_title', 'name', 'surname', 'biography', 'slug', 'pwz_number', 'specialties',]
+
+class NewOfficeForm(forms.ModelForm):
+    class Meta:
+        model = models.Office
+        fields = ['text', 'price_list', 'dentists', 'phone_number', 'phone_number_alt',
+	 			  'email', 'province', 'city', 'street', 'number',]

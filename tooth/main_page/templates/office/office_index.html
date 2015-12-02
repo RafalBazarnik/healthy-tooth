@@ -5,13 +5,22 @@
 {% load  static %}
 
 	{% block title %}
-		Ząbek - strona gabinetu - {{user.get_username}}
+		Ząbek - strona gabinetu - 
+		{% for office in object_list %}
+      		{{ office.name }}
+        {% endfor %}
 	{% endblock %}
 
 	{% block header %}
-        <h1>Witaj {{ user.get_username }}!</h1>
+        <h1>Witaj 
+        {% for office in object_list %}
+        {% if forloop.counter == 1 %}
+       	{{ office.name }}</h1>
+       	{% endif %}
+        {% endfor %}
     {% endblock %}
 
 	{% block content %}
-
+		<h2>To jest strona główna Twojego Gabinetu :)</h2>
+    	<p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sit amet augue pretium, viverra elit sed, hendrerit nunc. Nunc iaculis odio lacus, id iaculis magna sodales quis. Etiam at diam magna. Vivamus condimentum faucibus justo, a fermentum enim pulvinar eget. Fusce cursus varius fermentum. Ut magna nisi, pulvinar vel sapien eu, pretium facilisis ligula. Proin nec dolor massa. Praesent fringilla sapien metus, in placerat erat varius ut. Mauris non velit ipsum. Fusce nec quam tincidunt, consectetur urna eu, semper massa.</p>
 	{% endblock %}
