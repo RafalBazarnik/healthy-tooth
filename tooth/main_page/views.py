@@ -110,6 +110,36 @@ class OfficeUpdateView(UpdateView):
 		object_list = super(OfficeUpdateView, self).get_queryset()
 		return object_list.filter(user=self.request.user)
 
+class OfficeIndexView(generic.ListView):
+	queryset = models.Office.objects.all()
+	template_name = "office/office_index.html"
+
+	def get_queryset(self):
+		object_list = super(OfficeIndexView, self).get_queryset()
+		return object_list.filter(user=self.request.user)
+
+class NewAppointmentView(CreateView):
+	model = models.Appointment
+	template_name = 'office/appointment.html'
+	form_class = forms.NewAppointmentForm
+
+	# def get_queryset(self):
+	# 	slug = self.kwargs['slug']
+	# 	try:
+	# 		category = models.Category.objects.get(slug=slug)
+	# 		return models.Post.objects.filter(category=category)
+	# 	except models.Category.DoesNotExist:
+	# 		return models.Post.objects.none()
+
+	# def get_context_data(self, **kwargs):
+	# 	context = super(CategoryView, self).get_context_data(**kwargs)
+	# 	slug = self.kwargs['slug']
+	# 	try:
+	# 		context['category'] = models.Category.objects.get(slug=slug)
+	# 	except models.Category.DoesNotExist:
+	# 		context['category'] = None
+	# 	return context
+
 def contact(request):
 	if request.method == 'GET':
 		form = ContactForm()
@@ -134,14 +164,6 @@ def thanks(request):
 # 		return redirect('/login')
 # 	else:
 # 		return render_to_response('office/office_index.html', {}, context_instance=RequestContext(request))
-
-class OfficeIndexView(generic.ListView):
-	queryset = models.Office.objects.all()
-	template_name = "office/office_index.html"
-
-	def get_queryset(self):
-		object_list = super(OfficeIndexView, self).get_queryset()
-		return object_list.filter(user=self.request.user)
 
 # page not found
 def handler404(request):

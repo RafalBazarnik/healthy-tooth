@@ -16,6 +16,7 @@ urlpatterns = [
 	url(r'^dentist/update/(?P<slug>[a-zA-Z0-9-]+)/?', login_required(views.DentistUpdateView.as_view()), name="dentist_update"),
 	url(r'^dentist/(?P<slug>[a-zA-Z0-9-]+)/?', views.DentistDetailView.as_view(), name='dentist'),
 	url(r'^new_dentist', login_required(views.DentistCreateView.as_view()), name="new_dentist"),
+	url(r'^offices/appointment', views.NewAppointmentView.as_view(), name="office_appointment"),
 	url(r'^offices', views.OfficesListView.as_view(), name='offices'),
 	url(r'^office/update/(?P<slug>[a-zA-Z0-9-]+)/?', login_required(views.OfficeUpdateView.as_view()), name="office_update"),
 	url(r'^office/(?P<slug>[a-zA-Z0-9-]+)/?', views.OfficeDetailView.as_view(), name='office'),

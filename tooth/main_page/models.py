@@ -43,6 +43,7 @@ class Contact(Address):
 	phone_number = models.CharField(validators=[phone_regex], blank=True, max_length=15, help_text="Numer telefonu")
 	phone_number_alt = models.CharField(validators=[phone_regex], blank=True, max_length=15, help_text="Alternatywny numer telefonu")
 	email = models.EmailField(null=True, help_text="Adres email")
+	skype = models.CharField(max_length=50, null=True, blank=True)
 
 	class Meta:
 		abstract = True
@@ -125,12 +126,37 @@ class Office(Contact):
 	def __str__(self):
 		return self.name
 
+	def get_absolute_url(self):
+		return "/office/{0}/".format(self.slug)
+
 	def get_edit_url(self):
 		return "/office/update/{0}/".format(self.slug)
 
 	class Meta:
 		verbose_name = "Office"
 		verbose_name_plural = 'Offices'
+
+class Appointment(Contact):
+	name = models.CharField(max_length=100, help_text="Imię")
+	surname = models.CharField(max_length=100, help_text="Nazwisko")
+	preferred_date = models.DateTimeField(help_text="Preferowany dzień i godzina wizyty")
+	preferred_date_alt = models.DateTimeField(null=True, help_text="Preferowany dzień i godzina wizyty - alternatywny")
+	preferred_date_alt2 = models.DateTimeField(null=True, help_text="Preferowany dzień i godzina wizyty - alternatywny")
+	extra_info = MarkdownField(null=True, help_text="Dodatkowe informacje")
+	personal_data_agreement = models.BooleanField(default=True, help_text="Zgoda na przechowywanie i pzetwarzanie danych osobowych w celach umówienia wizyty i w celach marketingowych")
+	is_active = models.BooleanField(default=True, help_text="Czy prośba o zapis do dentysty jest nadal aktualna? (nie nastąpił kontakt i umówienie wizyty)")
+	office = models.ForeignKey(Office, help_text="Wybierz gabinet")
+
+	def __str__(self):
+		return self.name
+
+	def get_absolute_url(self):
+		return "/office/"
+
+	class Meta:
+		verbose_name = "Appointment"
+		verbose_name_plural = 'Appointments'
+
 
 class Event(models.Model):
 	EVENT_TYPES = [
@@ -146,6 +172,7 @@ class Event(models.Model):
 	subject = models.ForeignKey(Patient, blank=True, null=True)
 	office = models.ForeignKey(Office, blank=True, null=True)
 	dentist = models.ForeignKey(Dentist, blank=True, null=True)
+	appointment = models.ForeignKey(Appointment, blank=True, null=True)
 	slug = models.SlugField(max_length=40, unique=True, blank=True, null=True)
 
 	def __str__(self):

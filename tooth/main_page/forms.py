@@ -32,3 +32,13 @@ class NewOfficeForm(forms.ModelForm):
         model = models.Office
         fields = ['text', 'price_list', 'dentists', 'phone_number', 'phone_number_alt',
 	 			  'email', 'province', 'city', 'street', 'number',]
+
+class NewAppointmentForm(forms.ModelForm):
+	class Meta:
+		model = models.Appointment
+		fields = ['name', 'surname', 'phone_number', 'phone_number_alt', 'email', 'skype', 'preferred_date',
+				  'preferred_date_alt' , 'preferred_date_alt2' , 'extra_info', 'office', 
+				  'province', 'city', 'street', 'number', 'personal_data_agreement',]
+
+class UpdateAppointmentForm(NewAppointmentForm):
+	pass
