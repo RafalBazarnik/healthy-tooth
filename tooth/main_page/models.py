@@ -140,12 +140,12 @@ class Appointment(Contact):
 	name = models.CharField(max_length=100, help_text="Imię")
 	surname = models.CharField(max_length=100, help_text="Nazwisko")
 	preferred_date = models.DateTimeField(help_text="Preferowany dzień i godzina wizyty")
-	preferred_date_alt = models.DateTimeField(null=True, help_text="Preferowany dzień i godzina wizyty - alternatywny")
-	preferred_date_alt2 = models.DateTimeField(null=True, help_text="Preferowany dzień i godzina wizyty - alternatywny")
+	preferred_date_alt = models.DateTimeField(null=True, blank=True, help_text="Preferowany dzień i godzina wizyty - alternatywny")
+	preferred_date_alt2 = models.DateTimeField(null=True, blank=True, help_text="Preferowany dzień i godzina wizyty - alternatywny")
 	extra_info = MarkdownField(null=True, help_text="Dodatkowe informacje")
 	personal_data_agreement = models.BooleanField(default=True, help_text="Zgoda na przechowywanie i pzetwarzanie danych osobowych w celach umówienia wizyty i w celach marketingowych")
 	is_active = models.BooleanField(default=True, help_text="Czy prośba o zapis do dentysty jest nadal aktualna? (nie nastąpił kontakt i umówienie wizyty)")
-	office = models.ForeignKey(Office, help_text="Wybierz gabinet")
+	office = models.ForeignKey(Office, help_text="Wybierz gabinet", related_name='appointment')
 
 	def __str__(self):
 		return self.name

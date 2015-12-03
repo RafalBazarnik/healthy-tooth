@@ -113,6 +113,7 @@ class OfficeUpdateView(UpdateView):
 class OfficeIndexView(generic.ListView):
 	queryset = models.Office.objects.all()
 	template_name = "office/office_index.html"
+	paginate_by = 2
 
 	def get_queryset(self):
 		object_list = super(OfficeIndexView, self).get_queryset()
@@ -123,22 +124,10 @@ class NewAppointmentView(CreateView):
 	template_name = 'office/appointment.html'
 	form_class = forms.NewAppointmentForm
 
-	# def get_queryset(self):
-	# 	slug = self.kwargs['slug']
-	# 	try:
-	# 		category = models.Category.objects.get(slug=slug)
-	# 		return models.Post.objects.filter(category=category)
-	# 	except models.Category.DoesNotExist:
-	# 		return models.Post.objects.none()
-
-	# def get_context_data(self, **kwargs):
-	# 	context = super(CategoryView, self).get_context_data(**kwargs)
-	# 	slug = self.kwargs['slug']
-	# 	try:
-	# 		context['category'] = models.Category.objects.get(slug=slug)
-	# 	except models.Category.DoesNotExist:
-	# 		context['category'] = None
-	# 	return context
+class EditAppointmentView(UpdateView):
+	model = models.Appointment
+	template_name = 'office/appointment_edit.html'
+	form_class = forms.NewAppointmentForm
 
 def contact(request):
 	if request.method == 'GET':

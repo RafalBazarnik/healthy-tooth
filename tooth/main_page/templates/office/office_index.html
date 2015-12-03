@@ -23,4 +23,71 @@
 	{% block content %}
 		<h2>To jest strona główna Twojego Gabinetu :)</h2>
     	<p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sit amet augue pretium, viverra elit sed, hendrerit nunc. Nunc iaculis odio lacus, id iaculis magna sodales quis. Etiam at diam magna. Vivamus condimentum faucibus justo, a fermentum enim pulvinar eget. Fusce cursus varius fermentum. Ut magna nisi, pulvinar vel sapien eu, pretium facilisis ligula. Proin nec dolor massa. Praesent fringilla sapien metus, in placerat erat varius ut. Mauris non velit ipsum. Fusce nec quam tincidunt, consectetur urna eu, semper massa.</p>
+
+    <h2>Prośby o kontakt i umówienie wizyty</h2>
+    <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Imię:</th>
+                    <th>Nazwisko:</th>
+                    <th>Telefon:</th>
+                    <th>Telefon alternatywny:</th>
+                    <th>Adres email:</th>
+                    <th>Identyfikator Skype:</th>
+                    <th>Preferowany termin 1:</th>
+                    <th>Preferowany termin 2:</th>
+                    <th>Preferowany termin 3:</th>
+                    <th>Informacje dodatkowe</th>
+                </tr>
+            </thead>
+            <tbody>
+    {% for office in object_list %}
+      {%for appointment in office.appointment.all%}
+        {% if appointment.is_active %}
+        <tr>
+                <td>
+                    {{ appointment.name }}
+                </td>
+                <td>
+                    {{ appointment.surname }}
+                </td>
+                <td>
+                    {{ appointment.phone_number}}
+                </td>
+                <td>
+                    {{ appointment.phone_number_alt}}
+                </td>
+                <td>
+                    {{ appointment.email }}
+                </td>
+                <td>
+                    {{ appointment.skype }}
+                </td>
+                <td>
+                {% if appointment.preferred_date %}
+                  {{ appointment.preferred_date }}
+                {% endif %}
+                </td>
+                <td>
+                {% if appointment.preferred_date_alt %}
+                  {{ appointment.preferred_date_alt }}
+                {% endif %}
+                </td>
+                <td>
+                {% if appointment.preferred_date_alt2 %}
+                  {{ appointment.preferred_date_alt2 }}
+                {% endif %}
+                </td>
+                <td>
+                {% if appointment.extra_info %}
+                    {{ appointment.extra_info }}
+                {% endif %}
+                </td>
+
+
+        </tr>
+        </tbody>
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
 	{% endblock %}

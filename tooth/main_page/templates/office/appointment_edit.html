@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% load django_markdown %}
+{% load staticfiles %}
+{% load  static %}
+
+	{% block title %}
+		Ząbek - strona edycja prośby o kontakt
+	{% endblock %}
+
+
+	{% block header %}
+	{% endblock %}
+
+
+	{% block content %}
+		{% if user.is_authenticated %}
+			{% if object.office.user ==  request.user %}
+				{{ form.as_p }}
+			{% else %}
+			<h2 class="glyphicon glyphicon-warning-sign info">&nbsp;Nie możesz edytować ani podglądać zapisów do cudzego gabinetu!</h2>
+			{% endif %}
+		{% endif %}
+	{% endblock %}

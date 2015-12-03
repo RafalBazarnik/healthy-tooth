@@ -38,7 +38,7 @@ class NewAppointmentForm(forms.ModelForm):
 		model = models.Appointment
 		fields = ['name', 'surname', 'phone_number', 'phone_number_alt', 'email', 'skype', 'preferred_date',
 				  'preferred_date_alt' , 'preferred_date_alt2' , 'extra_info', 'office', 
-				  'province', 'city', 'street', 'number', 'personal_data_agreement',]
+				  'personal_data_agreement',]
 
 class UpdateAppointmentForm(NewAppointmentForm):
 	pass
