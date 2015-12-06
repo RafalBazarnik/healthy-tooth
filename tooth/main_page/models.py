@@ -7,7 +7,7 @@ from django.core.validators import validate_email
 from django.contrib.auth.models import User
 import os
 
-# Create your models here.
+
 class Address(models.Model):
 	PROVINCE = [
 		("DS", "dolnośląskie"),

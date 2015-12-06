@@ -12,8 +12,62 @@
     {% endblock %}
 
     {% block content %}
-    <form method="POST">{% csrf_token %}
-	{{ form.as_p }}
-	<button type="submit" class="btn btn-primary btn-lg">Zatwierdź</button>
-	</form>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well well-sm">
+                <form class="form-horizontal" method="get">{% csrf_token %}
+                    <fieldset>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                {{ form.name }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                {{ form.surname }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                {{ form.professional_title }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                {{ form.biography }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                {{ form.specialties }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                {{ form.pwz_number }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                {{ form.slug }}
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <div class="col-md-12 text-center">
+                                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
 	{% endblock %}

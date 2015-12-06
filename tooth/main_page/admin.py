@@ -4,7 +4,7 @@ from django.contrib import admin
 
 from . import models
 
-# Register your models here.
+# Registered models to use admin CRUD
 
 class PatientAdmin(MarkdownModelAdmin):
     list_display = ("name", "surname",)

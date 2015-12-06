@@ -29,8 +29,7 @@ def login_user(request):
 		if user:
 			if user.is_active:
 				login(request, user)
-				# return redirect('/account')
-				return render(request, "office/office_index.html", {}, context)
+				return HttpResponseRedirect('/account/')
 			else:
 				messages.add_message(request, messages.WARNING, "Twoje konto zostało zablokowane, skontaktuj się z administratorem!")
 				return render(request, 'login.html', {}, context)
@@ -64,7 +63,6 @@ class PatientDetailView(generic.DetailView):
 class PatientCreateView(CreateView):
 	model = models.Patient
 	template_name = 'patient/new_patient.html'
-	# success_url=reverse_lazy('patients')
 	form_class = forms.NewPatientForm
 
 class PatientUpdateView(UpdateView):
@@ -84,7 +82,6 @@ class DentistDetailView(generic.DetailView):
 class DentistCreateView(CreateView):
 	model = models.Dentist
 	template_name = 'dentist/new_dentist.html'
-	# success_url=reverse_lazy('dentists')
 	form_class = forms.NewDentistForm
 
 class DentistUpdateView(UpdateView):
@@ -129,6 +126,7 @@ class EditAppointmentView(UpdateView):
 	template_name = 'office/appointment_edit.html'
 	form_class = forms.NewAppointmentForm
 
+# view for sending mail from contact form
 def contact(request):
 	if request.method == 'GET':
 		form = ContactForm()
@@ -145,14 +143,9 @@ def contact(request):
 			return redirect('main_page:thanks')
 	return render(request, "contact.html", {'form': form})
 
+# view after succesful sent contact form
 def thanks(request):
 	return render_to_response('thanks.html', {}, context_instance=RequestContext(request))
-
-# def office_account(request):
-# 	if not request.user.is_authenticated():
-# 		return redirect('/login')
-# 	else:
-# 		return render_to_response('office/office_index.html', {}, context_instance=RequestContext(request))
 
 # page not found
 def handler404(request):
@@ -201,7 +194,7 @@ def search_patient(request):
 	page = request.GET.get('page', 1)
 	results = models.Patient.objects.filter(Q(name__icontains=query) | Q(surname__icontains=query) | 
 		Q(pesel__icontains=query) | Q(city__icontains=query) | Q(street__icontains=query) | Q(phone_number__icontains=query) |
-		Q(email__icontains=query) )
+		Q(email__icontains=query))
 
 	pages = Paginator(results, 5)
 
@@ -219,7 +212,8 @@ def search_office(request):
 	query = request.GET.get('q', '')
 	page = request.GET.get('page', 1)
 	results = models.Office.objects.filter(Q(name__icontains=query) | Q(office_id__icontains=query) | 
-		Q(email__icontains=query) | Q(city__icontains=query) | Q(street__icontains=query) | Q(phone_number__icontains=query))
+		Q(email__icontains=query) | Q(city__icontains=query) | Q(street__icontains=query) |
+		Q(phone_number__icontains=query) | Q(phone_number_alt__icontains=query))
 
 	pages = Paginator(results, 5)
 
