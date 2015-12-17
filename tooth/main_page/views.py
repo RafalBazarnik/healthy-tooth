@@ -18,6 +18,8 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib import messages
 from . import models, forms
+from django.utils.safestring import mark_safe
+
 
 def login_user(request):
 	context =RequestContext(request)

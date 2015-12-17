@@ -1,3 +1,11 @@
+
+1) logowanie -> typy userow (office, patient, dentist) i własne strony index :)
+2) office slug s /province/city/slug (tylko - name?)
+3) filters on listViews
+
+
+
+
 TODO - main points:
 
 1) /promotions page with all ads/discounts etc - office is able to add (proper size)
