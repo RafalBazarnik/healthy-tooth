@@ -63,6 +63,18 @@ class Patient(Contact):
 	age = models.CharField(null=True, max_length=3, help_text="Wiek")
 	slug = models.SlugField(max_length=40, unique=True, blank=True, null=True,
 							help_text="Nazwa linku w postaci - nazwisko-imie-pesel - male litery, bez polskich znaków")
+	user = models.OneToOneField(User, null=True, blank=True)
+
+	def save(self, force_insert=False, force_update=False):
+		is_new = self.user is None
+		super(Patient, self).save(force_insert, force_update)
+		if is_new:
+			password = form.cleaned_data[self.pesel]
+			user = User.objects.create_user(username=self.slug, first_name=self.name, last_name=self.surname, email=self.email, password=password, is_staff=False,
+			is_active=True, is_superuser=False)
+			user.save()
+			self.user = user
+
 
 	# def save(self, *args, **kwargs):
 	#     if not self.subject_init:

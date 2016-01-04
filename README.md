@@ -1,4 +1,27 @@
 
+1) potrzebuję tworzyć z automatu usera dla dentysty i pacjenta i dodawać ich do grup - odpowiednio Dentyści i Pacjenci
+2) username - slug? password - pesel (potem możliwość zmiany?)
+3) podstrona pacjenta z podgladem danych
+4) podstrona dentysty z podglądem danych
+================
+5) zdjecia
+6) filtry
+7) social media - like/share
+=============
+8) zapis do dentysty - appointement - formsy - edycja, dodawanie, usuwanie
+9) dodawanie eventów - dentysta/gabinet - przegladanie przez pacjenta
+10) przemyśleć jakąś wersję grafika (typu na dzień na dentystę 10 pacjentów - 10 slotów x 5 dni - auto value - modyfikacja na true)
+
+
+
+obiekt - dentistday - foreign key z dentist, office, 
+
+
+
+
+
+
+
 1) logowanie -> typy userow (office, patient, dentist) i własne strony index :)
 2) office slug s /province/city/slug (tylko - name?)
 3) filters on listViews
