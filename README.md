@@ -1,32 +1,17 @@
+@TODO:
+A) user zone - with password change and readonly view of data/events + change in login auth + groups + of templates/views
+B) scheduling per dentist - day = ten slots - add, edit/subscribe, remove- list and forms
+D) filters on listViews
+E) social media - like/share
+F) small shop
+G) email marketing
+H) more real content - no lorem ipsum
+I) css
+J) documentation/UML/etc.
++ add event
 
-1) potrzebuję tworzyć z automatu usera dla dentysty i pacjenta i dodawać ich do grup - odpowiednio Dentyści i Pacjenci
-2) username - slug? password - pesel (potem możliwość zmiany?)
-3) podstrona pacjenta z podgladem danych
-4) podstrona dentysty z podglądem danych
-================
-5) zdjecia
-6) filtry
-7) social media - like/share
-=============
-8) zapis do dentysty - appointement - formsy - edycja, dodawanie, usuwanie
-9) dodawanie eventów - dentysta/gabinet - przegladanie przez pacjenta
-10) przemyśleć jakąś wersję grafika (typu na dzień na dentystę 10 pacjentów - 10 slotów x 5 dni - auto value - modyfikacja na true)
-
-
-
-obiekt - dentistday - foreign key z dentist, office, 
-
-
-
-
-
-
-
-1) logowanie -> typy userow (office, patient, dentist) i własne strony index :)
-2) office slug s /province/city/slug (tylko - name?)
-3) filters on listViews
-
-
+(user - can log in, see his own data/events, see and cancel his own appointement, change password, user cannot edit anything else or remove etc.)
+(office - can see appointements/per dentists, add slots, remove and add appointements, set appointement to done - add events!!!)
 
 
 TODO - main points:
@@ -60,18 +45,8 @@ consider - dividing main_page - office/patient/dentist (each with log in zone)
 
 materialize css - 
 
+<input type="text" name="country" value="Norway" readonly>
 
-
-ważne - popoprawiać - formsy - niektóre readonly
- <input type="text" name="country" value="Norway" readonly> i blokada jeśli nie ten gabinet
-
-
-szukanie po cenniku, zmienić preferred_date!!!
-
-zapis na datę - !!!!
+search on price list, change preferred_date!!!
 w3c - https://validator.w3.org
-
-synchro - danych - w trakcie
-
-mail zwrotny - automatyczna
-odwołanie wizyty
+return mail, cancel visit

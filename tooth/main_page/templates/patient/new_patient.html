@@ -15,89 +15,89 @@
     <div class="row">
         <div class="col-md-12">
             <div class="well well-sm">
-                <form class="form-horizontal" method="get">{% csrf_token %}
+                <form class="form-horizontal" method="POST">{% csrf_token %}
                     <fieldset>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.name }}
+                                Imię: {{ form.name }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.surname }}
+                                Nazwisko: {{ form.surname }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.pesel }}
+                                Numer PESEL: {{ form.pesel }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.sex }}
+                                Płeć: {{ form.sex }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.age }}
+                                Wiek: {{ form.age }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.slug }}
+                                SEO link: {{ form.slug }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.phone_number }}
+                                Numer Telefonu: {{ form.phone_number }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.phone_number_alt }}
+                                Alternatywny numer telefonu: {{ form.phone_number_alt }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.email }}
+                                Email: {{ form.email }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.province }}
+                                Województwo: {{ form.province }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.city }}
+                                Miejscowość: {{ form.city }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.street }}
+                                Ulica: {{ form.street }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.number }}
+                                Numer domu/mieszkania: {{ form.number }}
                             </div>
                         </div>
                          <div class="form-group">
                             <div class="col-md-12 text-center">
-                                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                                <button type="submit" class="save btn btn-primary btn-lg">Zapisz</button>
                             </div>
                         </div>
                     </fieldset>

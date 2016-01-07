@@ -6,6 +6,7 @@ from django.core.validators import MaxLengthValidator, MinLengthValidator
 from django.core.validators import validate_email
 from django.contrib.auth.models import User
 import os
+from datetime import datetime
 
 
 class Address(models.Model):
@@ -69,17 +70,13 @@ class Patient(Contact):
 		is_new = self.user is None
 		super(Patient, self).save(force_insert, force_update)
 		if is_new:
-			password = form.cleaned_data[self.pesel]
-			user = User.objects.create_user(username=self.slug, first_name=self.name, last_name=self.surname, email=self.email, password=password, is_staff=False,
-			is_active=True, is_superuser=False)
+			password = self.pesel
+			user = User.objects.create_user(username=self.slug, first_name=self.name, last_name=self.surname, email=self.email, password=password)
 			user.save()
+			user.is_superuser = False
+			user.is_staff = False
+			user.is_active = True
 			self.user = user
-
-
-	# def save(self, *args, **kwargs):
-	#     if not self.subject_init:
-	#         self.age = self.calculate_age_from_pesel(self.pesel)
-	#     super(Patient, self).save(*args, **kwargs)
 
 	def __str__(self):
 		return self.surname + self.name
@@ -92,11 +89,6 @@ class Patient(Contact):
 
 	def province_verbose(self):
 		return dict(Address.PROVINCE)[self.province]
-
-	def calculate_age_from_pesel(pesel):
-		year = int(pesel[0:2])
-		month = int(pesel[2:4])
-		day = int(pesel[4:6])
 
 	class Meta:
 		verbose_name = "Patient"
@@ -169,6 +161,35 @@ class Appointment(Contact):
 		verbose_name = "Appointment"
 		verbose_name_plural = 'Appointments'
 
+DEFAULT_USER = 1
+
+class DentistDay(models.Model):
+	date = models.DateTimeField(default=datetime.now)
+	dentist = models.ForeignKey(Dentist)
+	office = models.ForeignKey(Office)
+	slot10_11 = models.ForeignKey(User, null=True, blank=True, default=DEFAULT_USER, related_name="hours_1000_1100")
+	slot11_12 = models.ForeignKey(User, null=True, blank=True, default=DEFAULT_USER, related_name="hours_1100_1200")
+	slot12_13 = models.ForeignKey(User, null=True, blank=True, default=DEFAULT_USER, related_name="hours_1200_1300")
+	slot13_14 = models.ForeignKey(User, null=True, blank=True, default=DEFAULT_USER, related_name="hours_1300_1400")
+	slot14_15 = models.ForeignKey(User, null=True, blank=True, default=DEFAULT_USER, related_name="hours_1400_1500")
+	slot15_16 = models.ForeignKey(User, null=True, blank=True, default=DEFAULT_USER, related_name="hours_1500_1600")
+	slot16_17 = models.ForeignKey(User, null=True, blank=True, default=DEFAULT_USER, related_name="hours_1600_1700")
+	slot17_18 = models.ForeignKey(User, null=True, blank=True, default=DEFAULT_USER, related_name="hours_1700_1800")
+	slot18_19 = models.ForeignKey(User, null=True, blank=True, default=DEFAULT_USER, related_name="hours_1800_1900")
+	slot19_20 = models.ForeignKey(User, null=True, blank=True, default=DEFAULT_USER, related_name="hours_1900_2000")
+
+	def __str__(self):
+		return self.date + self.dentist.id
+
+	def get_absolute_url(self):
+		return "/dentist/{0}/{1}/{2}".format(self.office.slug, self.dentist.slug, self.date)
+
+	def get_edit_url():
+		return "/dentist/subscribe/{0}/{1}/{2}".format(self.office.slug, self.dentist.slug, self.date)
+
+	class Meta:
+		verbose_name = "Schedule"
+		verbose_name_plural = 'Schedules'
 
 class Event(models.Model):
 	EVENT_TYPES = [
