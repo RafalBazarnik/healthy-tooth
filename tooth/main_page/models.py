@@ -94,38 +94,13 @@ class Patient(Contact):
 		verbose_name = "Patient"
 		verbose_name_plural = 'Patients'
 
-class Dentist(models.Model):
-	professional_title = models.CharField(max_length=50, help_text="Tytuł zawodowy dentysty")
-	name = models.CharField(max_length=100, help_text="Imię")
-	surname = models.CharField(max_length=100, help_text="Nazwisko")
-	biography = MarkdownField(null=True, help_text="Biografia")
-	profile_image = models.ImageField(upload_to=get_image_path, blank=True, null=True, help_text="Zdjęcie")
-	pwz_number = models.CharField(max_length=87, null=True, help_text="7-cyfrowy numer prawa wykonywania zawodu (PWZ)",
-		 validators=[MaxLengthValidator(7), MinLengthValidator(7)])
-	specialties = models.CharField(max_length=50, null=True, help_text="Specjalizacja")
-	slug = models.SlugField(max_length=40, unique=True, blank=True, null=True, help_text="Nazwa linku w postaci - nazwisko-imie-pwz - male litery, bez polskich znaków")
-
-	def __str__(self):
-		return self.surname + self.name
-
-	def get_absolute_url(self):
-		return "/dentist/{0}/".format(self.slug)
-
-	def get_edit_url(self):
-		return "/dentist/update/{0}/".format(self.slug)
-
-	class Meta:
-		verbose_name = "Dentist"
-		verbose_name_plural = 'Dentists'
-
 class Office(Contact):
-	user = models.OneToOneField(User, blank=True, null=True)
+	user = models.OneToOneField(User, blank=True, null=True, related_name='office_user')
 	name = models.CharField(max_length=150)
 	office_id = models.CharField(max_length=10, unique=True, null=False, blank=False, help_text="Indywidualna nazwa kodowa gabinetu")
 	text = MarkdownField(null=True, help_text="Informacje o gabiencie")
 	price_list = MarkdownField(null=True, help_text="Cennik")
 	slug = models.SlugField(max_length=100, unique=True, blank=True, null=True)
-	dentists = models.ManyToManyField(Dentist, blank=True)
 
 	def __str__(self):
 		return self.name
@@ -139,6 +114,31 @@ class Office(Contact):
 	class Meta:
 		verbose_name = "Office"
 		verbose_name_plural = 'Offices'
+
+class Dentist(models.Model):
+	professional_title = models.CharField(max_length=50, help_text="Tytuł zawodowy dentysty")
+	name = models.CharField(max_length=100, help_text="Imię")
+	surname = models.CharField(max_length=100, help_text="Nazwisko")
+	biography = MarkdownField(null=True, help_text="Biografia")
+	profile_image = models.ImageField(upload_to=get_image_path, blank=True, null=True, help_text="Zdjęcie")
+	pwz_number = models.CharField(max_length=87, null=True, help_text="7-cyfrowy numer prawa wykonywania zawodu (PWZ)",
+		 validators=[MaxLengthValidator(7), MinLengthValidator(7)])
+	specialties = models.CharField(max_length=50, null=True, help_text="Specjalizacja")
+	slug = models.SlugField(max_length=40, unique=True, blank=True, null=True, help_text="Nazwa linku w postaci - nazwisko-imie-pwz - male litery, bez polskich znaków")
+	office = models.ForeignKey(Office, null=True, related_name="workplace")
+
+	def __str__(self):
+		return self.surname + self.name
+
+	def get_absolute_url(self):
+		return "/dentist/{0}/".format(self.slug)
+
+	def get_edit_url(self):
+		return "/dentist/update/{0}/".format(self.slug)
+
+	class Meta:
+		verbose_name = "Dentist"
+		verbose_name_plural = 'Dentists'
 
 class Appointment(Contact):
 	name = models.CharField(max_length=100, help_text="Imię")
@@ -164,7 +164,7 @@ class Appointment(Contact):
 DEFAULT_USER = 1
 
 class DentistDay(models.Model):
-	date = models.DateTimeField(default=datetime.now)
+	date = models.DateField(null=True)
 	dentist = models.ForeignKey(Dentist)
 	office = models.ForeignKey(Office)
 	slot10_11 = models.ForeignKey(User, null=True, blank=True, default=DEFAULT_USER, related_name="hours_1000_1100")

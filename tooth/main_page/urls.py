@@ -39,4 +39,9 @@ urlpatterns = [
     url(r'^search_dentist', views.search_dentist, name='search_dentist'),
     url(r'^search_patient', views.search_patient, name='search_patient'),
     url(r'^search_office', views.search_office, name='search_office'),
+
+    #schedules
+    url(r'^schedule/list', views.SchedulesListView.as_view(), name="schedules_list"),
+    url(r'^new_schedule', login_required(views.ScheduleCreateView.as_view()), name="schedule_create"),
+    url(r'^schedule/day/(?P<pk>[a-zA-Z0-9-]+)/?', views.ScheduleDetailView.as_view(), name="schedule_detail")
 ]

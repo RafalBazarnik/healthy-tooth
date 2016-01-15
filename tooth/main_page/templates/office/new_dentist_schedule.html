@@ -4,16 +4,16 @@
     {% load  static %}
 
     {% block title %}
-        Ząbek - nowy dentysta
+        Ząbek - dodaj dzień pracy dentysty
     {% endblock %}
 
     {% block header %}
-        <h1>Dodawanie nowego/Edycja Lekarza-Dentysty:</h1>
+        <h1>Plany:</h1>
     {% endblock %}
 
     {% block content %}
-
-    <div class="row">
+        <p>tu będzie można dodać dzień pracy dentysty - pamiętać o login required i tylko ten gabinet!</p>
+            <div class="row">
         <div class="col-md-12">
             <div class="well well-sm">
                 <form class="form-horizontal" method="POST">{% csrf_token %}
@@ -21,49 +21,80 @@
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.name }}
+                                Dzień: {{ form.date }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.surname }}
+                                Gabinet: {{ form.office }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.professional_title }}
+                                Dentysta: {{ form.dentist }}
+                            </div>
+                        </div>
+                        <div><span class="glyphicon glyphicon-info-sign small-info-icon"></span><p class="info">  Należy w godzinach kiedy dentysta jest w pracy zostawić domyślną wartość tj. nasz gabinet. W przypadku jeśli nie należy wybrać pustą wartość (------). Zarezerwowane godziny mają wprowadzonego Usera pacjenta.</p></div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                g.10.00-11.00: {{ form.slot10_11 }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.biography }}
+                                g.11.00-12.00: {{ form.slot11_12 }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.specialties }}
+                                g.12.00-13.00: {{ form.slot12_13 }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.pwz_number }}
+                                g.13.00-14.00: {{ form.slot13_14 }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.slug }}
+                                g.14.00-15.00: {{ form.slot14_15 }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.office }}
+                                g.15.00-16.00: {{ form.slot15_16 }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                g.16.00-17.00: {{ form.slot16_17 }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                g.17.00-18.00: {{ form.slot17_18 }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                g.18.00-19.00: {{ form.slot18_19 }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                g.19.00-20.00: {{ form.slot19_20 }}
                             </div>
                         </div>
                          <div class="form-group">

@@ -21,6 +21,34 @@ from . import models, forms
 from django.utils.safestring import mark_safe
 
 
+class SchedulesListView(generic.ListView):
+	queryset = models.DentistDay.objects.all()
+	template_name = "office/dentist_schedules_list.html"
+	paginate_by = 10
+
+	def get_queryset(self):
+		object_list = super(SchedulesListView, self).get_queryset()
+		return object_list.filter(office__user=self.request.user)
+
+class ScheduleCreateView(CreateView):
+	model = models.DentistDay
+	template_name = 'office/new_dentist_schedule.html'
+	form_class = forms.NewScheduledDay
+
+	def get_form_kwargs(self):
+		kwargs = super(ScheduleCreateView, self).get_form_kwargs()
+		kwargs['user'] = self.request.user
+		return kwargs
+
+class ScheduleUpdateView(UpdateView):
+	model = models.DentistDay
+	template_name = 'office/new_dentist_schedule.html'
+	form_class = forms.NewScheduledDay
+
+class ScheduleDetailView(generic.DetailView):
+	model = models.DentistDay
+	template_name = 'office/schedule_detail.html'
+
 def login_user(request):
 	context =RequestContext(request)
 	

@@ -33,7 +33,7 @@
             <div class="col-md-9">
                 <div class="dentists">
                     <h3>Nasi Lekarze:</h3>
-                        {% for dentist in office.dentists.all %}
+                        {% for dentist in office.workplace.all %}
                             <p>{{dentist.name}} {{dentist.surname}} {{dentist.professional_title}} <a href="{{dentist.get_absolute_url}}">więcej...</a></p>
                         {% endfor %}
                 </div>

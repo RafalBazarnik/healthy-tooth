@@ -1,3 +1,16 @@
+current:
+1)
+rethink:
+self.fields['dentist'].queryset = models.Dentist.objects.filter(office__user=self.user)
+self.fields['office'].queryset = models.Office.objects.filter(user=self.user)
+2)ListView - 
+3) auto create days - 2 weeks? - for every dentist? on dentist create?
+4) rethink - slug or pk for dentistday view?
+5) on dentist detail view - list of his slots -> make appointment (get?)
+6) add/edit/cancel appointement
+7) auto test data in test.py
+
+
 @TODO:
 A) user zone - with password change and readonly view of data/events + change in login auth + groups + of templates/views
 B) scheduling per dentist - day = ten slots - add, edit/subscribe, remove- list and forms
