@@ -30,8 +30,8 @@ class Tag(models.Model):
         return "/blog/tag/{0}/".format(self.slug)
 
     class Meta:
-        verbose_name = "Blog Posts Tags"
-        verbose_name_plural = 'Tags'
+        verbose_name = "Blog Posts Tag"
+        verbose_name_plural = 'Blog Posts Tags'
 
 
 class PostQuerySet(models.QuerySet):

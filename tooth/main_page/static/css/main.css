@@ -1,7 +1,6 @@
 body {
-  background-color: #d0fffa;
+  background-color: #55E3FF;
 }
-
 
 #body {
     padding-left:30px;
@@ -24,7 +23,7 @@ body {
   bottom: 0;
   width: 100%;
   height: 60px;
-  background-color: #f5f5f5;
+  background-color: #F4F1DE;
 }
 
 
@@ -42,9 +41,15 @@ body > .container {
 /*kolor - ładny niebieski - color: #36A0FF;*/
 /*kolor - ładny pomarańczowy - color: #FC792B;*/
 /*kolor- szary - podstawowy - color: #f5f5f5;*/
+/*kolor - ciepły białawy - #F4F1DE*/
 
 .page-header {
-  color: #36A0FF;
+  color: #4C1D41;
+}
+
+.navbar-default {
+  background-color: #F4F1DE;
+  color: #4C1D41;
 }
 
 .navbar-brand {
@@ -52,7 +57,7 @@ body > .container {
 }
 
 #more_info, a {
-  color: #36A0FF;
+  color: #6367FF;
 }
 
 .bigicon {
@@ -71,14 +76,14 @@ img {
 }
 
 .info {
-  color: #FC792B;
+  color: #EE3130;
 }
 
 .small-info-icon {
   float: left; 
   vertical-align: middle;
   font-size: 25px;
-  color: #FC792B;
+  color: #EE3130;
 }
 
 p.description {
@@ -86,5 +91,5 @@ p.description {
 }
 
 a.post_title {
-  color: #36A0FF;
+  color: #2040FF;
 }

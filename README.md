@@ -1,8 +1,9 @@
+create:
+- 
+
+
+
 current:
-1)
-rethink:
-self.fields['dentist'].queryset = models.Dentist.objects.filter(office__user=self.user)
-self.fields['office'].queryset = models.Office.objects.filter(user=self.user)
 2)ListView - 
 3) auto create days - 2 weeks? - for every dentist? on dentist create?
 4) rethink - slug or pk for dentistday view?

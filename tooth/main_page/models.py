@@ -161,35 +161,34 @@ class Appointment(Contact):
 		verbose_name = "Appointment"
 		verbose_name_plural = 'Appointments'
 
-DEFAULT_USER = 1
-
 class DentistDay(models.Model):
 	date = models.DateField(null=True)
 	dentist = models.ForeignKey(Dentist)
 	office = models.ForeignKey(Office)
-	slot10_11 = models.ForeignKey(User, null=True, blank=True, default=DEFAULT_USER, related_name="hours_1000_1100")
-	slot11_12 = models.ForeignKey(User, null=True, blank=True, default=DEFAULT_USER, related_name="hours_1100_1200")
-	slot12_13 = models.ForeignKey(User, null=True, blank=True, default=DEFAULT_USER, related_name="hours_1200_1300")
-	slot13_14 = models.ForeignKey(User, null=True, blank=True, default=DEFAULT_USER, related_name="hours_1300_1400")
-	slot14_15 = models.ForeignKey(User, null=True, blank=True, default=DEFAULT_USER, related_name="hours_1400_1500")
-	slot15_16 = models.ForeignKey(User, null=True, blank=True, default=DEFAULT_USER, related_name="hours_1500_1600")
-	slot16_17 = models.ForeignKey(User, null=True, blank=True, default=DEFAULT_USER, related_name="hours_1600_1700")
-	slot17_18 = models.ForeignKey(User, null=True, blank=True, default=DEFAULT_USER, related_name="hours_1700_1800")
-	slot18_19 = models.ForeignKey(User, null=True, blank=True, default=DEFAULT_USER, related_name="hours_1800_1900")
-	slot19_20 = models.ForeignKey(User, null=True, blank=True, default=DEFAULT_USER, related_name="hours_1900_2000")
+	slot10_11 = models.ForeignKey(User, null=True, blank=True, related_name="hours_1000_1100")
+	slot11_12 = models.ForeignKey(User, null=True, blank=True, related_name="hours_1100_1200")
+	slot12_13 = models.ForeignKey(User, null=True, blank=True, related_name="hours_1200_1300")
+	slot13_14 = models.ForeignKey(User, null=True, blank=True, related_name="hours_1300_1400")
+	slot14_15 = models.ForeignKey(User, null=True, blank=True, related_name="hours_1400_1500")
+	slot15_16 = models.ForeignKey(User, null=True, blank=True, related_name="hours_1500_1600")
+	slot16_17 = models.ForeignKey(User, null=True, blank=True, related_name="hours_1600_1700")
+	slot17_18 = models.ForeignKey(User, null=True, blank=True, related_name="hours_1700_1800")
+	slot18_19 = models.ForeignKey(User, null=True, blank=True, related_name="hours_1800_1900")
+	slot19_20 = models.ForeignKey(User, null=True, blank=True, related_name="hours_1900_2000")
 
 	def __str__(self):
-		return self.date + self.dentist.id
+		return  "{}{}".format(self.date, self.dentist.id)
 
 	def get_absolute_url(self):
-		return "/dentist/{0}/{1}/{2}".format(self.office.slug, self.dentist.slug, self.date)
+		return reverse("schedule_detail", kwargs={'pk': self.pk})
 
 	def get_edit_url():
-		return "/dentist/subscribe/{0}/{1}/{2}".format(self.office.slug, self.dentist.slug, self.date)
+		return reverse("schedule_edit", kwargs={'pk': self.pk})
 
 	class Meta:
 		verbose_name = "Schedule"
 		verbose_name_plural = 'Schedules'
+
 
 class Event(models.Model):
 	EVENT_TYPES = [

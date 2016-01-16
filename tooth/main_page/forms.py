@@ -53,9 +53,9 @@ class NewScheduledDay(forms.ModelForm):
 		widgets = {'date': DateInput(),}
 		exclude = []
 
-	def __init__(self, user, *args, **kwargs):
-		self.user = kwargs.pop('user', None)
+	def __init__(self, *args, **kwargs):
+		user = kwargs.pop('_user')
 		super(NewScheduledDay, self).__init__(*args, **kwargs)
 		if self.instance:
-			self.fields['dentist'].queryset = models.Dentist.objects.filter(office__user=self.user)
-			self.fields['office'].queryset = models.Office.objects.filter(user=self.user)
+			self.fields['dentist'].queryset = models.Dentist.objects.filter(office__user=user)
+			self.fields['office'].queryset = models.Office.objects.filter(user=user)

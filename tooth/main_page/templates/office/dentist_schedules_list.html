@@ -13,4 +13,9 @@
 
     {% block content %}
         <p>tu będzie lista planów pracy dentystów - pamiętać o login required i tylko ten gabinet! rozważyć podział na dni</p>
+        {% if object_list %}
+        {% for schedule in object_list %}
+        {{ schedule }}
+        {% endfor %}
+        {% endif %}
 	{% endblock %}

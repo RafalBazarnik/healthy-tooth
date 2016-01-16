@@ -43,5 +43,9 @@ urlpatterns = [
     #schedules
     url(r'^schedule/list', views.SchedulesListView.as_view(), name="schedules_list"),
     url(r'^new_schedule', login_required(views.ScheduleCreateView.as_view()), name="schedule_create"),
-    url(r'^schedule/day/(?P<pk>[a-zA-Z0-9-]+)/?', views.ScheduleDetailView.as_view(), name="schedule_detail")
+    url(r'^schedule/day/(?P<id>)/$', views.ScheduleDetailView.as_view(), name="schedule_detail"),
+    url(r'^schedule/day_edit/(?P<id>)/$', views.ScheduleUpdateView.as_view(), name="schedule_edit"),
+
+    #appointements
+
 ]

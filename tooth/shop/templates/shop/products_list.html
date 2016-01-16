@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+    {% load django_markdown %}
+    {% load  static %}
+
+    {% block title %}
+        Ząbek - edycja gabinetu
+    {% endblock %}
+
+    {% block header %}
+        <h1>Produkty w naszym sklepie:</h1>
+    {% endblock %}
+
+{% block content %}
+        {% if object_list %}
+	        {% for object in object_list %}
+	        	{{ object }}
+	        {% endfor %}
+        {% endif %}
+{% endblock %}

@@ -27,8 +27,9 @@ class SchedulesListView(generic.ListView):
 	paginate_by = 10
 
 	def get_queryset(self):
+		user = self.request.user
 		object_list = super(SchedulesListView, self).get_queryset()
-		return object_list.filter(office__user=self.request.user)
+		return object_list.filter(office__user=user)
 
 class ScheduleCreateView(CreateView):
 	model = models.DentistDay
@@ -37,13 +38,18 @@ class ScheduleCreateView(CreateView):
 
 	def get_form_kwargs(self):
 		kwargs = super(ScheduleCreateView, self).get_form_kwargs()
-		kwargs['user'] = self.request.user
+		kwargs.update({'_user': self.request.user})
 		return kwargs
 
 class ScheduleUpdateView(UpdateView):
 	model = models.DentistDay
 	template_name = 'office/new_dentist_schedule.html'
 	form_class = forms.NewScheduledDay
+
+	def get_form_kwargs(self):
+		kwargs = super(ScheduleCreateView, self).get_form_kwargs()
+		kwargs.update({'_user': self.request.user})
+		return kwargs
 
 class ScheduleDetailView(generic.DetailView):
 	model = models.DentistDay
