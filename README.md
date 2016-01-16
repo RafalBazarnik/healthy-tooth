@@ -1,5 +1,22 @@
-create:
-- 
+checklist:
+1- user creates User/Patient account - sign up
+2- user changes his password (alert - changed)
+3- shop -> list, detail, catalog, tag, user group-> shop-staff (permissions)
+4- shop - paypal payments
+5- ad-rotator? /promotions page
+6- mail-marketing basics (form, selects, user count)
+7- logged user or office - creates Appointement (several selects to limit choices? region/city/week?) + listView (per dentist / per day) + detailView - office can see and edit, User can see and cancel -> after visit - status to done and create Event
+8- office can see/add/edit Events per Patient, user can only see (readonly) it or download it (check legality of it - https://www.bpp.gov.pl/dla-pacjenta/prawa-pacjenta/prawo-do-dokumentacji-medycznej/)
+9- signup on DentistDay slot - mayby using get request - <url>?office=X&dentist=Y&day=Z - and form filled
+10- dentist zone ??? or just in office account (add event, see appointements)
+11- access to pages by user group - security
+12- database - autofill - test.py + realistic content (at least 10 each)
+13- css/js - beaufify :P 
+14- comment code, remove unused imports, DentistDay - unique date?, rethink - blank/null in models, page with newses?
+14- documentation - ERD, uml (of dentistday->appointement->event), theory
+
+
+
 
 
 

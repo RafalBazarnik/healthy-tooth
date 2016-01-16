@@ -1,15 +1,10 @@
 from django.views import generic
-from django.shortcuts import get_object_or_404, render_to_response, render, redirect
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.shortcuts import render_to_response, render, redirect
 from django.template import RequestContext
 from django.views.generic import TemplateView
 from .forms import ContactForm
-from django.template.loader import get_template
-from django.core.mail import EmailMessage
 from django.core.mail import send_mail, BadHeaderError
-from django.template import Context
 from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator, EmptyPage
@@ -18,7 +13,6 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib import messages
 from . import models, forms
-from django.utils.safestring import mark_safe
 
 
 class SchedulesListView(generic.ListView):
