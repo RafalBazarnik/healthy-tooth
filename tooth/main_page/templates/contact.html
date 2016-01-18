@@ -12,33 +12,33 @@
 <div class="row">
         <div class="col-md-12">
             <div class="well well-sm">
-                <form class="form-horizontal" method="get">{% csrf_token %}
+                <form class="form-horizontal" method="POST">{% csrf_token %}
                     <fieldset>
                         <legend class="text-center header">Formularz kontaktu</legend>
 
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="glyphicon glyphicon-user bigicon"></i></span> 
                             <div class="col-md-8">
-                                {{ form.contact_name }}
+                                {{ form.contact_name }} {{ form.contact_name.errors }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="glyphicon glyphicon-envelope bigicon"></i></span>
                             <div class="col-md-8">
-                                {{ form.contact_email }}
+                                {{ form.contact_email }} {{ form.contact_email.errors }}
                             </div>
                         </div>
 
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="glyphicon glyphicon-earphone bigicon"></i></span>
                             <div class="col-md-8">
-                                {{ form.contact_phone }}
+                                {{ form.contact_phone }} {{ form.contact_phone.errors }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="glyphicon glyphicon-pencil bigicon"></i></span>
                             <div class="col-md-8">
-                               {{ form.content}}
+                               {{ form.content}} {{ form.content.errors }}
                             </div>
                         </div>
 

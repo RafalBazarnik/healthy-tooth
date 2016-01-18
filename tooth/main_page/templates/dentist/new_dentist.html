@@ -19,56 +19,63 @@
                 <form class="form-horizontal" method="POST">{% csrf_token %}
                     <fieldset>
                         <div class="form-group">
+                        <br>&nbsp;</br>
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.name }}
+                                Imię: {{ form.name }} {{ form.name.errors }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.surname }}
+                                Nazwisko: {{ form.surname }} {{ form.surname.errors }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.professional_title }}
+                                Tytuł zawodowy: {{ form.professional_title }} {{ form.professional_title.errors }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.biography }}
+                                Biografia: {{ form.biography }} {{ form.biography.errors }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.specialties }}
+                                Specjalności: {{ form.specialties }} {{ form.specialties.errors }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.pwz_number }}
+                                Numer PWZ: {{ form.pwz_number }} {{ form.pwz_number.errors }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.slug }}
+                                Slug: {{ form.slug }}  {{ form.slug.errors }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.office }}
+                                Gabinet: {{ form.office }}  {{ form.office.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                Zdjęcie: {{ form.profile_image }}  {{ form.profile_image.errors }}
                             </div>
                         </div>
                          <div class="form-group">
                             <div class="col-md-12 text-center">
-                                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                                <button type="submit" class="btn btn-primary btn-lg">Zapisz</button>
                             </div>
                         </div>
                     </fieldset>

@@ -26,6 +26,13 @@ body {
   background-color: #F4F1DE;
 }
 
+.form-horizontal {
+  background-color: #F4F1DE;
+}
+
+.errorlist {
+  color: #EE3130;
+}
 
 body > .container {
   padding: 60px 15px 0;

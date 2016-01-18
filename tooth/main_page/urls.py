@@ -32,8 +32,9 @@ urlpatterns = [
 	# patients
 	url(r'^patients', login_required(views.PatientsListView.as_view()), name='patients'),
 	url(r'^patient/update/(?P<slug>[a-zA-Z0-9-]+)/?', login_required(views.PatientUpdateView.as_view()), name="patient_update"),
-	url(r'^patient/(?P<slug>[a-zA-Z0-9-]+)/?', login_required(views.PatientDetailView.as_view()), name='patient' ),
-	url(r'^new_patient', login_required(views.PatientCreateView.as_view()), name="new_patient"),
+	url(r'^patient/(?P<slug>[a-zA-Z0-9-]+)/?', login_required(views.PatientDetailView.as_view()), name='patient'),
+	url(r'^new_patient', views.PatientCreateView.as_view(), name="new_patient"),
+	url(r'^patient_zone', login_required(views.patient_index), name='patient_index'),
 	
 	# searches
     url(r'^search_dentist', views.search_dentist, name='search_dentist'),

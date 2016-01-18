@@ -28,6 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
+SITE_ID = 1
 
 # Application definition
 
@@ -117,6 +118,10 @@ USE_TZ = False
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 TEMPLATE_DIRS = (os.path.join(BASE_DIR, '/templates'),)
+
+#media
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 # email:
 EMAIL_USE_TLS = True

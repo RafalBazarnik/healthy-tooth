@@ -1,3 +1,11 @@
+temp:
+- slug auto
+- check auto user create or only User account create!
+- security? separate views with queryset - > 
+- security - group - patients, dentists, offices
+- walidacje w formsach
+- images to dentist etc
+
 checklist:
 1- user creates User/Patient account - sign up
 2- user changes his password (alert - changed)

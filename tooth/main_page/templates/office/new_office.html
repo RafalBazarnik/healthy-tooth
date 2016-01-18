@@ -18,57 +18,58 @@
                 <form class="form-horizontal" method="POST">{% csrf_token %}
                     <fieldset>
                         <div class="form-group">
+                            <br>&nbsp;</br>
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.text }}
+                                {{ form.text }} {{ form.text.errors }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.price_list }}
+                                {{ form.price_list }} {{ form.price_list.errors }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.phone_number }}
+                                {{ form.phone_number }} {{ form.phone_number.errors }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.phone_number_alt }}
+                                {{ form.phone_number_alt }} {{ form.phone_number_alt.errors }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.email }}
+                                {{ form.email }} {{ form.email.errors }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.province }}
+                                {{ form.province }} {{ form.province.errors }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.city }}
+                                {{ form.city }} {{ form.city.errors }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.street }}
+                                {{ form.street }} {{ form.street.errors }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.number }}
+                                {{ form.number }} {{ form.number.errors }}
                             </div>
                         </div>
                          <div class="form-group">
