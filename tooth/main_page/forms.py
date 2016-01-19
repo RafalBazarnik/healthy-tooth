@@ -3,7 +3,32 @@ from . import models
 from django.contrib.admin import widgets 
 from functools import partial
 from django.utils.text import slugify
+from django.contrib.auth.models import User, Group
 
+
+class UserPasswordChangeForm(forms.Form):
+    password1 = forms.CharField(label='Nowe hasło', widget=forms.PasswordInput,)
+    password2 = forms.CharField(label='Powtórz nowe hasło', widget=forms.PasswordInput,)
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        super(UserPasswordChangeForm, self).__init__(*args, **kwargs)
+
+    def clean_new_password(self):
+        password1 = self.cleaned_data.get('new_password1')
+        password2 = self.cleaned_data.get('new_password2')
+        if password1 and password2:
+            if password1 != password2:
+                raise forms.ValidationError(self.error_messages['Hasła muszą się zgadzać!'],code=['passwords_doesnt_match'])
+        if len(password1) < 6:
+            raise forms.ValidationError(self.error_messages['Hasło zbyt krótkie. Minimalna długość hasła to 6'], code=['password_too_short'])
+        return password2
+
+    def save(self, commit=True):
+        self.user.set_password(self.cleaned_data['password1'])
+        if commit:
+            User.objects.filter(pk=self.user.id).update(password=self.user.password,)
+        return self.user
 
 class ContactForm(forms.Form):
     contact_name = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder': ' Imię i Nazwisko'}))

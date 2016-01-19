@@ -13,7 +13,9 @@
 	    {% csrf_token %}
 	    	{% if messages %}
 	    		{% for message in messages %}
+	    		{% if forloop.counter == 1 %}
 	    		<p style="text-align: center;" class="important"><i class="glyphicon glyphicon-warning-sign info">&nbsp;</i>{{ message }}</p>
+	    		{% endif %}
 	    		{% endfor %}
 	    	{% endif %}
 	        <p style="text-align: center;"><i class="glyphicon glyphicon-user bigicon"></i></p>

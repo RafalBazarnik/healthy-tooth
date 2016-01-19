@@ -16,6 +16,8 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from main_page import urls
+from shop import urls
+from blog import urls
 
 
 urlpatterns = [

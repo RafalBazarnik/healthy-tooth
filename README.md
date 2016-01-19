@@ -5,14 +5,23 @@ temp:
 - security - group - patients, dentists, offices
 - walidacje w formsach
 - images to dentist etc
+- problem with paginations in shop and blog https://github.com/matthewbdaly/django_tutorial_blog_ng https://docs.djangoproject.com/en/1.9/topics/pagination/
+- research - using messages.add 
+https://github.com/bmentges/django-cart
+https://github.com/supernifty/django-paypal-store-example
+http://www.supernifty.org/articles/oreilly-django-paypal-store/paypal-django.html
+https://www.packtpub.com/books/content/setting-complete-django-e-commerce-store-30-minutes
 
 checklist:
 1- user creates User/Patient account - sign up
 2- user changes his password (alert - changed)
 3- shop -> list, detail, catalog, tag, user group-> shop-staff (permissions)
-4- shop - paypal payments
+4- shop - paypal payments, office has other products
+
+
 5- ad-rotator? /promotions page
 6- mail-marketing basics (form, selects, user count)
+
 7- logged user or office - creates Appointement (several selects to limit choices? region/city/week?) + listView (per dentist / per day) + detailView - office can see and edit, User can see and cancel -> after visit - status to done and create Event
 8- office can see/add/edit Events per Patient, user can only see (readonly) it or download it (check legality of it - https://www.bpp.gov.pl/dla-pacjenta/prawa-pacjenta/prawo-do-dokumentacji-medycznej/)
 9- signup on DentistDay slot - mayby using get request - <url>?office=X&dentist=Y&day=Z - and form filled

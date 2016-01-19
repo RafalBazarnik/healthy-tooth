@@ -57,11 +57,11 @@
                 </div>
                 <div id="navbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="{% url 'main_page:index' %}">Strona Główna</a></li>
-                        <li><a href="{% url 'main_page:office_appointment' %}">Zapis do Dentysty</a></li>
+                         <li><a href="{% url 'main_page:office_appointment' %}">Zapis do Dentysty</a></li>
                         <li><a href="{% url 'main_page:offices' %}">Nasze Gabinety</a></li>
                         <li><a href="{% url 'main_page:dentists' %}">Nasi Dentyści</a></li>
                         <li><a href="{% url 'blog:blog' %}">Blog</a></li>
+                        <li><a href="{% url 'shop:shop_index' %}">e-Sklep</a></li>
                         <li><a href="{% url 'main_page:contact' %}">Kontakt</a></li>
                         <li><a href="{% url 'main_page:about' %}">O nas</a></li>
                         {% if user.is_authenticated %}

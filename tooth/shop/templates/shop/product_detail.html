@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+    {% load django_markdown %}
+    {% load  static %}
+
+    {% block title %}
+        Ząbek - Sklep - {{ object.name }}
+    {% endblock %}
+
+    {% block header %}
+        <h1>Sklep - {{ object.name }} </h1>
+    {% endblock %}
+
+{% block content %}
+        
+	        	
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <img alt="Bootstrap Image Preview" src="http://lorempixel.com/140/140/" />
+            </div>
+            <div class="col-md-8">
+                <h3>{{ object.name }}</h3>
+                <h3>Producent: </h3>
+                <p> {{ object.manufacturer }} </p>
+                <h3>Opis: </h3>
+                <p> {{ object.description }} </p>
+                <h3>Cena: </h3>
+                <p>{{ object.price_in_PLN }} PLN</p>
+
+                {% if object.category %}
+                <div class="category">
+                  <span>Category: </span>
+                <a href="{{ object.category.get_absolute_url }}"><span class="label label-primary">{{ object.category.name }}</span></a>
+                </div>
+                {% endif %}
+                {% if object.tags %}
+                <div class="tags">
+                  <span>Tagged under: </span>
+                {% for tag in object.tags.all %}
+                <a href="{{ tag.get_absolute_url }}"><span class="label label-success">{{ tag.name }}</span></a>
+                {% endfor %}
+                </div>
+                {% endif %}
+               
+            </div>
+        </div>
+    </div>
+	        
+
+{% endblock %}

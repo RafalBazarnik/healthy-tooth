@@ -5,17 +5,35 @@ from django.views.generic import TemplateView
 from .forms import ContactForm
 from django.core.mail import send_mail, BadHeaderError
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Q
 from django.http import HttpResponseRedirect, HttpResponse, Http404
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from braces.views import GroupRequiredMixin, LoginRequiredMixin
 from . import models, forms
 
+
+class UserPasswordChangeView(FormView):
+    form_class = forms.UserPasswordChangeForm
+    template_name = 'patient/change_password.html'
+
+    def get_form_kwargs(self):
+        kwargs = super(UserPasswordChangeView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def get_success_url(self):
+        return reverse('main_page:login_user')
+
+    def form_valid(self, form):
+        form.save()
+        messages.add_message(self.request, messages.INFO, 'Hasło zostało pomyślnie zmienione')
+        return super(UserPasswordChangeView, self).form_valid(form)
 
 class PatientCreateView(CreateView):
     model = models.Patient
@@ -76,7 +94,7 @@ def login_user(request):
                 if user.groups.filter(name="Offices").exists():
                     return HttpResponseRedirect('/account/')
                 elif user.groups.filter(name="Patients").exists():
-                    return HttpResponseRedirect('/')
+                    return HttpResponseRedirect('/patient_zone')
                 else:
                     return HttpResponseRedirect('/')
             else:

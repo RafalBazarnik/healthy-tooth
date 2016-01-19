@@ -4,22 +4,25 @@
     {% load  static %}
 
     {% block title %}
-        Ząbek - edycja gabinetu
+        Ząbek - Sklep - Kategoria
     {% endblock %}
 
     {% block header %}
-        <h1>Produkty w naszym sklepie:</h1>
+        {% if object_list %}
+            {% for object in object_list %}
+                {% if forloop.counter == 1 %}
+                    <h1>Kategoria: '{{ object.category }}'</h1>
+                {% endif %}
+            {% endfor %}
+             {% else %}
+            {% endif %}
     {% endblock %}
 
 {% block content %}
         
-	        	{{ object }}
-	        
-
-    <div class="container">
+	    <div class="container">
             {% if object_list %}
             {% for object in object_list %}
-            {% if object.retail %}
             <div class="col-lg-3 col-md-4 col-xs-6 thumb">
                 <a class="thumbnail" href="{{ object.get_absolute_url }}">
                     <img class="img-responsive" src="http://placehold.it/400x300" alt="">
@@ -30,20 +33,9 @@
                     </div>
                 </a>
             </div>
-            {% endif %}
             {% endfor %}
-        {% else %}
-            <p>Nie znaleziono produktów...</p>
-        {% endif %}
-
-        <ul class="pager">
-        {% if page_obj.has_previous %}
-        <li class="previous"><a href="/{{ page_obj.previous_page_number }}/">Poprzednia strona...</a></li>
-        {% endif %}
-        {% if page_obj.has_next %}
-        <li class="next"><a href="/{{ page_obj.next_page_number }}/">Następna strona...</a></li>
-        {% endif %}
-        </ul>
+            {% endif %}
     </div>
+	        
 
 {% endblock %}
