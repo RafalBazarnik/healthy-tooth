@@ -4,6 +4,7 @@ from django.contrib.admin import widgets
 from functools import partial
 from django.utils.text import slugify
 from django.contrib.auth.models import User, Group
+import datetime
 
 
 class UserPasswordChangeForm(forms.Form):
@@ -127,3 +128,4 @@ class NewScheduledDay(forms.ModelForm):
         if self.instance:
             self.fields['dentist'].queryset = models.Dentist.objects.filter(office__user=user)
             self.fields['office'].queryset = models.Office.objects.filter(user=user)
+            self.fields['date'].initial = datetime.date.today()

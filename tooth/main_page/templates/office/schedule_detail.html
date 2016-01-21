@@ -13,4 +13,30 @@
 
     {% block content %}
         <p>tu będą szczegóły dnia pracy dentysty</p>
+        {{ object.date }} ({{ object.date | date:"l" }}) {{ object.office }} {{ object.dentist }}
+        <p>
+        {{ object.slot10_11 }}
+        {{ object.slot11_12 }}
+        {{ object.slot12_13 }}
+        {{ object.slot13_14 }}
+        {{ object.slot14_15 }}
+        {{ object.slot15_16 }}
+        {{ object.slot16_17 }}
+        {{ object.slot17_18 }}
+        {{ object.slot18_19 }}
+        {{ object.slot19_20 }}
+        </p>
+        {% if object.has_free_slots %}
+        <p>yes</p>
+        {% else %}
+        <p>no</p>
+        {% endif %}
+        <p>has free slots:</p>
+        {{ object.has_free_slots }}
+        <p>all slots:</p>
+        {{ object.get_slots_dict }}
+        <p>free slots:</p>
+        {{ object.get_free_slots_dict }}
+        <p>is active</p>
+        {{ object.is_active }}
 	{% endblock %}

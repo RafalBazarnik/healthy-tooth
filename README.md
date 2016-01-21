@@ -1,3 +1,7 @@
+7- logged user or office - creates Appointement (several selects to limit choices? region/city/week?) + listView (per dentist / per day) + detailView - office can see and edit, User can see and cancel -> after visit - status to done and create Event
+8- office can see/add/edit Events per Patient, user can only see (readonly) it or download it (check legality of it - https://www.bpp.gov.pl/dla-pacjenta/prawa-pacjenta/prawo-do-dokumentacji-medycznej/)
+
+
 temp:
 - slug auto
 - check auto user create or only User account create!
@@ -15,7 +19,7 @@ https://www.packtpub.com/books/content/setting-complete-django-e-commerce-store-
 checklist:
 1- user creates User/Patient account - sign up
 2- user changes his password (alert - changed)
-3- shop -> list, detail, catalog, tag, user group-> shop-staff (permissions)
+3- shop -> list, detail, catalog, tag, user group-> shop-staff (permissions) + blog-staff
 4- shop - paypal payments, office has other products
 
 
@@ -32,10 +36,15 @@ checklist:
 14- comment code, remove unused imports, DentistDay - unique date?, rethink - blank/null in models, page with newses?
 14- documentation - ERD, uml (of dentistday->appointement->event), theory
 
+flatpages?
+pobawić się AJAXEM
+pododawać messages np:
+def form_valid(self, form):
+    form.save()
+    messages.add_message(self.request, messages.INFO, 'Hasło zostało pomyślnie zmienione')
+    return super(UserPasswordChangeView, self).form_valid(form)
 
-
-
-
+error with template_dirs?
 
 current:
 2)ListView - 

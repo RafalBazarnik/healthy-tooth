@@ -14,8 +14,14 @@
     {% block content %}
         <p>tu będzie lista planów pracy dentystów - pamiętać o login required i tylko ten gabinet! rozważyć podział na dni</p>
         {% if object_list %}
-        {% for schedule in object_list %}
-        {{ schedule }}
+        <h3><h3>
+        {% for dentist in dentists %}
+                <h3><a href="{{ dentist.get_absolute_url }}" >{{ dentist }}:</a></h3>
+                {% for schedule in object_list %}
+                    {% if schedule.dentist == dentist %}
+                        <p><a href="{{ schedule.get_absolute_url }}">{{ schedule }}</a> {%if schedule.has_free_slots %}(wolne terminy!){% endif %}</p>
+                    {% endif %}
+                {% endfor %}
         {% endfor %}
         {% endif %}
 	{% endblock %}

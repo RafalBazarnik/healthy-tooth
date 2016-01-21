@@ -73,17 +73,16 @@
                         {% endif %}
                             <ul class="dropdown-menu">
                                 <li><a href="{% url 'main_page:office_account' %}">Strona gabinetu</a></li>
+                                <li><a href="{% url 'main_page:schedules_list' %}">Grafik</a></li>
                                 <li><a href="{% url 'main_page:patients' %}">Pacjenci</a></li>
                                 <li><a href="{% url 'main_page:new_patient' %}">Dodaj pacjenta</a></li>
                                 <li><a href="{% url 'main_page:new_dentist' %}">Dodaj dentystę</a></li>
+                                <li><a href="{% url 'main_page:schedule_create' %}">Dodaj grafik</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li class="dropdown-header">Inne:</li>
                                 <li><a href="{% url 'blog:post_new' %}">Wyślij post na bloga</a></li>
                             </ul>
                         </li>
-                        {% if not user.is_superuser %}
-                        <li><a href="{% url 'main_page:office_account' %}">Strona gabinetu</a></li>
-                        {% endif %}
                         {% endif %}
                     </ul>
                     <ul class="nav navbar-nav navbar-right">

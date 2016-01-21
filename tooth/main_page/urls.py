@@ -35,6 +35,8 @@ urlpatterns = [
 	url(r'^patient/(?P<slug>[a-zA-Z0-9-]+)/?', login_required(views.PatientDetailView.as_view()), name='patient'),
 	url(r'^new_patient', views.PatientCreateView.as_view(), name="new_patient"),
 	url(r'^patient_zone/change_password', login_required(views.UserPasswordChangeView.as_view()), name="change_password"),
+	# url(r'^patient_zone/patient_info', login_required(views..as_view()), name="patient_info"),
+	# url(r'^patient_zone/patient_history', login_required(views..as_view()), name="patient_history"),
 	url(r'^patient_zone', login_required(views.patient_index), name='patient_index'),
 
 	# searches
@@ -43,11 +45,11 @@ urlpatterns = [
     url(r'^search_office', views.search_office, name='search_office'),
 
     #schedules
-    url(r'^schedule/list', views.SchedulesListView.as_view(), name="schedules_list"),
+    url(r'^schedule/list/$', views.SchedulesListView.as_view(), name="schedules_list"),
     url(r'^new_schedule', login_required(views.ScheduleCreateView.as_view()), name="schedule_create"),
-    url(r'^schedule/day/(?P<id>)/$', views.ScheduleDetailView.as_view(), name="schedule_detail"),
-    url(r'^schedule/day_edit/(?P<id>)/$', views.ScheduleUpdateView.as_view(), name="schedule_edit"),
+    url(r'^schedule/day/(?P<pk>[0-9]+)/$', views.ScheduleDetailView.as_view(), name="schedule_detail"),
+    url(r'^schedule/day_edit/(?P<pk>[0-9]+)/$', views.ScheduleUpdateView.as_view(), name="schedule_edit"),
 
-    #appointements
+    #appointments
 
 ]

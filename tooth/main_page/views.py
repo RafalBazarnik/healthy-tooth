@@ -48,10 +48,24 @@ class SchedulesListView(generic.ListView):
     template_name = "office/dentist_schedules_list.html"
     paginate_by = 10
 
+    def get_context_data(self, **kwargs):
+        user_id = self.request.user.id
+        context = super(SchedulesListView, self).get_context_data(**kwargs)
+        context['dentists'] = models.Dentist.objects.filter(office__user_id=user_id)
+        return context
+
+    # def dentists(self):
+    #     user_id = self.request.user.id
+    #     return models.Dentist.objects.filter(office__user_id=user_id)
+
+    # def current_office(self):
+    #     user_id = self.request.user.id
+    #     return models.Office.objects.filter(id=user_id)
+
     def get_queryset(self):
-        user = self.request.user
+        user_id = self.request.user.id
         object_list = super(SchedulesListView, self).get_queryset()
-        return object_list.filter(office__user=user)
+        return object_list.filter(office__user_id=user_id)
 
 class ScheduleCreateView(CreateView):
     model = models.DentistDay
