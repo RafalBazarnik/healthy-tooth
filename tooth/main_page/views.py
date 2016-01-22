@@ -18,6 +18,30 @@ from braces.views import GroupRequiredMixin, LoginRequiredMixin
 from . import models, forms
 
 
+class PatientInfoView(generic.DetailView):
+    model = models.Patient
+    template_name = 'patient/patient_info.html'
+
+class PatientHistoryView(generic.DetailView):
+    model = models.Patient
+    template_name = 'patient/patient_history.html'
+
+    def get_context_data(self, **kwargs):
+        patient = self.get_object().pk
+        context = super(PatientHistoryView, self).get_context_data(**kwargs)
+        context['events'] = models.Event.objects.filter(user_id=patient).order_by('date')
+        return context
+
+class PatientAppointmentsView(generic.ListView):
+    queryset = models.DentistDay.objects.all().order_by('date')
+    template_name = "patient/patient_appointements.html"
+    paginate_by = 10
+
+    def get_queryset(self):
+        user_id = self.request.user.id
+        object_list = super(PatientAppointmentsView, self).get_queryset()
+        return object_list.filter(office__user_id=user_id)
+
 class UserPasswordChangeView(FormView):
     form_class = forms.UserPasswordChangeForm
     template_name = 'patient/change_password.html'
@@ -54,18 +78,10 @@ class SchedulesListView(generic.ListView):
         context['dentists'] = models.Dentist.objects.filter(office__user_id=user_id)
         return context
 
-    # def dentists(self):
-    #     user_id = self.request.user.id
-    #     return models.Dentist.objects.filter(office__user_id=user_id)
-
-    # def current_office(self):
-    #     user_id = self.request.user.id
-    #     return models.Office.objects.filter(id=user_id)
-
     def get_queryset(self):
         user_id = self.request.user.id
         object_list = super(SchedulesListView, self).get_queryset()
-        return object_list.filter(office__user_id=user_id)
+        return object_list.filter(office__user_id=user_id).order_by('date')
 
 class ScheduleCreateView(CreateView):
     model = models.DentistDay
@@ -90,6 +106,9 @@ class ScheduleUpdateView(UpdateView):
 class ScheduleDetailView(generic.DetailView):
     model = models.DentistDay
     template_name = 'office/schedule_detail.html'
+
+class ScheduleInstructionView(TemplateView):
+    template_name = 'office/schedule_instruction.html'
 
 def patient_index(request):
     context = RequestContext(request)
@@ -157,6 +176,12 @@ class DentistDetailView(generic.DetailView):
     model = models.Dentist
     template_name='dentist/dentist_detail.html'
 
+    def get_context_data(self, **kwargs):
+        dentist = self.get_object().pk
+        context = super(DentistDetailView, self).get_context_data(**kwargs)
+        context['schedules'] = models.DentistDay.objects.filter(dentist_id=dentist).order_by('date')
+        return context
+
 class DentistCreateView(CreateView):
     model = models.Dentist
     template_name = 'dentist/new_dentist.html'
@@ -175,6 +200,12 @@ class OfficesListView(generic.ListView):
 class OfficeDetailView(generic.DetailView):
     model = models.Office
     template_name='office/office_detail.html'
+
+    def get_context_data(self, **kwargs):
+        user_id = self.request.user.id
+        context = super(OfficeDetailView, self).get_context_data(**kwargs)
+        context['schedules'] = models.DentistDay.objects.filter(office__user_id=user_id).order_by('date')
+        return context
 
 class OfficeUpdateView(UpdateView):
     model = models.Office

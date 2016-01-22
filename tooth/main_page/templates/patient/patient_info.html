@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+    {% load django_markdown %}
+    {% load  static %}
+
+    {% block title %}
+        Ząbek - Strefa Użytkownika
+    {% endblock %}
+
+    {% block header %}
+        <h1>Twoje dane:</h1>
+    {% endblock %}
+
+    {% block content %}
+        {{object}}
+    {% endblock %}

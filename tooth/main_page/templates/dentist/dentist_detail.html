@@ -40,10 +40,23 @@
                 <div class="biography">
                     <h3>Biografia:</h5>
                     <p>{{ object.biography | markdown}}</p></div>
-                    <h3>Komentarze:</h3>
-                            <br>&nbsp;</br>
+                <div class="schedules">
+                    <h3>Dostępne terminy:</h5>
+                    {% for schedule in schedules%}
+                        {% if schedule.has_free_slots %}
+                            {% if schedule.is_active %}
+                                <p><a href="{{ schedule.get_absolute_url }}">{{ schedule }}</a> ({{ schedule.date | date:"l" }})<p>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
                 <div class="comments">
-                    <div class="fb-comments" data-href="http://localhost:8000/{{ object.slug }}" data-width="400" data-numposts="5"></div>
+                    <h3>Komentarze:</h3>
+                    <br>&nbsp;</br>
+                    <div class="fb-comments" data-href="http://localhost:8000/{{ object.slug }}" data-width="400" data-numposts="5">  
+                    </div>
+                </div>
+                
             </div>
         </div>
     </section>

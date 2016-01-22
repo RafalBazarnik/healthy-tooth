@@ -34,7 +34,18 @@
                 <div class="dentists">
                     <h3>Nasi Lekarze:</h3>
                         {% for dentist in office.workplace.all %}
-                            <p>{{dentist.name}} {{dentist.surname}} {{dentist.professional_title}} <a href="{{dentist.get_absolute_url}}">więcej...</a></p>
+                            <p>
+                            <a href="{{dentist.get_absolute_url}}">{{dentist.name}} {{dentist.surname}} {{dentist.professional_title}}</a> Wolne terminy:
+                            {% if schedules %}
+                                {% for schedule in schedules %}
+                                    {% if schedule.dentist == dentist %}
+                                        {% if schedule.is_active %}
+                                            <a href="{{schedule.get_absolute_url}}">{{ schedule.date }} ({{ schedule.date | date:"l" }}) </a>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                            </p>
                         {% endfor %}
                 </div>
                 <div class="specialties">

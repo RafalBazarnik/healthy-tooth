@@ -1,3 +1,25 @@
+detail -> dentist - P - ?
+detail -> gabinet - P - ?
+
+form -> zapisz się P
+form -> edytuj G
+form -> cancel P
+
+list -> swoje zapisy - P (godziny??? jak wycignac własciwy slot i jego help_text)
+
+https://docs.djangoproject.com/en/dev/topics/db/managers/#custom-managers ???
+=================
+detail -> events, date - P (readonly - tylko Contact zmiana - form)
+add/edit events - G
+==================
+has_free_slots_this_week?
+
+
+fb comments?
+likes/shares?
+
+https://docs.djangoproject.com/en/dev/topics/db/managers/#custom-managers
+
 7- logged user or office - creates Appointement (several selects to limit choices? region/city/week?) + listView (per dentist / per day) + detailView - office can see and edit, User can see and cancel -> after visit - status to done and create Event
 8- office can see/add/edit Events per Patient, user can only see (readonly) it or download it (check legality of it - https://www.bpp.gov.pl/dla-pacjenta/prawa-pacjenta/prawo-do-dokumentacji-medycznej/)
 
