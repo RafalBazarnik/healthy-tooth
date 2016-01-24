@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+    {% load django_markdown %}
+    {% load  static %}
+
+    {% block title %}
+        Ząbek - Strefa Użytkownika
+    {% endblock %}
+
+    {% block header %}
+        <h1>Anuluj wizytę:</h1>
+    {% endblock %}
+
+    {% block content %}
+    <span class="glyphicon glyphicon-warning-sign small-info-icon">&nbsp;</span>
+        <h5 class="info">Czy napewno chcesz anulować wizytę?</h5>
+        <BR>&nbsp;<BR>
+    <form class="form-horizontal" method="POST">{% csrf_token %}
+    {{form}} {{form.errors}}
+		<div class="col-md-12 text-center">
+        <button type="submit" class="btn btn-primary btn-lg">Anuluj!</button>
+        <input class="btn btn-primary btn-lg back" type="button" value="Wróć" onClick="history.go(-1); return true;">
+        </div>
+    </form>
+    {% endblock %}

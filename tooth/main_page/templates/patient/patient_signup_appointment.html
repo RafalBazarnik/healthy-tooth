@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+    {% load django_markdown %}
+    {% load  static %}
+
+    {% block title %}
+        Ząbek - zapis na wizytę
+    {% endblock %}
+
+    {% block header %}
+        <h1>Wybierz godzinę:</h1>
+    {% endblock %}
+
+    {% block content %}
+    {% for day in dday%}
+        {% with day.is_active as activity %}
+    {% if activity %}
+        <div class="col-md-12">
+            <div class="well well-sm">
+                <form class="form-horizontal" method="POST">{% csrf_token %}
+                    <fieldset>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">{{ form.date.errors }}
+                                Dzień: {{ form.date }}{{ form.instance.date }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">{{ form.office.errors }}
+                                Gabinet: {{ form.office }} {{ form.instance.office }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">{{ form.dentist.errors }}
+                                Dentysta: {{ form.dentist }} {{ form.instance.dentist }}
+                            </div>
+                        </div>
+                        <div><span class="glyphicon glyphicon-info-sign small-info-icon"></span>&nbsp;<span class="info">Wolne terminy wizyt  - należy wybrać nazwę swojego użytkownika z selecta w miejscu przy godzienie na którą chcemy się zapisać!</span></div>
+                        <br>&nbsp;<br>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                g.10.00-11.00: {{ form.slot10_11 }}  {{ form.slot10_11.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                g.11.00-12.00: {{ form.slot11_12 }} {{ form.slot11_12.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                g.12.00-13.00: {{ form.slot12_13 }} {{ form.slot12_13.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                g.13.00-14.00: {{ form.slot13_14 }} {{ form.slot13_14.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                g.14.00-15.00: {{ form.slot14_15 }} {{ form.slot14_15.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                g.15.00-16.00: {{ form.slot15_16 }} {{ form.slot15_16.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                g.16.00-17.00: {{ form.slot16_17 }} {{ form.slot16_17.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                g.17.00-18.00: {{ form.slot17_18 }} {{ form.slot17_18.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                g.18.00-19.00: {{ form.slot18_19 }} {{ form.slot18_19.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                g.19.00-20.00: {{ form.slot19_20 }} {{ form.slot19_20.errors }}
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <div class="col-md-12 text-center">
+                                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                                <input class="btn btn-primary btn-lg back" type="button" value="Wróć" onClick="history.go(-1); return true;">
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        {% else %}
+        <div class="info">Ten termin już przeminął. Nie można się zapisać wstecz</div>
+        {% endif %}
+        {% endwith %}
+        {% endfor %}
+    {% endblock %}

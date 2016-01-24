@@ -68,7 +68,7 @@ class Patient(Contact):
     age = models.CharField(null=True, max_length=3, help_text="Wiek")
     slug = models.SlugField(max_length=40, unique=True, blank=True, null=True,
                             help_text="Nazwa linku w postaci - nazwisko-imie-pesel - male litery, bez polskich znaków")
-    user = models.OneToOneField(User, null=True, blank=True)
+    user = models.ForeignKey(User, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         is_new = self.user is None
@@ -170,7 +170,7 @@ class Appointment(Contact):
         verbose_name_plural = 'Appointments'
 
 class DentistDay(models.Model):
-    date = models.DateField(null=True, unique=True)
+    date = models.DateField(null=True)
     dentist = models.ForeignKey(Dentist)
     office = models.ForeignKey(Office)
     slot10_11 = models.ForeignKey(User, null=True, blank=True, related_name="hours_1000_1100", help_text="10:00-11.00")
@@ -193,13 +193,24 @@ class DentistDay(models.Model):
     def get_edit_url(self):
         return "/schedule/day_edit/{0}/".format(self.pk)
 
+    def get_cancel_url(self):
+        return "/patient_zone/appointment_cancel/{0}/".format(self.pk)
+
+    def get_signup_url(self):
+        return "/patient_zone/appointment_signup/{0}/".format(self.pk)
+
+    @property
+    def get_fields_list(self):
+        return self._meta.get_fields()
+    
+
     @property
     def is_active(self):
-        return self.date >= datetime.date.today()
+        return (self.date >= datetime.date.today())
 
     @property
     def get_slots_dict(self):
-        slots_list = {self._meta.get_field('slot10_11').help_text: self.slot10_11,
+        slots_dict = {self._meta.get_field('slot10_11').help_text: self.slot10_11,
                       self._meta.get_field('slot11_12').help_text: self.slot11_12, 
                       self._meta.get_field('slot12_13').help_text: self.slot12_13, 
                       self._meta.get_field('slot13_14').help_text: self.slot13_14, 
@@ -209,7 +220,7 @@ class DentistDay(models.Model):
                       self._meta.get_field('slot17_18').help_text: self.slot17_18, 
                       self._meta.get_field('slot18_19').help_text: self.slot18_19, 
                       self._meta.get_field('slot19_20').help_text: self.slot19_20}
-        return slots_list
+        return slots_dict
 
     @property
     def get_free_slots_dict(self):
@@ -243,6 +254,7 @@ class DentistDay(models.Model):
         return False
 
     class Meta:
+        unique_together = ('date', 'dentist',)
         verbose_name = "Schedule"
         verbose_name_plural = 'Schedules'
 
@@ -268,7 +280,7 @@ class Event(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return "/patient/{0}/{1}/".format(self.subject.slug, self.slug)
+        return "/patient/event/{0}/".format(self.slug)
 
     def event_type_verbose(self):
         return dict(Event.EVENT_TYPES)[self.event_type]

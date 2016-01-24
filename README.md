@@ -14,6 +14,11 @@ add/edit events - G
 ==================
 has_free_slots_this_week?
 
+dentist landing pages? per city? per province?
+
+mail with to remeber about appointement?
+pdf from events?
+user with flag is_verified() == False - can make only one appointment
 
 fb comments?
 likes/shares?

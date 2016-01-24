@@ -12,5 +12,12 @@
     {% endblock %}
 
     {% block content %}
-        {{object}}
+    {{object}}
+    {{object_list}}
+    {% if object_list %}
+        {% for object in object_list %}
+            {{object.name}}
+            {{object.surname}}
+        {% endfor %}
+    {% endif %}
     {% endblock %}

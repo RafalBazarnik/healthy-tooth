@@ -45,7 +45,7 @@
                     {% for schedule in schedules%}
                         {% if schedule.has_free_slots %}
                             {% if schedule.is_active %}
-                                <p><a href="{{ schedule.get_absolute_url }}">{{ schedule }}</a> ({{ schedule.date | date:"l" }})<p>
+                                <p><a href="{{ schedule.get_signup_url }}">{{ schedule }}</a> ({{ schedule.date | date:"l" }})<p>
                             {% endif %}
                         {% endif %}
                     {% endfor %}

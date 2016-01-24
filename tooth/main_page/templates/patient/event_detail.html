@@ -4,11 +4,11 @@
     {% load  static %}
 
     {% block title %}
-        Ząbek - Strefa Użytkownika
+        Ząbek - Wydarzenie
     {% endblock %}
 
     {% block header %}
-        <h1>Twoja historia leczenia:</h1>
+        <h1>Event:</h1>
     {% endblock %}
 
     {% block content %}
@@ -16,7 +16,7 @@
     {{object_list}}
     {{events}}
         {% if object_list %}
-        {% for object in object_list %}
+                {% for object in object_list %}
             {{object.title}}
             {{object.date}}
             {{object.type}}

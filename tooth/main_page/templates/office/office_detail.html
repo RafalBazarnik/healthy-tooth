@@ -40,7 +40,7 @@
                                 {% for schedule in schedules %}
                                     {% if schedule.dentist == dentist %}
                                         {% if schedule.is_active %}
-                                            <a href="{{schedule.get_absolute_url}}">{{ schedule.date }} ({{ schedule.date | date:"l" }}) </a>
+                                            <a href="{{schedule.get_signup_url}}">{{ schedule.date }} ({{ schedule.date | date:"l" }}) </a>
                                         {% endif %}
                                     {% endif %}
                                 {% endfor %}

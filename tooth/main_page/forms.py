@@ -4,8 +4,117 @@ from django.contrib.admin import widgets
 from functools import partial
 from django.utils.text import slugify
 from django.contrib.auth.models import User, Group
+from django.contrib import messages
+from .widgets import ReadOnlyWidget
+import re
 import datetime
 
+
+class EventCreateForm(forms.ModelForm):
+    class Meta:
+        model = models.Event
+        exclude = []
+
+class UserAppointementSignUpForm(forms.ModelForm):
+    class Meta:
+        model = models.DentistDay
+        exclude = []
+        # exclude = ['office', 'dentist', "date"]
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        self.request = kwargs.pop('request')
+
+        super(UserAppointementSignUpForm, self).__init__(*args, **kwargs)
+        self.fields['date'].widget = forms.HiddenInput()
+        self.fields['office'].widget = forms.HiddenInput()
+        self.fields['dentist'].widget = forms.HiddenInput()
+        # self.fields['date'].widget = ReadOnlyWidget()
+
+        if not getattr(self.instance, 'slot10_11') or getattr(self.instance, 'slot10_11') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot10_11').groups.all():
+            self.fields['slot10_11'].widget = forms.HiddenInput()
+        else:
+            self.fields['slot10_11'].queryset = models.User.objects.filter(id=self.user.id) 
+        if not getattr(self.instance, 'slot11_12') or getattr(self.instance, 'slot11_12') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot11_12').groups.all():
+            self.fields['slot11_12'].widget = forms.HiddenInput()
+        else:
+            self.fields['slot11_12'].queryset = models.User.objects.filter(id=self.user.id)
+        if not getattr(self.instance, 'slot12_13') or getattr(self.instance, 'slot12_13') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot12_13').groups.all():
+            self.fields['slot12_13'].widget = forms.HiddenInput()
+        else:
+            self.fields['slot12_13'].queryset = models.User.objects.filter(id=self.user.id) 
+        if not getattr(self.instance, 'slot13_14') or getattr(self.instance, 'slot13_14') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot13_14').groups.all():
+            self.fields['slot13_14'].widget = forms.HiddenInput()
+        else:
+            self.fields['slot13_14'].queryset = models.User.objects.filter(id=self.user.id)
+        if not getattr(self.instance, 'slot14_15') or getattr(self.instance, 'slot14_15') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot14_15').groups.all():
+            self.fields['slot14_15'].widget = forms.HiddenInput()
+        else:
+            self.fields['slot14_15'].queryset = models.User.objects.filter(id=self.user.id) 
+        if not getattr(self.instance, 'slot15_16') or getattr(self.instance, 'slot15_16') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot15_16').groups.all():
+            self.fields['slot15_16'].widget = forms.HiddenInput()
+        else:
+            self.fields['slot15_16'].queryset = models.User.objects.filter(id=self.user.id)
+        if not getattr(self.instance, 'slot16_17') or getattr(self.instance, 'slot16_17') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot16_17').groups.all():
+            self.fields['slot16_17'].widget = forms.HiddenInput()
+        else:
+            self.fields['slot16_17'].queryset = models.User.objects.filter(id=self.user.id) 
+        if not getattr(self.instance, 'slot17_18') or getattr(self.instance, 'slot17_18') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot17_18').groups.all():
+            self.fields['slot17_18'].widget = forms.HiddenInput()
+        else:
+            self.fields['slot17_18'].queryset = models.User.objects.filter(id=self.user.id)
+        if not getattr(self.instance, 'slot18_19') or getattr(self.instance, 'slot18_19') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot18_19').groups.all():
+            self.fields['slot18_19'].widget = forms.HiddenInput()
+        else:
+            self.fields['slot18_19'].queryset = models.User.objects.filter(id=self.user.id) 
+        if not getattr(self.instance, 'slot19_20') or getattr(self.instance, 'slot19_20') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot19_20').groups.all():
+            self.fields['slot19_20'].widget = forms.HiddenInput()
+        else:
+            self.fields['slot19_20'].queryset = models.User.objects.filter(id=self.user.id)
+
+    def clean_date(self):
+        return getattr(self.instance, 'date')
+
+    def clean_office(self):
+        return getattr(self.instance, 'office')
+
+    def clean_dentist(self):
+        return getattr(self.instance, 'dentist')
+
+class UserAppointmentCancelForm(forms.ModelForm):
+    class Meta:
+        model = models.DentistDay
+        exclude = []
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        self.request = kwargs.pop('request')
+        super(UserAppointmentCancelForm, self).__init__(*args, **kwargs)
+        self.fields['date'].widget = forms.HiddenInput()
+        self.fields['dentist'].widget = forms.HiddenInput()
+        self.fields['office'].widget = forms.HiddenInput()
+        self.fields['slot10_11'].widget = forms.HiddenInput()
+        self.fields['slot11_12'].widget = forms.HiddenInput()
+        self.fields['slot12_13'].widget = forms.HiddenInput()
+        self.fields['slot13_14'].widget = forms.HiddenInput()
+        self.fields['slot14_15'].widget = forms.HiddenInput()
+        self.fields['slot15_16'].widget = forms.HiddenInput()
+        self.fields['slot16_17'].widget = forms.HiddenInput()
+        self.fields['slot17_18'].widget = forms.HiddenInput()
+        self.fields['slot18_19'].widget = forms.HiddenInput()
+        self.fields['slot19_20'].widget = forms.HiddenInput()
+
+    def save(self, *args, **kwargs):
+        instance = super(UserAppointmentCancelForm, self).save(commit=False)
+        office = instance.office.user
+        fields = instance._meta.get_fields()
+        for field in fields:
+            if getattr(instance, field.name) is not None:
+                if getattr(instance, field.name) == self.user:
+                    setattr(instance, field.name, office) 
+        instance.save()
+        messages.add_message(self.request, messages.INFO, 'Anulowano wizytę!')
+        return instance
 
 class UserPasswordChangeForm(forms.Form):
     password1 = forms.CharField(label='Nowe hasło', widget=forms.PasswordInput,)
@@ -123,7 +232,7 @@ class NewScheduledDay(forms.ModelForm):
         exclude = []
 
     def __init__(self, *args, **kwargs):
-        user = kwargs.pop('_user')
+        user = kwargs.pop('user')
         super(NewScheduledDay, self).__init__(*args, **kwargs)
         if self.instance:
             self.fields['dentist'].queryset = models.Dentist.objects.filter(office__user=user)

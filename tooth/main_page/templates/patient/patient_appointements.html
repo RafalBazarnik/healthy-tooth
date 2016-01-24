@@ -13,11 +13,22 @@
 
     {% block content %}
     	{% if object_list %}
+        {% if messages %}
+            {% for message in messages %}
+            <p style="text-align: center;" class="important"><i class="glyphicon glyphicon-info-sign info">&nbsp;</i>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
         <h3>Aktywne zapisy:</h3>
             {% for schedule in object_list %}
                 {% if schedule.is_active %}
-                <p>{{schedule}} ({{ schedule.date | date:"l" }}) </p>
-                {% endif %}
+                    <p>{{schedule}} ({{ schedule.date | date:"l" }}) -
+                     (<a href="{{schedule.get_cancel_url}}">Anuluj wizytę</a>) - godzina: 
+                    {% for key, value in schedule.get_slots_dict.items %}
+                        {% if value == user %}
+                            {{key}}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %} </p>
             {% endfor %}
         <h3>Nieaktywne zapisy:</h3>
             {% for schedule in object_list %}

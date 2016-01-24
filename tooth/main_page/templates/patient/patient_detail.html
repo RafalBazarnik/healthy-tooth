@@ -61,7 +61,7 @@
                                 <th>{{ event.event_type_verbose }}</th>
                                 <th><a href="/office/{{ event.office.slug }}">{{ event.office.name }}</th>
                                 <th><a href="/dentist/{{ event.dentist.slug }}">{{ event.dentist.surname }} {{ event.dentist.name }}</th>
-                                <th><a href="#">więcej...</th>
+                                <th><a href="{{event.get_absolute_url}}">więcej...</th>
                             </tr>
                          {% endfor %}
                         </tbody>

@@ -3,6 +3,7 @@ from django.shortcuts import render_to_response, render, redirect
 from django.template import RequestContext
 from django.views.generic import TemplateView
 from .forms import ContactForm
+from django.core.urlresolvers import resolve
 from django.core.mail import send_mail, BadHeaderError
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -18,6 +19,53 @@ from braces.views import GroupRequiredMixin, LoginRequiredMixin
 from . import models, forms
 
 
+class EventCreateView(CreateView):
+    model = models.Event
+    template_name = 'office/new_event.html'
+    form_class = forms.NewScheduledDay
+
+class EventDetailView(generic.DetailView):
+    model = models.Event
+    template_name = 'patient/event_detail.html'
+
+class UserEventsView(generic.ListView):
+    model = models.Patient
+    template_name = "patient/patient_history.html"
+    paginate_by = 10
+
+    def get_queryset(self):
+        queryset = super(UserEventsView, self).get_queryset().filter(user=self.request.user)
+        return queryset
+
+class UserPersonalDataView(generic.ListView):
+    queryset = models.Patient.objects.all()
+    model = models.Patient
+    template_name = "patient/patient_info.html"
+
+    def get_queryset(self):
+        queryset = super(UserPersonalDataView, self).get_queryset().filter(user=self.request.user)
+        return queryset
+
+class UserAppointementSignUpView(UpdateView):
+    model = models.DentistDay
+    template_name = "patient/patient_signup_appointment.html"
+    form_class = forms.UserAppointementSignUpForm
+
+    def get_success_url(self):
+        return reverse('main_page:patient_appointements')
+
+    def get_form_kwargs(self):
+        kwargs = super(UserAppointementSignUpView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        kwargs['request'] = self.request
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        dday_pk = self.get_object().pk
+        context = super(UserAppointementSignUpView, self).get_context_data(**kwargs)
+        context['dday'] = models.DentistDay.objects.filter(pk=dday_pk)
+        return context
+
 class PatientInfoView(generic.DetailView):
     model = models.Patient
     template_name = 'patient/patient_info.html'
@@ -29,8 +77,22 @@ class PatientHistoryView(generic.DetailView):
     def get_context_data(self, **kwargs):
         patient = self.get_object().pk
         context = super(PatientHistoryView, self).get_context_data(**kwargs)
-        context['events'] = models.Event.objects.filter(user_id=patient).order_by('date')
+        context['events'] = models.Event.objects.filter(subject=patient).order_by('date')
         return context
+
+class PatientAppointmentsCancelView(UpdateView):
+    model = models.DentistDay
+    template_name = "patient/patient_cancel_appointments.html"
+    form_class = forms.UserAppointmentCancelForm
+
+    def get_success_url(self):
+        return reverse('main_page:patient_appointements')
+
+    def get_form_kwargs(self):
+        kwargs = super(PatientAppointmentsCancelView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        kwargs['request'] = self.request
+        return kwargs
 
 class PatientAppointmentsView(generic.ListView):
     queryset = models.DentistDay.objects.all().order_by('date')
@@ -40,7 +102,29 @@ class PatientAppointmentsView(generic.ListView):
     def get_queryset(self):
         user_id = self.request.user.id
         object_list = super(PatientAppointmentsView, self).get_queryset()
-        return object_list.filter(office__user_id=user_id)
+        return object_list.filter(Q(slot10_11=user_id) | Q(slot11_12=user_id) | Q(slot12_13=user_id) | 
+            Q(slot13_14=user_id) | Q(slot14_15=user_id) | Q(slot15_16=user_id) | Q(slot16_17=user_id) |
+            Q(slot17_18=user_id) | Q(slot18_19=user_id) | Q(slot19_20=user_id)).order_by('date')
+
+    def get_form_kwargs(self):
+        kwargs = super(PatientAppointmentsView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    # def get_context_data(self, **kwargs):
+    #     schedule = self.get_object().pk
+    #     user_id = self.request.user.id
+    #     context = super(PatientAppointmentsView, self).get_context_data(**kwargs)
+    #     fields = schedule._meta.get_fields()
+    #     for field in fields:
+    #         try: 
+    #             if field.id == user_id:
+
+    #         except:
+    #             pass
+
+    #     context['hour'] = models.Event.objects.filter(user_id=patient).order_by('date')
+    #     return context
 
 class UserPasswordChangeView(FormView):
     form_class = forms.UserPasswordChangeForm
@@ -90,7 +174,8 @@ class ScheduleCreateView(CreateView):
 
     def get_form_kwargs(self):
         kwargs = super(ScheduleCreateView, self).get_form_kwargs()
-        kwargs.update({'_user': self.request.user})
+        # kwargs.update({'_user': self.request.user})
+        kwargs['user'] = self.request.user
         return kwargs
 
 class ScheduleUpdateView(UpdateView):
@@ -204,7 +289,7 @@ class OfficeDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         user_id = self.request.user.id
         context = super(OfficeDetailView, self).get_context_data(**kwargs)
-        context['schedules'] = models.DentistDay.objects.filter(office__user_id=user_id).order_by('date')
+        context['schedules'] = models.DentistDay.objects.order_by('date')
         return context
 
 class OfficeUpdateView(UpdateView):
