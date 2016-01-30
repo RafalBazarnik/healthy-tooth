@@ -56,6 +56,6 @@ urlpatterns = [
     url(r'^schedule/instruction/$', views.ScheduleInstructionView.as_view(), name="schedule_instruction"),
 
     #events
-    url(r'^event_create/$', login_required(views.EventCreateView.as_view()), name='event_create')
+    url(r'^event_create', views.EventCreateView.as_view(), name='event_create')
 
 ]

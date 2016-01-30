@@ -22,7 +22,12 @@ from . import models, forms
 class EventCreateView(CreateView):
     model = models.Event
     template_name = 'office/new_event.html'
-    form_class = forms.NewScheduledDay
+    form_class = forms.EventCreateForm
+
+    def get_form_kwargs(self):
+        kwargs = super(EventCreateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
 class EventDetailView(generic.DetailView):
     model = models.Event

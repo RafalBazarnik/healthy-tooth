@@ -1,101 +1,43 @@
-detail -> dentist - P - ?
-detail -> gabinet - P - ?
-
-form -> zapisz się P
-form -> edytuj G
-form -> cancel P
-
-list -> swoje zapisy - P (godziny??? jak wycignac własciwy slot i jego help_text)
-
-https://docs.djangoproject.com/en/dev/topics/db/managers/#custom-managers ???
-=================
-detail -> events, date - P (readonly - tylko Contact zmiana - form)
-add/edit events - G
-==================
-has_free_slots_this_week?
-
-dentist landing pages? per city? per province?
-
-mail with to remeber about appointement?
-pdf from events?
-user with flag is_verified() == False - can make only one appointment
-
-fb comments?
-likes/shares?
-
-https://docs.djangoproject.com/en/dev/topics/db/managers/#custom-managers
-
-7- logged user or office - creates Appointement (several selects to limit choices? region/city/week?) + listView (per dentist / per day) + detailView - office can see and edit, User can see and cancel -> after visit - status to done and create Event
-8- office can see/add/edit Events per Patient, user can only see (readonly) it or download it (check legality of it - https://www.bpp.gov.pl/dla-pacjenta/prawa-pacjenta/prawo-do-dokumentacji-medycznej/)
-
-
-temp:
-- slug auto
-- check auto user create or only User account create!
-- security? separate views with queryset - > 
-- security - group - patients, dentists, offices
-- walidacje w formsach
-- images to dentist etc
-- problem with paginations in shop and blog https://github.com/matthewbdaly/django_tutorial_blog_ng https://docs.djangoproject.com/en/1.9/topics/pagination/
-- research - using messages.add 
-https://github.com/bmentges/django-cart
+1) sklep - koszyk, paypal, user group->shop-staff, blog-staff, hurt/detal, doszlifować list/detail/catalog/tag https://github.com/bmentges/django-cart
 https://github.com/supernifty/django-paypal-store-example
 http://www.supernifty.org/articles/oreilly-django-paypal-store/paypal-django.html
 https://www.packtpub.com/books/content/setting-complete-django-e-commerce-store-30-minutes
+2) dokończyć events/ history/info - w tym edycja Contact, może patient/slug/events/???
+3)poprawić paginację
+4) linki menu i nawigacja
+5) poprawić urle, komentarze i rozdzielić widoki i modele??? http://stackoverflow.com/questions/1921771/django-split-views-py-in-several-files
+6) ustawić dostępy - security - group - patients, dentists, offices, queryset
+7) dodawanie obrazków
+8) ad-rotator (2 rodzaje i kontrola rozmiaru?) i /promotions
+9) mail-marketing - podstawowy?  (form, selects, user count)
+10) content + test.py (fill database) - albo czysta baza danych (lista userów i haseł)
+11) css'y i obrazki
+12??) podpowiadaczki zamiast selectów!!??
+13??) potwierdzenie i przypomnienie o wizycie
+14??) dentist zone
+15??) ograniczyć przy evencie - tylko ci userzy którzy byli do 10 dni
+16??) has_free_slots_this_week?
+17??) dentist landing pages? per city? per province?
+18??) pdf from events?
+19??) user with flag is_verified() == False - can make only one appointment
+20) slug auto
+21) walidacje w formsach
+22???) remove unused imports, DentistDay - unique date?, rethink - blank/null in models, page with newses?
+23) error with template_dirs?
+24) auto create days - 2 weeks? - for every dentist? on dentist create?
+25??) rethink - slug or pk for dentistday view?
+26??) filters on listViews
 
-checklist:
-1- user creates User/Patient account - sign up
-2- user changes his password (alert - changed)
-3- shop -> list, detail, catalog, tag, user group-> shop-staff (permissions) + blog-staff
-4- shop - paypal payments, office has other products
+robić dokumentację, uml (use case, class, ...), erd, instrukcje użytkownika, wymagania, opisy techniczne, user stories - http://www.cs.put.poznan.pl/csobaniec/edu/jakpisacmgr.pdf (zaleca styl bezosobowy), przygotować 5 pytań na obronę (programowanie, bazy danych, testowanie, algorytmy)
+pisać test casy!
+
+informacje o innych możliwościach/stronach, kwestiach prawnych - (check legality of it - https://www.bpp.gov.pl/dla-pacjenta/prawa-pacjenta/prawo-do-dokumentacji-medycznej/)
 
 
-5- ad-rotator? /promotions page
-6- mail-marketing basics (form, selects, user count)
-
-7- logged user or office - creates Appointement (several selects to limit choices? region/city/week?) + listView (per dentist / per day) + detailView - office can see and edit, User can see and cancel -> after visit - status to done and create Event
-8- office can see/add/edit Events per Patient, user can only see (readonly) it or download it (check legality of it - https://www.bpp.gov.pl/dla-pacjenta/prawa-pacjenta/prawo-do-dokumentacji-medycznej/)
-9- signup on DentistDay slot - mayby using get request - <url>?office=X&dentist=Y&day=Z - and form filled
-10- dentist zone ??? or just in office account (add event, see appointements)
-11- access to pages by user group - security
-12- database - autofill - test.py + realistic content (at least 10 each)
-13- css/js - beaufify :P 
-14- comment code, remove unused imports, DentistDay - unique date?, rethink - blank/null in models, page with newses?
-14- documentation - ERD, uml (of dentistday->appointement->event), theory
 
 flatpages?
 pobawić się AJAXEM
-pododawać messages np:
-def form_valid(self, form):
-    form.save()
-    messages.add_message(self.request, messages.INFO, 'Hasło zostało pomyślnie zmienione')
-    return super(UserPasswordChangeView, self).form_valid(form)
-
-error with template_dirs?
-
-current:
-2)ListView - 
-3) auto create days - 2 weeks? - for every dentist? on dentist create?
-4) rethink - slug or pk for dentistday view?
-5) on dentist detail view - list of his slots -> make appointment (get?)
-6) add/edit/cancel appointement
-7) auto test data in test.py
-
-
-@TODO:
-A) user zone - with password change and readonly view of data/events + change in login auth + groups + of templates/views
-B) scheduling per dentist - day = ten slots - add, edit/subscribe, remove- list and forms
-D) filters on listViews
-E) social media - like/share
-F) small shop
-G) email marketing
-H) more real content - no lorem ipsum
-I) css
-J) documentation/UML/etc.
-+ add event
-
-(user - can log in, see his own data/events, see and cancel his own appointement, change password, user cannot edit anything else or remove etc.)
-(office - can see appointements/per dentists, add slots, remove and add appointements, set appointement to done - add events!!!)
+pododawać messages
 
 
 TODO - main points:
@@ -119,13 +61,6 @@ TODO - main points:
 17) autopopulating slug fields + sometimes not slug but pk?
 18) new - more pro css, img and layouts
 19) different forms - more editing options (styles etc.)
-
-new apps:
-ads-display,
-email-marketing
-shop
-
-consider - dividing main_page - office/patient/dentist (each with log in zone)
 
 materialize css - 
 

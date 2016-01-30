@@ -15,6 +15,10 @@ class EventCreateForm(forms.ModelForm):
         model = models.Event
         exclude = []
 
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super(EventCreateForm, self).__init__(*args, **kwargs)
+        
 class UserAppointementSignUpForm(forms.ModelForm):
     class Meta:
         model = models.DentistDay
