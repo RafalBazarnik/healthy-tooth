@@ -12,7 +12,7 @@ class PatientAdmin(MarkdownModelAdmin):
 
 class EventAdmin(MarkdownModelAdmin):
     list_display = ("title", "date", "subject",)
-    prepopulated_fields = {"slug": ("title", "event_type", "subject", "dentist",)}
+    prepopulated_fields = {"slug": ("title", "event_type", "subject", "date",)}
 
 class OfficeAdmin(MarkdownModelAdmin):
     list_display = ("name",)
@@ -24,6 +24,9 @@ class DentistAdmin(MarkdownModelAdmin):
 
 class AppointmentAdmin(MarkdownModelAdmin):
 	list_display = ("name", "surname", "city")
+
+class DentistDayAdmin(MarkdownModelAdmin):
+	list_display = ("date", "dentist", "office")
 
 admin.site.register(models.Patient, PatientAdmin)
 admin.site.register(models.Event, EventAdmin)

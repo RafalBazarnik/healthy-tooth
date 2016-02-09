@@ -10,14 +10,22 @@ import re
 import datetime
 
 
+DateInput = partial(forms.DateInput, {'class': 'datepicker'})
+
 class EventCreateForm(forms.ModelForm):
     class Meta:
         model = models.Event
+        widgets = {'date': DateInput(),}
         exclude = []
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
         super(EventCreateForm, self).__init__(*args, **kwargs)
+        if self.instance:
+            self.fields['dentist'].queryset = models.Dentist.objects.filter(office__user=user)
+            self.fields['office'].initial = models.Office.objects.get(user=user)
+            self.fields['office'].queryset = models.Office.objects.filter(user=user)
+            self.fields['date'].initial = datetime.date.today()
         
 class UserAppointementSignUpForm(forms.ModelForm):
     class Meta:
@@ -119,6 +127,10 @@ class UserAppointmentCancelForm(forms.ModelForm):
         instance.save()
         messages.add_message(self.request, messages.INFO, 'Anulowano wizytę!')
         return instance
+
+class UserContactInfoChangeForm(forms.ModelForm):
+    pass
+
 
 class UserPasswordChangeForm(forms.Form):
     password1 = forms.CharField(label='Nowe hasło', widget=forms.PasswordInput,)
@@ -226,8 +238,6 @@ class NewAppointmentForm(forms.ModelForm):
 
 class UpdateAppointmentForm(NewAppointmentForm):
     pass
-
-DateInput = partial(forms.DateInput, {'class': 'datepicker'})
 
 class NewScheduledDay(forms.ModelForm):
     class Meta:

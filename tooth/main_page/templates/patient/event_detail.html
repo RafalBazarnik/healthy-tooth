@@ -12,14 +12,10 @@
     {% endblock %}
 
     {% block content %}
-      {{object}}
-    {{object_list}}
-    {{events}}
-        {% if object_list %}
-                {% for object in object_list %}
-            {{object.title}}
-            {{object.date}}
-            {{object.type}}
-        {% endfor %}
-    {% endif %}
+        <div class="col-md-9">
+            <h1>Tytuł: {{ object.title }}</h1>
+            <h4>Pacjent:  {{ object.subject }} </h4> 
+            <h4>Data: {{ object.date }} Dentysta: {{ object.dentist}} Gabinet: {{ object.office }}</h4>
+            <h4>Rodzaj wizyty: {{ object.event_type }} </h4>
+        </div>
     {% endblock %}

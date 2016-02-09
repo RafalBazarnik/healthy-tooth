@@ -12,7 +12,7 @@ https://www.packtpub.com/books/content/setting-complete-django-e-commerce-store-
 9) mail-marketing - podstawowy?  (form, selects, user count)
 10) content + test.py (fill database) - albo czysta baza danych (lista userów i haseł)
 11) css'y i obrazki
-12??) podpowiadaczki zamiast selectów!!??
+12??) podpowiadaczki zamiast selectów!!?? https://github.com/crucialfelix/django-ajax-selects
 13??) potwierdzenie i przypomnienie o wizycie
 14??) dentist zone
 15??) ograniczyć przy evencie - tylko ci userzy którzy byli do 10 dni
@@ -27,6 +27,7 @@ https://www.packtpub.com/books/content/setting-complete-django-e-commerce-store-
 24) auto create days - 2 weeks? - for every dentist? on dentist create?
 25??) rethink - slug or pk for dentistday view?
 26??) filters on listViews
+27) lepszy cennik z wyszukiwaniem
 
 robić dokumentację, uml (use case, class, ...), erd, instrukcje użytkownika, wymagania, opisy techniczne, user stories - http://www.cs.put.poznan.pl/csobaniec/edu/jakpisacmgr.pdf (zaleca styl bezosobowy), przygotować 5 pytań na obronę (programowanie, bazy danych, testowanie, algorytmy)
 pisać test casy!

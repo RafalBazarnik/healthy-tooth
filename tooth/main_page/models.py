@@ -64,6 +64,7 @@ class Patient(Contact):
     name = models.CharField(max_length=100, help_text="Imię")
     surname = models.CharField(max_length=100, help_text="Nazwisko")
     pesel = models.CharField(max_length=11, null=True, help_text="Numer PESEL", validators=[MaxLengthValidator(11), MinLengthValidator(11)])
+    profile_image = models.ImageField(upload_to="", blank=True, null=True, help_text="Zdjęcie")
     sex = models.CharField(choices=SEX, null=True, max_length=20, help_text="Płeć")
     age = models.CharField(null=True, max_length=3, help_text="Wiek")
     slug = models.SlugField(max_length=40, unique=True, blank=True, null=True,
@@ -87,7 +88,7 @@ class Patient(Contact):
         super(Patient, self).save()
 
     def __str__(self):
-        return self.surname + self.name
+        return self.surname + self.name + self.pesel
 
     def get_absolute_url(self):
         return "/patient/{0}/".format(self.slug)
@@ -277,7 +278,7 @@ class Event(models.Model):
     slug = models.SlugField(max_length=40, unique=True, blank=True, null=True)
 
     def __str__(self):
-        return self.title
+        return self.title + str(self.date)
 
     def get_absolute_url(self):
         return "/patient/event/{0}/".format(self.slug)
@@ -288,3 +289,8 @@ class Event(models.Model):
     class Meta:
         verbose_name = "Event"
         verbose_name_plural = 'Events'
+
+    def save(self, *args, **kwargs):
+        slug_string = "{0} {1} {2} {3}".format(self.title, self.event_type, self.subject, str(self.date)) 
+        self.slug = slugify(slug_string)
+        super(Event, self).save()

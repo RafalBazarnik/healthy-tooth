@@ -12,12 +12,14 @@
     {% endblock %}
 
     {% block content %}
-    {{object}}
-    {{object_list}}
     {% if object_list %}
         {% for object in object_list %}
-            {{object.name}}
-            {{object.surname}}
+            <h1>{{ object.name }} {{ object.surname }}</h1>
+                <h4>Adres:  {{ object.province_verbose }}, {{ object.city }}, ul. {{ object.street}} {{ object.number }}<h4>
+                <h4>Telefon: {{ object.phone_number }}, Telefon alternatywny: {{ object.phone_number_alt }}</h4>
+                <h4>Adres email: <a href="mailto:{{ object.email }}">{{ object.email }}</a></h4>
+                <h4>Numer PESEL: {{ object.pesel }}</h4>
         {% endfor %}
+        <h4><a href="{% url 'main_page:patient_history' %}">Historia leczenia</a></h4>
     {% endif %}
     {% endblock %}
