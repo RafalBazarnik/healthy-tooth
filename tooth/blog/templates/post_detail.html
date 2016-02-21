@@ -32,7 +32,9 @@
         {% endfor %}
         </div>
         {% endif %}
-        <br>&nbsp;</br>
-        <div class="fb-comments" data-href="http://localhost:8000/{{ object.slug }}" data-width="400" data-numposts="5"></div>
+        <div class="comments">
+        <h3>Komentarze:</h3>
+            <div class="fb-comments" data-href="http://localhost:800{{ object.get_absolute_url }}" data-width="470" data-num-posts="10"></div>
+        </div>
     </div>
     {% endblock %}

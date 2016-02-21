@@ -244,7 +244,7 @@ class AboutView(TemplateView):
 class PatientsListView(LoginRequiredMixin, GroupRequiredMixin, generic.ListView):
     queryset = models.Patient.objects.all()
     template_name = "patient/patients_list.html"
-    paginate_by = 25
+    paginate_by = 10
     group_required = ["Offices", "Admins"]
     redirect_unauthenticated_users = True
 

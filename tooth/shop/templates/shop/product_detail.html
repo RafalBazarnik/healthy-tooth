@@ -43,8 +43,12 @@
                 {% endfor %}
                 </div>
                 {% endif %}
-               
+               <div class="comments">
+            <h3>Komentarze:</h3>
+                <div class="fb-comments" data-href="http://localhost:800{{ object.get_absolute_url }}" data-width="470" data-num-posts="10"></div>
             </div>
+            </div>
+            
         </div>
     </div>
 	        

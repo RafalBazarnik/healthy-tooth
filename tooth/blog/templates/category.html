@@ -41,12 +41,12 @@
         {% endif %}
 
         <ul class="pager">
-        {% if page_obj.has_previous %}
-        <li class="previous"><a href="/{{ page_obj.previous_page_number }}/">Previous Page</a></li>
-        {% endif %}
-        {% if page_obj.has_next %}
-        <li class="next"><a href="/{{ page_obj.next_page_number }}/">Next Page</a></li>
-        {% endif %}
+            {% if page_obj.has_previous %}
+                <li class="previous"><a href="?page={{ page_obj.previous_page_number }}">Poprzednia strona</a></li>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <li class="next"><a href="?page={{ page_obj.next_page_number }}">Następna strona</a></li>
+            {% endif %}
         </ul>
 
     {% endblock %}

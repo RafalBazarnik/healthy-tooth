@@ -129,3 +129,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'aziwsti@gmail.com'
 EMAIL_HOST_PASSWORD = '12aziwsti'
 EMAIL_PORT = 587
+
+
+# FACEBOOK_APP_ID = '325252525'
+# FACEBOOK_APP_SECRET = '352525'

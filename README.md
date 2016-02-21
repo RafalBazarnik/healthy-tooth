@@ -70,3 +70,6 @@ materialize css -
 search on price list, change preferred_date!!!
 w3c - https://validator.w3.org
 return mail, cancel visit
+
+
+darmowy skrypt - http://skryptcookies.pl/

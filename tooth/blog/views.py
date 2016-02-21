@@ -19,7 +19,7 @@ class BlogIndex(generic.ListView):
     # queryset = models.Post.objects.all()
     queryset = models.Post.objects.published()
     template_name = "blog.html"
-    paginate_by = 2
+    paginate_by = 5
 
 class PostDetail(SuccessMessageMixin, generic.DetailView):
     model = models.Post
