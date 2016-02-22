@@ -339,7 +339,8 @@ def contact(request):
                 send_mail(subject, message, from_email, ['bazarnik.rafal@gmail.com'])
             except BadHeaderError:
                 return HttpResponse('Nieprawidłowy nagłówek wiadomości! Proszę spróbuj ponownie!')
-            return redirect('main_page:thanks')
+            messages.add_message(request, messages.INFO, 'Wiadomość została wysłana! Postaramy się odpowiedzieć jak najszybciej - maksymalnie do 10 dni roboczych')
+            return redirect('main_page:contact')
     return render(request, "contact.html", {'form': form})
 
 # view after succesful sent contact form

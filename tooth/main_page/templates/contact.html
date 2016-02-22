@@ -15,7 +15,14 @@
                 <form class="form-horizontal" method="POST">{% csrf_token %}
                     <fieldset>
                         <legend class="text-center header">Formularz kontaktu</legend>
-
+                        <br>&nbsp;</br>
+                            {% if messages %}
+                            {% for message in messages %}
+                            {% if forloop.counter == 1 %}
+                            <p style="text-align: center;" class="important"><i class="glyphicon glyphicon-info-sign info">&nbsp;</i>{{ message }}</p>
+                            {% endif %}
+                            {% endfor %}
+                            {% endif %}
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="glyphicon glyphicon-user bigicon"></i></span> 
                             <div class="col-md-8">

@@ -12,14 +12,39 @@
     {% endblock %}
 
     {% block content %}
-      {{object}}
-    {{object_list}}
-    {{events}}
-        {% if object_list %}
-        {% for object in object_list %}
-            {{object.title}}
-            {{object.date}}
-            {{object.type}}
-        {% endfor %}
-    {% endif %}
+      <div class="events">
+                    <h3>Wizyty i inne zdarzenia:</h3>
+                    {% for object in object_list %}
+                    {% if object.event_set.all %}
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Lp.</th>
+                                <th>Tytuł:</th>
+                                <th>Data:</th>
+                                <th>Typ:</th>
+                                <th>Gabinet:</th>
+                                <th>Dentysta:</th>
+                                <th>Więcej...</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for event in object.event_set.all %}
+                            <tr>
+                                <th>{{ forloop.counter }}</th>
+                                <th>{{ event.title }}</th>
+                                <th>{{ event.date }}</th>
+                                <th>{{ event.event_type_verbose }}</th>
+                                <th><a href="/office/{{ event.office.slug }}">{{ event.office.name }}</th>
+                                <th><a href="/dentist/{{ event.dentist.slug }}">{{ event.dentist.surname }} {{ event.dentist.name }}</th>
+                                <th><a href="{{event.get_absolute_url}}">więcej...</th>
+                            </tr>
+                         {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                        <p>Nie znaleziono żadnych zdarzeń!</p>
+                    {% endif %}
+                     {% endfor %}
+                </div>
     {% endblock %}

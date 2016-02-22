@@ -14,11 +14,22 @@
     {% block content %}
     {% if object_list %}
         {% for object in object_list %}
-            <h1>{{ object.name }} {{ object.surname }}</h1>
-                <h4>Adres:  {{ object.province_verbose }}, {{ object.city }}, ul. {{ object.street}} {{ object.number }}<h4>
-                <h4>Telefon: {{ object.phone_number }}, Telefon alternatywny: {{ object.phone_number_alt }}</h4>
-                <h4>Adres email: <a href="mailto:{{ object.email }}">{{ object.email }}</a></h4>
-                <h4>Numer PESEL: {{ object.pesel }}</h4>
+        <section class="" id="patient_header">
+            <div class="row">
+                <div class="col-md-2">
+                <a class="avatar">
+                    <img src="{% static 'img/patient-default.jpg' %}">
+                </a>
+                </div>
+                <div class="col-md-10">
+                    <h1>{{ object.name }} {{ object.surname }}</h1>
+                    <h4>Adres:  {{ object.province_verbose }}, {{ object.city }}, ul. {{ object.street}} {{ object.number }}<h4>
+                    <h4>Telefon: {{ object.phone_number }}, Telefon alternatywny: {{ object.phone_number_alt }}</h4>
+                    <h4>Adres email: <a href="mailto:{{ object.email }}">{{ object.email }}</a></h4>
+                    <h4>Numer PESEL: {{ object.pesel }}</h4>
+                </div>
+            </div>
+        </section>
         {% endfor %}
         <h4><a href="{% url 'main_page:patient_history' %}">Historia leczenia</a></h4>
     {% endif %}

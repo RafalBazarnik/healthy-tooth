@@ -21,6 +21,14 @@
                             <legend class="text-center header"><h3>Formularz dodawania postów na blogu<h3>
                             <p style="text-align: justify;" class="info">Poniższy formularz pozwala na dodanie do bazy naszego firmowego bloga - nowego posta. Post zostanie opublikowany po zweryfikowaniu przez naszych specjalistów od marketingu i dentystyki - celem zachowania jednolitego podejścia. W przypadku pytań lub prośb o poprawki nasi pracownicy bedę się kontaktować bezpośrednio z autorem</p></legend>
                             <br>&nbsp;</br>
+                            {% if messages %}
+                            {% for message in messages %}
+                            {% if forloop.counter == 1 %}
+                            <p style="text-align: center;" class="important"><i class="glyphicon glyphicon-info-sign info">&nbsp;</i>{{ message }}</p>
+                            {% endif %}
+                            {% endfor %}
+                            {% endif %}
+                            <br>&nbsp;</br>
                             <div style="text-align: left;"  class="form-group">
                                 <span class="col-md-1 col-md-offset-2 text-center"></span> 
                                 <div class="col-md-8">

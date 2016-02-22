@@ -2,9 +2,9 @@
 
 {% with "http://localhost:8000" as host %}
 {% with "Share in" as share_txt %}
-<div class="share">
-    <h3>Udostępnij: </h3></div>
-<div class="fb-share-button" data-href="http://localhost:8000{{ object.get_absolute_url }}" data-layout="button_count"></div>
+<!-- <div class="share">
+    <h3>Udostępnij: </h3></div> -->
+<!-- <div class="fb-share-button" data-href="http://localhost:8000{{ object.get_absolute_url }}" data-layout="button_count"></div> -->
 <div class="fb-like" data-href="http://localhost:8000{{ object.get_absolute_url }}" data-layout="button_count" data-action="like" data-show-faces="true"></div>
 {% endwith %}
 {% endwith %}

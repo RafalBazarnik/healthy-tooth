@@ -88,7 +88,7 @@ class Patient(Contact):
         super(Patient, self).save()
 
     def __str__(self):
-        return self.surname + self.name + self.pesel
+        return self.surname + " " + self.name + " " + self.pesel
 
     def get_absolute_url(self):
         return "/patient/{0}/".format(self.slug)
@@ -250,7 +250,7 @@ class DentistDay(models.Model):
         for slot in slots_list:
             if slot is not None:
                 if slot.groups.all():
-                    if slot.groups.all()[0].name == "Offices":
+                    if slot.groups.all()[0].name == "Offices" and (self.date >= datetime.date.today()):
                         return True
         return False
 
@@ -274,7 +274,6 @@ class Event(models.Model):
     subject = models.ForeignKey(Patient, blank=True, null=True)
     office = models.ForeignKey(Office, blank=True, null=True)
     dentist = models.ForeignKey(Dentist, blank=True, null=True)
-    appointment = models.ForeignKey(Appointment, blank=True, null=True)
     slug = models.SlugField(max_length=40, unique=True, blank=True, null=True)
 
     def __str__(self):
