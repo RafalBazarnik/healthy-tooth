@@ -12,11 +12,20 @@
     {% endblock %}
 
     {% block content %}
+    {% if user.is_authenticated %}
+        {% if user.groups.all.0.name == 'Offices' %}
+            <p><b><a href="{{object.get_edit_url}}"><i class="glyphicon glyphicon-edit"></i> edytuj dane dentysty...</a></b></p>
+        {% endif %}
+    {% endif %}
     <section class="" id="dentist_header">
         <div class="row">
             <div class="col-md-2">
             <a class="avatar">
+            {% if  object.profile_image == None %}
                 <img src="{% static 'img/dentist-default.jpg' %}">
+            {% else %}
+                <img src="{{ object.profile_image.url }}"/>
+            {% endif %}
             </a>
             </div>
             <div class="col-md-10">

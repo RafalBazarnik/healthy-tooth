@@ -68,6 +68,7 @@
                         <li><a href="{% url 'main_page:contact' %}">Kontakt</a></li>
                         <li><a href="{% url 'main_page:about' %}">O nas</a></li>
                         {% if user.is_authenticated %}
+                        {% if user.groups.all.0.name == 'Offices' %}
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Twój Gabinet <span class="caret"></span></a>
                             <ul class="dropdown-menu">
@@ -84,6 +85,8 @@
                                 <li><a href="{% url 'main_page:change_password' %}">Zmień hasło</a></li>
                             </ul>
                         </li>
+                        {% endif %}
+                        {% if user.groups.all.0.name == 'Patients' %}
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Strefa Użytkownika<span class="caret"></span></a>
                             <ul class="dropdown-menu">
@@ -96,6 +99,7 @@
                                 <li><a href="{% url 'main_page:change_password' %}">Zmień hasło</a></li>
                             </ul>
                         </li>
+                        {% endif %}
                         {% endif %}
                     </ul>
                     <ul class="nav navbar-nav navbar-right">

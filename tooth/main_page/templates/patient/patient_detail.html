@@ -12,11 +12,20 @@
     {% endblock %}
 
     {% block content %}
+    {% if user.is_authenticated %}
+        {% if object.office.user.groups.all.0.name == 'Offices' %}
+        <p><b><a href="{{patient.get_edit_url}}"><i class="glyphicon glyphicon-edit"></i> edytuj informacje pacjenta...</a></b></p>
+        {% endif %}
+    {% endif %}
     <section class="" id="patient_header">
         <div class="row">
             <div class="col-md-2">
             <a class="avatar">
+                {% if  patient.profile_image == None %}
                 <img src="{% static 'img/patient-default.jpg' %}">
+                {% else %}
+                <img src="{{ patient.profile_image.url }}"/>
+                {% endif %}
             </a>
             </div>
             <div class="col-md-10">

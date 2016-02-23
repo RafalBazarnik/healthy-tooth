@@ -21,13 +21,12 @@
         <h3>Aktywne zapisy:</h3>
             {% for schedule in object_list %}
                 {% if schedule.is_active %}
-                    <p>{{schedule}} ({{ schedule.date | date:"l" }}) -
-                     (<a href="{{schedule.get_cancel_url}}">Anuluj wizytę</a>) - godzina: 
+                    <p>{{schedule}} ({{ schedule.date | date:"l" }}) - godzina: 
                     {% for key, value in schedule.get_slots_dict.items %}
                         {% if value == user %}
                             {{key}}
                         {% endif %}
-                    {% endfor %}
+                    {% endfor %}(<a href="{{schedule.get_cancel_url}}">Anuluj wizytę</a>) 
                 {% endif %} </p>
             {% endfor %}
         <h3>Nieaktywne zapisy:</h3>

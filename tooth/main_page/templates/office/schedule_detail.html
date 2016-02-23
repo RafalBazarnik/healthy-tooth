@@ -8,37 +8,23 @@
     {% endblock %}
 
     {% block header %}
-        <h1>Plany:</h1>
+        <h1>Dzień grafiku - {{ object.date }} - dentysta: {{ object.dentist }}</h1>
     {% endblock %}
 
     {% block content %}
-        <p>tu będą szczegóły dnia pracy dentysty</p>
-        {{ object.date }} ({{ object.date | date:"l" }}) {{ object.office }} {{ object.dentist }}
-        <p>
-        {{ object.slot10_11 }}
-        {{ object.slot11_12 }}
-        {{ object.slot12_13 }}
-        {{ object.slot13_14 }}
-        {{ object.slot14_15 }}
-        {{ object.slot15_16 }}
-        {{ object.slot16_17 }}
-        {{ object.slot17_18 }}
-        {{ object.slot18_19 }}
-        {{ object.slot19_20 }}
-        </p>
-        {% if object.has_free_slots %}
-        <p>yes</p>
-        {% else %}
-        <p>no</p>
+    {% if user.is_authenticated %}
+        {% if object.office.user.groups.all.0.name == 'Offices' %}
+        <p><b><a href="{{object.get_edit_url}}"><i class="glyphicon glyphicon-edit"></i> edytuj dzień pracy dentysty...</a></b></p>
         {% endif %}
-        <p>has free slots:</p>
-        {{ object.has_free_slots }}
-        <p>all slots:</p>
-        {{ object.get_slots_dict }}
-        <p>free slots:</p>
-        {{ object.get_free_slots_dict }}
-        <p>is active</p>
-        {{ object.is_active }}
-        <p>fields list</p>
-        {{ object.get_fields_list }}
+    {% endif %}
+        <p><b>g.10.00-11.00: </b>{% if object.slot10_11 == None %}Brak{% else %}{{ object.slot10_11 }}{% endif %}</p>
+        <p><b>g.11.00-12.00: </b>{% if object.slot11_12 == None %}Brak{% else %}{{ object.slot11_12 }}{% endif %}</p>
+        <p><b>g.12.00-13.00: </b>{% if object.slot12_13 == None %}Brak{% else %}{{ object.slot12_13 }}{% endif %}</p>
+        <p><b>g.13.00-14.00: </b>{% if object.slot13_14 == None %}Brak{% else %}{{ object.slot13_14 }}{% endif %}</p>
+        <p><b>g.14.00-15.00: </b>{% if object.slot14_15 == None %}Brak{% else %}{{ object.slot14_15 }}{% endif %}</p>
+        <p><b>g.15.00-16.00: </b>{% if object.slot15_16 == None %}Brak{% else %}{{ object.slot15_16 }}{% endif %}</p>
+        <p><b>g.16.00-17.00: </b>{% if object.slot16_17 == None %}Brak{% else %}{{ object.slot16_17 }}{% endif %}</p>
+        <p><b>g.17.00-18.00: </b>{% if object.slot17_18 == None %}Brak{% else %}{{ object.slot17_18 }}{% endif %}</p>
+        <p><b>g.18.00-19.00: </b>{% if object.slot18_19 == None %}Brak{% else %}{{ object.slot18_19 }}{% endif %}</p>
+        <p><b>g.19.00-20.00: </b>{% if object.slot19_20 == None %}Brak{% else %}{{ object.slot19_20 }}{% endif %}</p>
 	{% endblock %}

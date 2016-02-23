@@ -185,7 +185,7 @@ class NewPatientForm(forms.ModelForm):
     class Meta:
         model = models.Patient
         fields = ['name', 'surname', 'pesel', 'sex', 'age', 'slug', 'phone_number', 'phone_number_alt',
-                  'email', 'province', 'city', 'street', 'number',]
+                  'email', 'province', 'city', 'street', 'number', 'profile_image']
 
     def __init__(self, *args, **kwargs):
         super(NewPatientForm, self).__init__(*args, **kwargs)
@@ -225,7 +225,7 @@ class NewOfficeForm(forms.ModelForm):
     class Meta:
         model = models.Office
         fields = ['text', 'price_list', 'phone_number', 'phone_number_alt',
-                  'email', 'province', 'city', 'street', 'number',]
+                  'email', 'province', 'city', 'street', 'number', 'logo_image']
 
     def __init__(self, *args, **kwargs):
         super(NewOfficeForm, self).__init__(*args, **kwargs)

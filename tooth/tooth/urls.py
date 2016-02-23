@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.conf.urls.static import static
+from django.conf import settings
 from main_page import urls
 from shop import urls
 from blog import urls
@@ -26,7 +28,7 @@ urlpatterns = [
     url(r'^blog', include('blog.urls', namespace='blog')),
     url(r'^shop', include('shop.urls', namespace='shop')),
     url(r'^', include('main_page.urls', namespace="main_page")),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 from django.conf.urls import handler400, handler403, handler404, handler500
 

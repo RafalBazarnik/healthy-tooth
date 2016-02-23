@@ -8,13 +8,16 @@
     {% endblock %}
 
     {% block header %}
-        <h1>{{ object.title }}</h1>
+        <h1>Wydarzenie - {{ object.title }}</h1>
     {% endblock %}
 
     {% block content %}
         <div class="col-md-9">
-            <h4><b>Pacjent:  </b>{{ object.subject.name }} {{ object.subject.surname }} <b>Pesel: </b>{{ object.subject.pesel }}</h4> 
-            <h4><b>Data: </b>{{ object.date }} <b>Dentysta: </b>{{ object.dentist}} <b>Gabinet: </b>{{ object.office }}</h4>
+            <h4><b>Pacjent:  </b>{{ object.subject.name }} {{ object.subject.surname }} </h4>
+            <h4><b>Pesel: </b>{{ object.subject.pesel }}</h4> 
+            <h4><b>Data: </b>{{ object.date }} </h4>
+            <h4><b>Dentysta: </b>{{ object.dentist}} </h4>
+            <h4><b>Gabinet: </b>{{ object.office }}</h4>
             <h4><b>Rodzaj wizyty: </b>{{ object.event_type_verbose }} </h4>
         </div>
     {% endblock %}

@@ -41,7 +41,9 @@
                     <th>Specjalizacja:</th>
                     <th>Więcej informacji</th>
                     {% if user.is_authenticated %}
+                    {% if user.groups.all.0.name == 'Offices' %}
                     <th>Edytuj</th>
+                    {% endif %}
                     {% endif %}
                 </tr>
             </thead>
@@ -69,8 +71,9 @@
                     <a id="more_info" target="_blank" href="{{ dentist.get_absolute_url }}">więcej informacji...</a>
                 </td>
                 {% if user.is_authenticated %}
-                <td><a id="more_info" href="{{ dentist.get_edit_url }}">edytuj...</a>
-                </td>
+                    {% if user.groups.all.0.name == 'Offices' %}
+                        <td><a id="more_info" href="{{ dentist.get_edit_url }}">edytuj...</a></td>
+                    {% endif %}
                 {% endif %}
             </div>
             </tr>

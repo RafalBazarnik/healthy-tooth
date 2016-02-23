@@ -1,5 +1,12 @@
 securak:
 
+    {% if user.is_authenticated %}
+            {% if object.office.user.groups.all.0.name == 'Offices' %}
+                <p><b><a href="{{object.get_edit_url}}"><i class="glyphicon glyphicon-edit"></i> edytuj dane dentysty...</a></b></p>
+            {% endif %}
+    {% endif %}
+
+
 A) bez ograniczeń:
 index
 /schedule/instruction/
@@ -28,7 +35,7 @@ http://localhost:8000/patient_zone
 http://localhost:8000/patient_zone/patient_appointements
 http://localhost:8000/patient_zone/patient_info
 http://localhost:8000/patient_zone/patient_history
-
++ widoczność rozwijanego menu
 
 D) zalogowany - gabinet:
 http://localhost:8000/account
@@ -41,6 +48,7 @@ http://localhost:8000/new_dentist
 http://localhost:8000/new_schedule
 http://localhost:8000/event_create
 http://localhost:8000/blog/new/
++ widoczność rozwijanego menu oraz linków do edycji
 
 
 1) sklep - koszyk, paypal, user group->shop-staff, blog-staff, hurt/detal, doszlifować list/detail/catalog/tag https://github.com/bmentges/django-cart

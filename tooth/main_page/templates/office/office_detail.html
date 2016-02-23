@@ -12,11 +12,20 @@
     {% endblock %}
 
     {% block content %}
+        {% if user.is_authenticated %}
+            {% if office.user.id == request.user.id%}
+                <p><b><a href="{{object.get_edit_url}}"><i class="glyphicon glyphicon-edit"></i> edytuj informacje gabinetu...</a></b></p>
+            {% endif %}
+        {% endif %}
     <section class="" id="office_header">
         <div class="row">
             <div class="col-md-3">
             <a class="avatar">
+            {% if  office.logo_image == None %}
                 <img src="{% static 'img/logo-default.jpg' %}">
+            {% else %}
+                <img src="{{ office.logo_image.url }}"/>
+            {% endif %} 
             </a>
             </div>
             <div class="col-md-9">

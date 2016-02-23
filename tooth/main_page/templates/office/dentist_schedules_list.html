@@ -20,7 +20,7 @@
                 {% for schedule in object_list %}
                     {% if schedule.dentist == dentist %}
                     {% if schedule.is_active %}
-                        <p><a href="{{ schedule.get_absolute_url }}">{{ schedule }} {{ schedule.date| date:"l" }}</a> {%if schedule.has_free_slots %}(wolne terminy!){% endif %} <a href="{{ schedule.get_edit_url }}"> - edytuj...</a></p>
+                        <p><a href="{{ schedule.get_absolute_url }}">{{ schedule }} {{ schedule.date| date:"l" }} </a> {%if schedule.has_free_slots %}(wolne terminy!){% endif %} <a href="{{ schedule.get_edit_url }}"> - edytuj...</a></p>
                     {% endif %}
                     {% endif %}
                 {% endfor %}

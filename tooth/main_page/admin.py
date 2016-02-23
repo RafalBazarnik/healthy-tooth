@@ -19,7 +19,7 @@ class OfficeAdmin(MarkdownModelAdmin):
     prepopulated_fields = {"slug": ("name", "office_id",)}
 
 class DentistAdmin(MarkdownModelAdmin):
-    list_display = ("name",)
+    list_display = ("name", "surname")
     prepopulated_fields = {"slug": ("surname", "name", "pwz_number",)}
 
 class AppointmentAdmin(MarkdownModelAdmin):
