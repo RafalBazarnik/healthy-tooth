@@ -26,12 +26,24 @@ class EventCreateForm(forms.ModelForm):
             self.fields['office'].initial = models.Office.objects.get(user=user)
             self.fields['office'].queryset = models.Office.objects.filter(user=user)
             self.fields['date'].initial = datetime.date.today()
+
+class UserAppointementEditForm(forms.ModelForm):
+    class Meta:
+        model = models.DentistDay
+        widgets = {'date': DateInput(),}
+        exclude = []
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+
+        super(UserAppointementEditForm, self).__init__(*args, **kwargs)
+        self.fields['office'].queryset = models.Office.objects.filter(user=self.user)
+        self.fields['dentist'].queryset = models.Dentist.objects.filter(office__user=self.user)
         
 class UserAppointementSignUpForm(forms.ModelForm):
     class Meta:
         model = models.DentistDay
         exclude = []
-        # exclude = ['office', 'dentist', "date"]
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
@@ -41,45 +53,44 @@ class UserAppointementSignUpForm(forms.ModelForm):
         self.fields['date'].widget = forms.HiddenInput()
         self.fields['office'].widget = forms.HiddenInput()
         self.fields['dentist'].widget = forms.HiddenInput()
-        # self.fields['date'].widget = ReadOnlyWidget()
 
-        if not getattr(self.instance, 'slot10_11') or getattr(self.instance, 'slot10_11') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot10_11').groups.all():
+        if not getattr(self.instance, 'slot10_11') or not getattr(self.instance, 'slot10_11') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot10_11').groups.all():
             self.fields['slot10_11'].widget = forms.HiddenInput()
         else:
             self.fields['slot10_11'].queryset = models.User.objects.filter(id=self.user.id) 
-        if not getattr(self.instance, 'slot11_12') or getattr(self.instance, 'slot11_12') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot11_12').groups.all():
+        if not getattr(self.instance, 'slot11_12') or not getattr(self.instance, 'slot11_12') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot11_12').groups.all():
             self.fields['slot11_12'].widget = forms.HiddenInput()
         else:
             self.fields['slot11_12'].queryset = models.User.objects.filter(id=self.user.id)
-        if not getattr(self.instance, 'slot12_13') or getattr(self.instance, 'slot12_13') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot12_13').groups.all():
+        if not getattr(self.instance, 'slot12_13') or not getattr(self.instance, 'slot12_13') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot12_13').groups.all():
             self.fields['slot12_13'].widget = forms.HiddenInput()
         else:
             self.fields['slot12_13'].queryset = models.User.objects.filter(id=self.user.id) 
-        if not getattr(self.instance, 'slot13_14') or getattr(self.instance, 'slot13_14') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot13_14').groups.all():
+        if not getattr(self.instance, 'slot13_14') or not getattr(self.instance, 'slot13_14') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot13_14').groups.all():
             self.fields['slot13_14'].widget = forms.HiddenInput()
         else:
             self.fields['slot13_14'].queryset = models.User.objects.filter(id=self.user.id)
-        if not getattr(self.instance, 'slot14_15') or getattr(self.instance, 'slot14_15') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot14_15').groups.all():
+        if not getattr(self.instance, 'slot14_15') or not getattr(self.instance, 'slot14_15') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot14_15').groups.all():
             self.fields['slot14_15'].widget = forms.HiddenInput()
         else:
-            self.fields['slot14_15'].queryset = models.User.objects.filter(id=self.user.id) 
-        if not getattr(self.instance, 'slot15_16') or getattr(self.instance, 'slot15_16') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot15_16').groups.all():
+            self.fields['slot14_15'].queryset = models.User.objects.filter(id=self.user.id)
+        if not getattr(self.instance, 'slot15_16') or not getattr(self.instance, 'slot15_16') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot15_16').groups.all():
             self.fields['slot15_16'].widget = forms.HiddenInput()
         else:
             self.fields['slot15_16'].queryset = models.User.objects.filter(id=self.user.id)
-        if not getattr(self.instance, 'slot16_17') or getattr(self.instance, 'slot16_17') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot16_17').groups.all():
+        if not getattr(self.instance, 'slot16_17') or not getattr(self.instance, 'slot16_17') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot16_17').groups.all():
             self.fields['slot16_17'].widget = forms.HiddenInput()
         else:
             self.fields['slot16_17'].queryset = models.User.objects.filter(id=self.user.id) 
-        if not getattr(self.instance, 'slot17_18') or getattr(self.instance, 'slot17_18') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot17_18').groups.all():
+        if not getattr(self.instance, 'slot17_18') or not getattr(self.instance, 'slot17_18') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot17_18').groups.all():
             self.fields['slot17_18'].widget = forms.HiddenInput()
         else:
             self.fields['slot17_18'].queryset = models.User.objects.filter(id=self.user.id)
-        if not getattr(self.instance, 'slot18_19') or getattr(self.instance, 'slot18_19') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot18_19').groups.all():
+        if not getattr(self.instance, 'slot18_19') or not getattr(self.instance, 'slot18_19') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot18_19').groups.all():
             self.fields['slot18_19'].widget = forms.HiddenInput()
         else:
             self.fields['slot18_19'].queryset = models.User.objects.filter(id=self.user.id) 
-        if not getattr(self.instance, 'slot19_20') or getattr(self.instance, 'slot19_20') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot19_20').groups.all():
+        if not getattr(self.instance, 'slot19_20') or not getattr(self.instance, 'slot19_20') == getattr(self.instance, 'office').user or "Patients" in getattr(self.instance, 'slot19_20').groups.all():
             self.fields['slot19_20'].widget = forms.HiddenInput()
         else:
             self.fields['slot19_20'].queryset = models.User.objects.filter(id=self.user.id)

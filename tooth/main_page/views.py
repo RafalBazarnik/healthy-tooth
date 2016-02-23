@@ -186,11 +186,11 @@ class ScheduleCreateView(CreateView):
 class ScheduleUpdateView(UpdateView):
     model = models.DentistDay
     template_name = 'office/new_dentist_schedule.html'
-    form_class = forms.NewScheduledDay
+    form_class = forms.UserAppointementEditForm
 
     def get_form_kwargs(self):
-        kwargs = super(ScheduleCreateView, self).get_form_kwargs()
-        kwargs.update({'_user': self.request.user})
+        kwargs = super(ScheduleUpdateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
         return kwargs
 
 class ScheduleDetailView(generic.DetailView):

@@ -8,19 +8,19 @@
     {% endblock %}
 
     {% block header %}
-        <h1>Plany:</h1>
+        <h1>Grafik:</h1>
     {% endblock %}
 
     {% block content %}
-        <p>tu będzie lista planów pracy dentystów - pamiętać o login required i tylko ten gabinet! rozważyć podział na dni</p>
+        <p><b><a href="{% url 'main_page:schedule_create' %}"><i class="glyphicon glyphicon-plus-sign"></i> Dodaj nowy dzień pracy...</a></b></p>
         {% if object_list %}
-        <h3><h3>
+        <h2>Twoi dentyści:<h2>
         {% for dentist in dentists %}
                 <h3><a href="{{ dentist.get_absolute_url }}" >{{ dentist }}:</a></h3>
                 {% for schedule in object_list %}
                     {% if schedule.dentist == dentist %}
                     {% if schedule.is_active %}
-                        <p><a href="{{ schedule.get_absolute_url }}">{{ schedule }} {{ schedule.date| date:"l" }}</a> {%if schedule.has_free_slots %}(wolne terminy!){% endif %}</p>
+                        <p><a href="{{ schedule.get_absolute_url }}">{{ schedule }} {{ schedule.date| date:"l" }}</a> {%if schedule.has_free_slots %}(wolne terminy!){% endif %} <a href="{{ schedule.get_edit_url }}"> - edytuj...</a></p>
                     {% endif %}
                     {% endif %}
                 {% endfor %}

@@ -186,7 +186,7 @@ class DentistDay(models.Model):
     slot19_20 = models.ForeignKey(User, null=True, blank=True, related_name="hours_1900_2000", help_text="19:00-20.00")
 
     def __str__(self):
-        return  "{}".format(self.date)
+        return  "{}{}".format(self.date, self.dentist)
 
     def get_absolute_url(self):
         return "/schedule/day/{0}/".format(self.pk)
@@ -204,7 +204,6 @@ class DentistDay(models.Model):
     def get_fields_list(self):
         return self._meta.get_fields()
     
-
     @property
     def is_active(self):
         return (self.date >= datetime.date.today())

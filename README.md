@@ -1,3 +1,48 @@
+securak:
+
+A) bez ograniczeń:
+index
+/schedule/instruction/
+http://localhost:8000/offices
+http://localhost:8000/office/dental-med-kr-00001/
+http://localhost:8000/dentists
+http://localhost:8000/dentist/kowalski-jan-2441242/
+http://localhost:8000/blog
+http://localhost:8000/blog/2015/12/testowy-post-3/
+http://localhost:8000/blog/category/pielegnacja-zebow/
+http://localhost:8000/blog/tag/okazje/
+http://localhost:8000/shop
+http://localhost:8000/shop/product/szczoteczka-colgate-white-intensive-care-colgate/
+http://localhost:8000/shop/category/szczoteczki-do-zebow/
+http://localhost:8000/shop/tag/promocja/
+http://localhost:8000/contact
+http://localhost:8000/about
+http://localhost:8000/login
+
+B) zalogowany
+http://localhost:8000/patient_zone/change_password
+
+
+C) zalogowany - pacjent
+http://localhost:8000/patient_zone
+http://localhost:8000/patient_zone/patient_appointements
+http://localhost:8000/patient_zone/patient_info
+http://localhost:8000/patient_zone/patient_history
+
+
+D) zalogowany - gabinet:
+http://localhost:8000/account
+http://localhost:8000/schedule/list/
+http://localhost:8000/patients
+http://localhost:8000/patient/wolny-rafal-12345678901/
+http://localhost:8000/patient/update/wolny-rafal-12345678901/
+http://localhost:8000/new_patient
+http://localhost:8000/new_dentist
+http://localhost:8000/new_schedule
+http://localhost:8000/event_create
+http://localhost:8000/blog/new/
+
+
 1) sklep - koszyk, paypal, user group->shop-staff, blog-staff, hurt/detal, doszlifować list/detail/catalog/tag https://github.com/bmentges/django-cart
 https://github.com/supernifty/django-paypal-store-example
 http://www.supernifty.org/articles/oreilly-django-paypal-store/paypal-django.html
