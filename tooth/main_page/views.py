@@ -3,9 +3,10 @@ from django.shortcuts import render_to_response, render, redirect
 from django.template import RequestContext
 from django.views.generic import TemplateView
 from .forms import ContactForm
+from django.utils.text import slugify
 from django.core.urlresolvers import resolve
 from django.core.mail import send_mail, BadHeaderError
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -17,6 +18,8 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 from braces.views import GroupRequiredMixin, LoginRequiredMixin
 from . import models, forms
+from django.conf import settings
+from django.core.mail import send_mail
 
 
 class EventCreateView(CreateView):
@@ -154,7 +157,28 @@ class PatientCreateView(CreateView):
     form_class = forms.NewPatientForm
 
     def get_success_url(self):
-        return reverse('main_page:new_patient')
+        if self.request.user.groups.all()[0].name == "Offices":
+            return reverse('main_page:patients')
+        else:
+            return reverse('main_page:login_user')
+
+    def get_form_kwargs(self):
+        kwargs = super(PatientCreateView, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
+    def form_valid(self, form):
+        text = form.cleaned_data.get('surname') + " " + form.cleaned_data.get('name') + " " + form.cleaned_data.get('pesel')
+        temp_slug = slugify(text)
+        message_text = "Twoje konto w serwisie Ząbek zostało założone. Twój login to: {0}. A Twoje hasło to Twój numer PESEL. Zachęcamy do zalogowania się i zmienienia swojego hasła".format(temp_slug)
+        send_mail(
+            subject="założenie konta w serwisie Ząbek",
+            message=message_text,
+            from_email='bazarnik.rafal@gmail.com',
+            recipient_list=[form.cleaned_data.get('email')],
+            fail_silently=False
+            )
+        return super(PatientCreateView, self).form_valid(form)
 
 class SchedulesListView(generic.ListView):
     queryset = models.DentistDay.objects.all()
@@ -200,6 +224,8 @@ class ScheduleDetailView(generic.DetailView):
 class ScheduleInstructionView(TemplateView):
     template_name = 'office/schedule_instruction.html'
 
+@login_required
+@user_passes_test(lambda u: u.groups.filter(name='Patients').count() == 1, login_url='/')
 def patient_index(request):
     context = RequestContext(request)
     return render(request, 'patient/patient_index.html', context)
@@ -241,16 +267,19 @@ class IndexView(TemplateView):
 class AboutView(TemplateView):
     template_name = "about.html"
 
+
 class PatientsListView(LoginRequiredMixin, GroupRequiredMixin, generic.ListView):
     queryset = models.Patient.objects.all()
     template_name = "patient/patients_list.html"
     paginate_by = 10
     group_required = ["Offices", "Admins"]
     redirect_unauthenticated_users = True
-
-class PatientDetailView(generic.DetailView):
+    
+class PatientDetailView(LoginRequiredMixin, GroupRequiredMixin, generic.DetailView):
     model = models.Patient
     template_name='patient/patient_detail.html'
+    group_required = ["Offices", "Admins"]
+    redirect_unauthenticated_users = True
 
 class PatientUpdateView(UpdateView):
     model = models.Patient
@@ -306,15 +335,18 @@ class OfficeUpdateView(UpdateView):
         object_list = super(OfficeUpdateView, self).get_queryset()
         return object_list.filter(user=self.request.user)
 
-class OfficeIndexView(generic.ListView):
+class OfficeIndexView(LoginRequiredMixin, GroupRequiredMixin, generic.ListView):
     queryset = models.Office.objects.all()
     template_name = "office/office_index.html"
     paginate_by = 2
+    group_required = ["Offices", "Admins"]
+    login_url = settings.LOGIN_URL
+    redirect_unauthenticated_users = True
 
     def get_queryset(self):
         object_list = super(OfficeIndexView, self).get_queryset()
-        return object_list.filter(user=self.request.user)
-
+        return object_list.filter(user=self.request.user.id)
+    
 class NewAppointmentView(CreateView):
     model = models.Appointment
     template_name = 'office/appointment.html'

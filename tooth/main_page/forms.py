@@ -2,9 +2,12 @@ from django import forms
 from . import models
 from django.contrib.admin import widgets 
 from functools import partial
+from django.core.mail import send_mail, BadHeaderError
+from django.core.mail import send_mail
 from django.utils.text import slugify
 from django.contrib.auth.models import User, Group
 from django.contrib import messages
+from django.conf import settings
 from .widgets import ReadOnlyWidget
 import re
 import datetime
@@ -184,17 +187,17 @@ class ContactForm(forms.Form):
 class NewPatientForm(forms.ModelForm):
     class Meta:
         model = models.Patient
-        fields = ['name', 'surname', 'pesel', 'sex', 'age', 'slug', 'phone_number', 'phone_number_alt',
+        fields = ['name', 'surname', 'pesel', 'sex', 'age', 'phone_number', 'phone_number_alt',
                   'email', 'province', 'city', 'street', 'number', 'profile_image']
 
     def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request')
         super(NewPatientForm, self).__init__(*args, **kwargs)
         self.fields['name'].error_messages['required'] = 'Proszę podać imię pacjenta!'
         self.fields['surname'].error_messages['required'] = 'Proszę podać nazwisko pacjenta!'
         self.fields['pesel'].error_messages['required'] = 'Proszę podać pesel pacjenta!'
         self.fields['sex'].error_messages['required'] = 'Proszę podać płeć pacjenta!'
         self.fields['age'].error_messages['required'] = 'Proszę podać wiek pacjenta!'
-        self.fields['slug'].error_messages['required'] = 'Proszę podać SEO-link pacjenta!'
         self.fields['phone_number'].error_messages['required'] = 'Proszę podać nr telefonu pacjenta!'
         self.fields['phone_number'].error_messages['invalid'] = 'Proszę podać nr telefonu pacjenta!'
         self.fields['phone_number_alt'].error_messages['required'] = 'Proszę podać nr telefonu pacjenta!'
@@ -204,11 +207,10 @@ class NewPatientForm(forms.ModelForm):
         self.fields['street'].error_messages['required'] = 'Proszę podać ulicę!'
         self.fields['number'].error_messages['required'] = 'Proszę podać numer domu/mieszkania!'
 
-
 class NewDentistForm(forms.ModelForm):
     class Meta:
         model = models.Dentist
-        fields = ['professional_title', 'name', 'surname', 'biography', 'slug', 'pwz_number', 'specialties', 'office', 'profile_image']
+        fields = ['professional_title', 'name', 'surname', 'biography', 'pwz_number', 'specialties', 'office', 'profile_image']
     
     def __init__(self, *args, **kwargs):
         super(NewDentistForm, self).__init__(*args, **kwargs)

@@ -16,7 +16,10 @@
     <div class="row">
         <div class="col-md-12">
             <div class="well well-sm">
-                <form class="form-horizontal" method="POST">{% csrf_token %}
+                <form class="form-horizontal" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                    {% if form.slug.errors %}
+                        <p>Prawdopodobnie istnieje już taki użytkownik!</p>
+                    {% endif %}
                     <fieldset>
                         <div class="form-group">
                         <br>&nbsp;</br>
@@ -55,12 +58,12 @@
                                 Numer PWZ: {{ form.pwz_number }} {{ form.pwz_number.errors }}
                             </div>
                         </div>
-                        <div class="form-group">
+<!--                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
                                 Slug: {{ form.slug }}  {{ form.slug.errors }}
                             </div>
-                        </div>
+                        </div> -->
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">

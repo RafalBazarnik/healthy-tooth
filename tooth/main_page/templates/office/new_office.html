@@ -15,67 +15,67 @@
     <div class="row">
         <div class="col-md-12">
             <div class="well well-sm">
-                <form class="form-horizontal" method="POST">{% csrf_token %}
+                <form class="form-horizontal" method="POST" enctype="multipart/form-data">{% csrf_token %}
                     <fieldset>
                         <div class="form-group">
                             <br>&nbsp;</br>
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.text }} {{ form.text.errors }}
+                                Opis Twojego gabinetu: {{ form.text }} {{ form.text.errors }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.price_list }} {{ form.price_list.errors }}
+                                Lista cen usług: {{ form.price_list }} {{ form.price_list.errors }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.phone_number }} {{ form.phone_number.errors }}
+                                Numer telefonu: {{ form.phone_number }} {{ form.phone_number.errors }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.phone_number_alt }} {{ form.phone_number_alt.errors }}
+                                Alternatywny numer telefonu: {{ form.phone_number_alt }} {{ form.phone_number_alt.errors }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.email }} {{ form.email.errors }}
+                                Adres email: {{ form.email }} {{ form.email.errors }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.province }} {{ form.province.errors }}
+                                Województwo: {{ form.province }} {{ form.province.errors }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.city }} {{ form.city.errors }}
+                                Miasto: {{ form.city }} {{ form.city.errors }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.street }} {{ form.street.errors }}
+                                Ulica: {{ form.street }} {{ form.street.errors }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.number }} {{ form.number.errors }}
+                                Numer budynku: {{ form.number }} {{ form.number.errors }}
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"></span> 
                             <div class="col-md-8">
-                                {{ form.logo_image }} {{ form.logo_image.errors }}
+                                Logo gabinetu: {{ form.logo_image }} {{ form.logo_image.errors }}
                             </div>
                         </div>
                          <div class="form-group">

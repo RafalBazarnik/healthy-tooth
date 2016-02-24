@@ -19,5 +19,8 @@
             <h4><b>Dentysta: </b>{{ object.dentist}} </h4>
             <h4><b>Gabinet: </b>{{ object.office }}</h4>
             <h4><b>Rodzaj wizyty: </b>{{ object.event_type_verbose }} </h4>
+            {% if object.attachment %}
+                <h4><b>Załącznik: </b><a href="{{ object.attachment.url }}">{{ object.filename }}</a></h4>
+            {% endif %}
         </div>
     {% endblock %}

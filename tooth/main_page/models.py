@@ -67,7 +67,7 @@ class Patient(Contact):
     profile_image = models.ImageField(upload_to="patients", blank=True, null=True, help_text="Zdjęcie")
     sex = models.CharField(choices=SEX, null=True, max_length=20, help_text="Płeć")
     age = models.CharField(null=True, max_length=3, help_text="Wiek")
-    slug = models.SlugField(max_length=40, unique=True, blank=True, null=True,
+    slug = models.SlugField(max_length=100, unique=True, blank=True, null=True,
                             help_text="Nazwa linku w postaci - nazwisko-imie-pesel - male litery, bez polskich znaków")
     user = models.ForeignKey(User, null=True, blank=True)
 
@@ -134,7 +134,7 @@ class Dentist(models.Model):
     pwz_number = models.CharField(max_length=87, null=True, help_text="7-cyfrowy numer prawa wykonywania zawodu (PWZ)",
          validators=[MaxLengthValidator(7), MinLengthValidator(7)])
     specialties = models.CharField(max_length=50, null=True, help_text="Specjalizacja")
-    slug = models.SlugField(max_length=40, unique=True, null=True, help_text="Nazwa linku w postaci - nazwisko-imie-pwz - male litery, bez polskich znaków")
+    slug = models.SlugField(max_length=100, unique=True, null=True, help_text="Nazwa linku w postaci - nazwisko-imie-pwz - male litery, bez polskich znaków")
     office = models.ForeignKey(Office, null=True, related_name="workplace")
 
     def __str__(self):
@@ -145,6 +145,11 @@ class Dentist(models.Model):
 
     def get_edit_url(self):
         return "/dentist/update/{0}/".format(self.slug)
+
+    def save(self, *args, **kwargs):
+        slug_string = "{0} {1} {2}".format(self.surname, self.name, self.pwz_number) 
+        self.slug = slugify(slug_string)
+        super(Dentist, self).save()
 
     class Meta:
         verbose_name = "Dentist"
@@ -274,7 +279,8 @@ class Event(models.Model):
     subject = models.ForeignKey(Patient, blank=True, null=True)
     office = models.ForeignKey(Office, blank=True, null=True)
     dentist = models.ForeignKey(Dentist, blank=True, null=True)
-    slug = models.SlugField(max_length=40, unique=True, blank=True, null=True)
+    attachment = models.FileField(upload_to='documents', blank=True, null=True)
+    slug = models.SlugField(max_length=100, unique=True, blank=True, null=True)
 
     def __str__(self):
         return self.title + str(self.date)
@@ -284,6 +290,9 @@ class Event(models.Model):
 
     def event_type_verbose(self):
         return dict(Event.EVENT_TYPES)[self.event_type]
+
+    def filename(self):
+        return os.path.basename(self.attachment.name)
 
     class Meta:
         verbose_name = "Event"

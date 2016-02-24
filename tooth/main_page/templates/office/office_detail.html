@@ -21,10 +21,10 @@
         <div class="row">
             <div class="col-md-3">
             <a class="avatar">
-            {% if  office.logo_image == None %}
-                <img src="{% static 'img/logo-default.jpg' %}">
-            {% else %}
+            {% if office.logo_image %}
                 <img src="{{ office.logo_image.url }}"/>
+            {% else %}
+                <img src="{% static 'img/logo-default.jpg' %}">
             {% endif %} 
             </a>
             </div>
