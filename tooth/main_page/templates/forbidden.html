@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load django_markdown %}
+{% load staticfiles %}
+{% load  static %}
+
+	{% block title %}
+		Ząbek - Dostęp zabroniony
+	{% endblock %}
+
+	{% block header %}
+        <h1 class="info">Dostęp do tego zasobu jest zastrzeżony!!!</h1>
+    {% endblock %}
+
+    {% block content %}
+    	<h3><a href="">Zaloguj się</a> lub <a href="">zarejestruj</a><h3>
+    	<h3><a href="">...lub wróć do strony głównej</a></h3>
+<div class="row">
+		<div class="col-md-4">
+		
+	</div>
+</div>
+    {% endblock %}

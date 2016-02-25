@@ -8,9 +8,13 @@
     {% endblock %}
 
     {% block header %}
-        <h1>Witaj w strefie użytkownika!</h1>
+        <h1>Witaj w strefie użytkownika {{ object.name }} {{ object.surname }}!</h1>
     {% endblock %}
 
     {% block content %}
-        <p>Lorem ipsum und linkum takum :P</p>
+        <h2 class="description">Podstawowe linki:</h2>
+        <p><b><a href="{% url 'main_page:patient_appointements' %}">Twoje umówione wizyty</a></b></p>
+        <p><b><a href="{% url 'main_page:patient_info' %}">Twoje dane</a></b></p>
+        <p><b><a href="{% url 'main_page:patient_history' %}">Twoja historia leczenia</a></b></p>
+        <p><b><a href="{% url 'main_page:change_password' %}">Zmień swoje hasło!</a></b></p>
     {% endblock %}

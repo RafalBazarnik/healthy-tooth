@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Q
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
@@ -89,6 +89,7 @@ def search(request):
                                'search': query})
 
 @login_required
+@user_passes_test(lambda u: u.groups.filter(name='Offices').count() == 1, login_url='/forbidden')
 def post_new(request):
     if not request.user.is_authenticated():
         return redirect('/login')

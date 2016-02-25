@@ -22,6 +22,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 
 
+#office
 class EventCreateView(CreateView):
     model = models.Event
     template_name = 'office/new_event.html'
@@ -32,10 +33,21 @@ class EventCreateView(CreateView):
         kwargs['user'] = self.request.user
         return kwargs
 
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Offices').count() == 1, login_url='/forbidden'))
+    def dispatch(self, *args, **kwargs):
+        return super(EventCreateView, self).dispatch(*args, **kwargs)
+
+#login_required
 class EventDetailView(generic.DetailView):
     model = models.Event
     template_name = 'patient/event_detail.html'
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(EventDetailView, self).dispatch(*args, **kwargs)
+
+#patient
 class UserEventsView(generic.ListView):
     model = models.Patient
     template_name = "patient/patient_history.html"
@@ -45,6 +57,12 @@ class UserEventsView(generic.ListView):
         queryset = super(UserEventsView, self).get_queryset().filter(user=self.request.user)
         return queryset
 
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Patients').count() == 1, login_url='/forbidden'))
+    def dispatch(self, *args, **kwargs):
+        return super(UserEventsView, self).dispatch(*args, **kwargs)
+
+#patients
 class UserPersonalDataView(generic.ListView):
     queryset = models.Patient.objects.all()
     model = models.Patient
@@ -54,6 +72,12 @@ class UserPersonalDataView(generic.ListView):
         queryset = super(UserPersonalDataView, self).get_queryset().filter(user=self.request.user)
         return queryset
 
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Patients').count() == 1, login_url='/forbidden'))
+    def dispatch(self, *args, **kwargs):
+        return super(UserPersonalDataView, self).dispatch(*args, **kwargs)
+
+#patient
 class UserAppointementSignUpView(UpdateView):
     model = models.DentistDay
     template_name = "patient/patient_signup_appointment.html"
@@ -74,10 +98,22 @@ class UserAppointementSignUpView(UpdateView):
         context['dday'] = models.DentistDay.objects.filter(pk=dday_pk)
         return context
 
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Patients').count() == 1, login_url='/forbidden'))
+    def dispatch(self, *args, **kwargs):
+        return super(UserAppointementSignUpView, self).dispatch(*args, **kwargs)
+
+#patient
 class PatientInfoView(generic.DetailView):
     model = models.Patient
     template_name = 'patient/patient_info.html'
 
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Patients').count() == 1, login_url='/forbidden'))
+    def dispatch(self, *args, **kwargs):
+        return super(PatientInfoView, self).dispatch(*args, **kwargs)
+
+#patient
 class PatientHistoryView(generic.DetailView):
     model = models.Patient
     template_name = 'patient/patient_history.html'
@@ -88,6 +124,12 @@ class PatientHistoryView(generic.DetailView):
         context['events'] = models.Event.objects.filter(subject=patient).order_by('date')
         return context
 
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Patients').count() == 1, login_url='/forbidden'))
+    def dispatch(self, *args, **kwargs):
+        return super(PatientHistoryView, self).dispatch(*args, **kwargs) 
+
+#patient
 class PatientAppointmentsCancelView(UpdateView):
     model = models.DentistDay
     template_name = "patient/patient_cancel_appointments.html"
@@ -102,6 +144,12 @@ class PatientAppointmentsCancelView(UpdateView):
         kwargs['request'] = self.request
         return kwargs
 
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Patients').count() == 1, login_url='/forbidden'))
+    def dispatch(self, *args, **kwargs):
+        return super(PatientAppointmentsCancelView, self).dispatch(*args, **kwargs) 
+
+#patient
 class PatientAppointmentsView(generic.ListView):
     queryset = models.DentistDay.objects.all().order_by('date')
     template_name = "patient/patient_appointements.html"
@@ -119,21 +167,12 @@ class PatientAppointmentsView(generic.ListView):
         kwargs['user'] = self.request.user
         return kwargs
 
-    # def get_context_data(self, **kwargs):
-    #     schedule = self.get_object().pk
-    #     user_id = self.request.user.id
-    #     context = super(PatientAppointmentsView, self).get_context_data(**kwargs)
-    #     fields = schedule._meta.get_fields()
-    #     for field in fields:
-    #         try: 
-    #             if field.id == user_id:
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Patients').count() == 1, login_url='/forbidden'))
+    def dispatch(self, *args, **kwargs):
+        return super(PatientAppointmentsView, self).dispatch(*args, **kwargs) 
 
-    #         except:
-    #             pass
-
-    #     context['hour'] = models.Event.objects.filter(user_id=patient).order_by('date')
-    #     return context
-
+#login_required
 class UserPasswordChangeView(FormView):
     form_class = forms.UserPasswordChangeForm
     template_name = 'patient/change_password.html'
@@ -151,13 +190,18 @@ class UserPasswordChangeView(FormView):
         messages.add_message(self.request, messages.INFO, 'Hasło zostało pomyślnie zmienione')
         return super(UserPasswordChangeView, self).form_valid(form)
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(UserPasswordChangeView, self).dispatch(*args, **kwargs)
+
+#open
 class PatientCreateView(CreateView):
     model = models.Patient
     template_name = 'patient/new_patient.html'
     form_class = forms.NewPatientForm
 
     def get_success_url(self):
-        if self.request.user.groups.all()[0].name == "Offices":
+        if self.request.user.groups.all() and self.request.user.groups.all()[0].name == "Offices":
             return reverse('main_page:patients')
         else:
             return reverse('main_page:login_user')
@@ -178,8 +222,13 @@ class PatientCreateView(CreateView):
             recipient_list=[form.cleaned_data.get('email')],
             fail_silently=False
             )
+        if self.request.user.groups.all() and self.request.user.groups.all()[0].name == "Offices":
+            messages.add_message(self.request, messages.INFO, 'Konto zostało utworzone. Na skrzynkę mailową pacjenta została wysłana wiadomość z loginem i hasłem')
+        else:
+            messages.add_message(self.request, messages.INFO, 'Konto zostało utworzone. Na skrzynkę mailową została wysłana wiadomość z loginem i hasłem')
         return super(PatientCreateView, self).form_valid(form)
 
+#office
 class SchedulesListView(generic.ListView):
     queryset = models.DentistDay.objects.all()
     template_name = "office/dentist_schedules_list.html"
@@ -196,6 +245,12 @@ class SchedulesListView(generic.ListView):
         object_list = super(SchedulesListView, self).get_queryset()
         return object_list.filter(office__user_id=user_id).order_by('date')
 
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Offices').count() == 1, login_url='/forbidden'))
+    def dispatch(self, *args, **kwargs):
+        return super(SchedulesListView, self).dispatch(*args, **kwargs)
+
+#office
 class ScheduleCreateView(CreateView):
     model = models.DentistDay
     template_name = 'office/new_dentist_schedule.html'
@@ -207,6 +262,12 @@ class ScheduleCreateView(CreateView):
         kwargs['user'] = self.request.user
         return kwargs
 
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Offices').count() == 1, login_url='/forbidden'))
+    def dispatch(self, *args, **kwargs):
+        return super(ScheduleCreateView, self).dispatch(*args, **kwargs)
+
+#office
 class ScheduleUpdateView(UpdateView):
     model = models.DentistDay
     template_name = 'office/new_dentist_schedule.html'
@@ -217,19 +278,27 @@ class ScheduleUpdateView(UpdateView):
         kwargs['user'] = self.request.user
         return kwargs
 
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Offices').count() == 1, login_url='/forbidden'))
+    def dispatch(self, *args, **kwargs):
+        return super(ScheduleUpdateView, self).dispatch(*args, **kwargs)
+
+#open
 class ScheduleDetailView(generic.DetailView):
     model = models.DentistDay
     template_name = 'office/schedule_detail.html'
 
+#open
 class ScheduleInstructionView(TemplateView):
     template_name = 'office/schedule_instruction.html'
 
 @login_required
-@user_passes_test(lambda u: u.groups.filter(name='Patients').count() == 1, login_url='/')
+@user_passes_test(lambda u: u.groups.filter(name='Patients').count() == 1, login_url='/forbidden')
 def patient_index(request):
     context = RequestContext(request)
     return render(request, 'patient/patient_index.html', context)
 
+#open
 def login_user(request):
     context = RequestContext(request)
     
@@ -261,36 +330,53 @@ def logout_user(request):
     logout(request)
     return HttpResponseRedirect('/')
 
+#open
 class IndexView(TemplateView):
     template_name = "index.html"
 
+#open
 class AboutView(TemplateView):
     template_name = "about.html"
 
-
-class PatientsListView(LoginRequiredMixin, GroupRequiredMixin, generic.ListView):
+#office
+class PatientsListView(generic.ListView):
     queryset = models.Patient.objects.all()
     template_name = "patient/patients_list.html"
     paginate_by = 10
-    group_required = ["Offices", "Admins"]
-    redirect_unauthenticated_users = True
     
-class PatientDetailView(LoginRequiredMixin, GroupRequiredMixin, generic.DetailView):
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Offices').count() == 1, login_url='/forbidden'))
+    def dispatch(self, *args, **kwargs):
+        return super(PatientsListView, self).dispatch(*args, **kwargs)
+
+#office    
+class PatientDetailView(generic.DetailView):
     model = models.Patient
     template_name='patient/patient_detail.html'
-    group_required = ["Offices", "Admins"]
-    redirect_unauthenticated_users = True
 
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Offices').count() == 1, login_url='/forbidden'))
+    def dispatch(self, *args, **kwargs):
+        return super(PatientDetailView, self).dispatch(*args, **kwargs)
+
+#office
 class PatientUpdateView(UpdateView):
     model = models.Patient
     template_name = 'patient/new_patient.html'
     form_class = forms.NewPatientForm
 
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Offices').count() == 1, login_url='/forbidden'))
+    def dispatch(self, *args, **kwargs):
+        return super(PatientUpdateView, self).dispatch(*args, **kwargs)
+
+#open
 class DentistsListView(generic.ListView):
     queryset = models.Dentist.objects.all()
     template_name = "dentist/dentists_list.html"
     paginate_by = 25
 
+#open
 class DentistDetailView(generic.DetailView):
     model = models.Dentist
     template_name='dentist/dentist_detail.html'
@@ -301,21 +387,35 @@ class DentistDetailView(generic.DetailView):
         context['schedules'] = models.DentistDay.objects.filter(dentist_id=dentist).order_by('date')
         return context
 
+#office
 class DentistCreateView(CreateView):
     model = models.Dentist
     template_name = 'dentist/new_dentist.html'
     form_class = forms.NewDentistForm
 
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Offices').count() == 1, login_url='/forbidden'))
+    def dispatch(self, *args, **kwargs):
+        return super(DentistCreateView, self).dispatch(*args, **kwargs)
+
+#office
 class DentistUpdateView(UpdateView):
     model = models.Dentist
     template_name = 'dentist/new_dentist.html'
     form_class = forms.NewDentistForm
 
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Offices').count() == 1, login_url='/forbidden'))
+    def dispatch(self, *args, **kwargs):
+        return super(DentistUpdateView, self).dispatch(*args, **kwargs)
+
+#open
 class OfficesListView(generic.ListView):
     queryset = models.Office.objects.all()
     template_name = "office/offices_list.html"
     paginate_by = 25
 
+#open
 class OfficeDetailView(generic.DetailView):
     model = models.Office
     template_name='office/office_detail.html'
@@ -326,6 +426,7 @@ class OfficeDetailView(generic.DetailView):
         context['schedules'] = models.DentistDay.objects.order_by('date')
         return context
 
+#office
 class OfficeUpdateView(UpdateView):
     model = models.Office
     template_name='office/new_office.html'
@@ -335,27 +436,41 @@ class OfficeUpdateView(UpdateView):
         object_list = super(OfficeUpdateView, self).get_queryset()
         return object_list.filter(user=self.request.user)
 
-class OfficeIndexView(LoginRequiredMixin, GroupRequiredMixin, generic.ListView):
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Offices').count() == 1, login_url='/forbidden'))
+    def dispatch(self, *args, **kwargs):
+        return super(OfficeUpdateView, self).dispatch(*args, **kwargs)
+
+#office
+class OfficeIndexView(generic.ListView):
     queryset = models.Office.objects.all()
     template_name = "office/office_index.html"
     paginate_by = 2
-    group_required = ["Offices", "Admins"]
-    login_url = settings.LOGIN_URL
-    redirect_unauthenticated_users = True
+    
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Offices').count() == 1, login_url='/forbidden'))
+    def dispatch(self, *args, **kwargs):
+        return super(OfficeIndexView, self).dispatch(*args, **kwargs)
 
     def get_queryset(self):
         object_list = super(OfficeIndexView, self).get_queryset()
         return object_list.filter(user=self.request.user.id)
-    
+
+#office
 class NewAppointmentView(CreateView):
     model = models.Appointment
     template_name = 'office/appointment.html'
     form_class = forms.NewAppointmentForm
 
+#office
 class EditAppointmentView(UpdateView):
     model = models.Appointment
     template_name = 'office/appointment_edit.html'
     form_class = forms.NewAppointmentForm
+
+#open
+class AccessForbiddenView(TemplateView):
+    template_name = "forbidden.html"
 
 # view for sending mail from contact form
 def contact(request):

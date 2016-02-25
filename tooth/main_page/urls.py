@@ -13,6 +13,7 @@ urlpatterns = [
 	url(r'^account', views.OfficeIndexView.as_view(), name="office_account"),
 	url(r'^contact', views.contact, name='contact'),
     url(r'^thanks', views.thanks, name='thanks'),
+    url(r'^forbidden', views.AccessForbiddenView.as_view(), name="forbidden"),
 	
 	# url(r'^account', views.office_account, name='office_account'),
 	url(r'^dentists', views.DentistsListView.as_view(), name='dentists'),

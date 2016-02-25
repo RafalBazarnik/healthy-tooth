@@ -132,6 +132,6 @@ EMAIL_PORT = 587
 # FACEBOOK_APP_ID = '325252525'
 # FACEBOOK_APP_SECRET = '352525'
 
-#login url
+# login url
 from django.core.urlresolvers import reverse_lazy
 LOGIN_URL = reverse_lazy('main_page:login_user')

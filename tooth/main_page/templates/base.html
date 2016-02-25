@@ -104,6 +104,7 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         {% if not user.is_authenticated %}
+                        <li style="text-align: right;"><a href="{% url 'main_page:new_patient' %}">Zarejestruj się</a></li>
                         <li style="text-align: right;"><a href="{% url 'main_page:login_user' %}">Zaloguj</a></li>
                         {% endif %}
                         {% if user.is_authenticated %}
