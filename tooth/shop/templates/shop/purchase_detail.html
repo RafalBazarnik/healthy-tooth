@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+    {% load django_markdown %}
+    {% load  static %}
+
+    {% block title %}
+        Ząbek - szczegóły Twojego zamówienia
+    {% endblock %}
+
+    {% block header %}
+        <h1>Szczegóły Twojego zamówienia</h1>
+    {% endblock %}
+
+    {% block content %}
+    
+        {{object.calculate_total_price}}
+
+    {% endblock %}

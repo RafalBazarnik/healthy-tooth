@@ -9,6 +9,7 @@
     {% endblock %}
 
 {% block content %}
+<h3><a href="{% url 'main_page:new_patient' %}">Załóż konto</a></h3>
 	<form style="max-width: 330px; padding: 15px; margin: 0 auto;" class="form-signin" id="login_form" method="POST" action="/login/">
 	    {% csrf_token %}
 	    	{% if messages %}
@@ -28,5 +29,3 @@
 	    <button class="btn btn-lg btn-primary btn-block" type="submit" value="submit">Zaloguj</button>
 	</form>
 {% endblock %}
-
-<input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">

@@ -12,15 +12,17 @@
     {% endblock %}
 
 {% block content %}
-        
-	        	
-
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4">
-                <img alt="Bootstrap Image Preview" src="http://lorempixel.com/140/140/" />
+                {% if object.photo %}
+                    <img src="{{ object.photo.url }}"/>
+                {% else %}
+                    <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+                {% endif %}
             </div>
             <div class="col-md-8">
+            <p><a href="{% url 'shop:new_purchase' %}">Przejdz do formularza zakupu!</a></p>
                 <h3>{{ object.name }}</h3>
                 <h3>Producent: </h3>
                 <p> {{ object.manufacturer }} </p>

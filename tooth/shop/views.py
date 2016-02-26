@@ -1,9 +1,81 @@
 from django.shortcuts import render
 from django.views import generic
-from . import models
+from django.core.urlresolvers import reverse
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.utils.decorators import method_decorator
+from django.db.models import Q
+from . import models, forms
 
 
-# Create your views here.
+class PurchaseFormView(generic.FormView):
+    model = models.Purchase
+    form_class = forms.PurchaseForm
+    template_name = 'shop/new_purchase.html'
+
+    def get_success_url(self):
+        return reverse('shop:purchase_list')
+
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Patients').count() == 1, login_url='/forbidden'))
+    def dispatch(self, *args, **kwargs):
+        return super(PurchaseFormView, self).dispatch(*args, **kwargs)
+
+class PurchaseStatusUpdate(generic.UpdateView):
+    model = models.Purchase
+    form_class = forms.PurchaseStatusChangeForm
+    template_name = 'shop/purchase_status_edit.html'
+
+    def get_success_url(self):
+        return reverse('shop:purchase_list')
+
+    def get_context_data(self, **kwargs):
+        purchase = self.get_object().pk
+        context = super(PurchaseStatusUpdate, self).get_context_data(**kwargs)
+        context['purchase_list'] = models.Purchase.objects.filter(id=purchase).order_by('date')
+        return context
+
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Offices').count() == 1, login_url='/forbidden'))
+    def dispatch(self, *args, **kwargs):
+        return super(PurchaseStatusUpdate, self).dispatch(*args, **kwargs)
+
+
+class PurchaseListView(generic.ListView):
+    queryset = models.Purchase.objects.all()
+    template_name = "shop/purchase_list.html"
+    paginate_by = 12
+
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Patients').count() == 1, login_url='/forbidden'))
+    def dispatch(self, *args, **kwargs):
+        return super(PurchaseListView, self).dispatch(*args, **kwargs)
+
+
+class PurchaseOfficeListView(generic.ListView):
+    queryset = models.Purchase.objects.all().order_by('date') 
+    template_name = "shop/purchase_list.html"
+    paginate_by = 12
+
+    def get_queryset(self):
+        object_list = super(PurchaseOfficeListView, self).get_queryset()
+        return object_list.filter(status__in=["C","D","E","F","G","H","J"]).order_by('date')
+
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Offices').count() == 1, login_url='/forbidden'))
+    def dispatch(self, *args, **kwargs):
+        return super(PurchaseOfficeListView, self).dispatch(*args, **kwargs)
+
+
+class PurchaseDetailView(generic.DetailView):
+    model = models.Purchase
+    template_name = 'shop/purchase_detail.html'
+
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Offices').count() == 1 or u.groups.filter(name='Patients').count() == 1, login_url='/forbidden'))
+    def dispatch(self, *args, **kwargs):
+        return super(PurchaseDetailView, self).dispatch(*args, **kwargs)
+
+
 class ShopIndexView(generic.ListView):
 	queryset = models.Product.objects.all()
 	template_name = "shop/products_list.html"

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+    {% load django_markdown %}
+    {% load  static %}
+
+    {% block title %}
+        Ząbek - twoje zamówienia
+    {% endblock %}
+
+    {% block header %}
+        <h1>Twoje zamówienia</h1>
+    {% endblock %}
+
+    {% block content %}
+        {% if object_list %}
+        {% for purchase in object_list %}
+            {% if forloop.counter == 1 %}
+            {% if user.id == purchase.purchaser.id %}
+            <h3>Numer bankowy do przelewu: <b class="info">55 1010 1234 1232 5050 0000</b></h3>
+            <h3>Adres: <b>"Ząbek Sp. z o.o, 00-000 Miasto, ul. Krzywa 1/2"</b></h3>
+            <BR>&nbsp;<BR>
+            {% endif %}
+            {% endif %}
+        {% endfor %}
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Data zamówienia:</th>
+                    <th>Tytuł przelewu:</th>
+                    <th>Cena:</th>
+                    <th>Status:</th>
+                    <th>Miejsce odbioru:</th>
+                    <th>Więcej informacji</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for purchase in object_list %}
+            <tr>
+                <td>
+                    {{ purchase.date }}
+                </td>
+                <td>
+                    {{ purchase.purchase_id }}
+                </td>
+                <td>
+                    {{ purchase.total_price }} PLN
+                </td>
+                <td>
+                    {{ purchase.status_verbose }}
+                </td>
+                <td>
+                    <a href="{{purchase.office.get_absolute_url}}">{{ purchase.office.name }}
+                </td>
+                <td>
+                    <a id="more_info" target="_blank" href="{{ purchase.get_absolute_url }}">więcej informacji...</a>
+                </td>
+                    {% if user == purchase.office.user %}
+                        <td><a id="more_info" href="{{ purchase.get_edit_url }}">edytuj...</a></td>
+                    {% endif %}
+            </div>
+            </tr>
+            {% endfor %}
+            </tbody>
+            </table>
+        {% else %}
+            <p>Nie znaleziono zakupów!</p>
+            {% if user.is_authenticated %}
+            {% if user.groups.all.0.name == 'Patients' %}
+            <p><a href="{% url 'shop:shop_index' %}">Może odwiedzisz nasz sklep?</a></p>
+            {% endif %}
+            {% endif %}
+        {% endif %}
+
+        <ul class="pager">
+            {% if page_obj.has_previous %}
+                <li class="previous"><a href="?page={{ page_obj.previous_page_number }}">Poprzednia strona</a></li>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <li class="next"><a href="?page={{ page_obj.next_page_number }}">Następna strona</a></li>
+            {% endif %}
+        </ul>
+
+    {% endblock %}

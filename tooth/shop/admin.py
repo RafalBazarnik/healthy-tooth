@@ -16,6 +16,10 @@ class TagAdmin(MarkdownModelAdmin):
 	list_display = ("name",)
 	prepopulated_fields = {"slug": ("name",)}
 
+class PurchaseAdmin(MarkdownModelAdmin):
+	list_display = ("purchaser", "date",)
+
 admin.site.register(models.Product, ProductAdmin)
 admin.site.register(models.Category, CategoryAdmin)
 admin.site.register(models.Tag, TagAdmin)
+admin.site.register(models.Purchase)

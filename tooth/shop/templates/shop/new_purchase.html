@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+    {% load django_markdown %}
+    {% load  static %}
+
+    {% block title %}
+        Ząbek - Nowe zamówienie
+    {% endblock %}
+
+    {% block header %}
+        <h1>Sklep - Nowe zamówienie: </h1>
+    {% endblock %}
+
+{% block content %}
+<div class="row">
+        <div class="col-md-12">
+            <div class="well well-sm">
+                <form class="form-horizontal" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                        <div class="form-group">
+                        <br>&nbsp;</br>
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                xxx{{ form.purchaser }} {{ form.purchaser.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                Nazwisko: {{ form.surname }} {{ form.surname.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                Numer PESEL: {{ form.pesel }} {{ form.pesel.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                Płeć: {{ form.sex }} {{ form.sex.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                Wiek: {{ form.age }} {{ form.age.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                Numer Telefonu: {{ form.phone_number }} {{ form.phone_number.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                Alternatywny numer telefonu: {{ form.phone_number_alt }} {{ form.phone_number_alt.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                Email: {{ form.email }} {{ form.email.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                Województwo: {{ form.province }} {{ form.province.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                Miejscowość: {{ form.city }} {{ form.city.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                Ulica: {{ form.street }} {{ form.street.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                Numer domu/mieszkania: {{ form.number }} {{ form.number.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                Zdjecie pofilowe: {{ form.profile_image }} {{ form.profile_image.errors }}
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <div class="col-md-12 text-center">
+                                <button type="submit" class="btn btn-primary btn-lg">Zapisz</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

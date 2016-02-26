@@ -73,7 +73,7 @@ TEMPLATE_LOADERS = ('django.template.loaders.filesystem.Loader',
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, '/templates'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -119,7 +119,7 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-TEMPLATE_DIRS = (os.path.join(BASE_DIR, '/templates'),)
+# TEMPLATE_DIRS = (os.path.join(BASE_DIR, '/templates'),)
 
 # email:
 EMAIL_USE_TLS = True
