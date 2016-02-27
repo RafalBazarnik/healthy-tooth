@@ -63,7 +63,7 @@ class Patient(Contact):
     pesel = models.CharField(max_length=11, null=True, help_text="Numer PESEL", validators=[MaxLengthValidator(11), MinLengthValidator(11)])
     profile_image = models.ImageField(upload_to="patients", blank=True, null=True, help_text="Zdjęcie")
     sex = models.CharField(choices=SEX, null=True, max_length=20, help_text="Płeć")
-    age = models.CharField(null=True, max_length=3, help_text="Wiek")
+    date_of_birth = models.DateField(null=True, blank=True, help_text="Data Urodzenia")
     slug = models.SlugField(max_length=100, unique=True, blank=True, null=True,
                             help_text="Nazwa linku w postaci - nazwisko-imie-pesel - male litery, bez polskich znaków")
     user = models.ForeignKey(User, null=True, blank=True)

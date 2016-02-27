@@ -180,7 +180,7 @@ class ContactForm(forms.Form):
 class NewPatientForm(forms.ModelForm):
     class Meta:
         model = models.Patient
-        fields = ['name', 'surname', 'pesel', 'sex', 'age', 'phone_number', 'phone_number_alt',
+        fields = ['name', 'surname', 'pesel', 'sex', 'date_of_birth', 'phone_number', 'phone_number_alt',
                   'email', 'province', 'city', 'street', 'number', 'profile_image']
 
     def __init__(self, *args, **kwargs):
@@ -190,7 +190,7 @@ class NewPatientForm(forms.ModelForm):
         self.fields['surname'].error_messages['required'] = 'Proszę podać nazwisko pacjenta!'
         self.fields['pesel'].error_messages['required'] = 'Proszę podać pesel pacjenta!'
         self.fields['sex'].error_messages['required'] = 'Proszę podać płeć pacjenta!'
-        self.fields['age'].error_messages['required'] = 'Proszę podać wiek pacjenta!'
+        self.fields['date_of_birth'].error_messages['required'] = 'Proszę podać wiek pacjenta!'
         self.fields['phone_number'].error_messages['required'] = 'Proszę podać nr telefonu pacjenta!'
         self.fields['phone_number'].error_messages['invalid'] = 'Proszę podać nr telefonu pacjenta!'
         self.fields['phone_number_alt'].error_messages['required'] = 'Proszę podać nr telefonu pacjenta!'

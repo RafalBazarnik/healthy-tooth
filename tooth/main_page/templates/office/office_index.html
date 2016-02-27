@@ -31,6 +31,7 @@
         <p><b><a href="{% url 'main_page:event_create' %}">Dodaj wydarzenie do e-Kartoteki Pacjenta</a></b></p>
         <p><b><a href="{% url 'main_page:schedule_create' %}">Dodaj dzień pracy (grafik) swojego Dentysty</a></b></p>
         <p><b><a href="{% url 'blog:post_new' %}">Wyślij nam propozycję artykułu na naszego wspólnego bloga</a></b></p>
+        <p><b><a href="{% url 'shop:office_purchase_list' %}">Przejrzyj zamówienia klientów sklepu do odbioru</a></b></p>
         <p><b><a href="{% url 'main_page:change_password' %}">Zmień swoje hasło!</a></b></p>
         {% for office in object_list %}
             {% if forloop.counter == 1 %}
