@@ -7,13 +7,18 @@ from django.db.models import Q
 from . import models, forms
 
 
-class PurchaseFormView(generic.FormView):
+class PurchaseFormView(generic.CreateView):
     model = models.Purchase
     form_class = forms.PurchaseForm
     template_name = 'shop/new_purchase.html'
 
     def get_success_url(self):
         return reverse('shop:purchase_list')
+
+    def get_form_kwargs(self):
+        kwargs = super(PurchaseFormView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
     @method_decorator(login_required)
     @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Patients').count() == 1, login_url='/forbidden'))
@@ -26,7 +31,7 @@ class PurchaseStatusUpdate(generic.UpdateView):
     template_name = 'shop/purchase_status_edit.html'
 
     def get_success_url(self):
-        return reverse('shop:purchase_list')
+        return reverse('shop:office_purchase_list')
 
     def get_context_data(self, **kwargs):
         purchase = self.get_object().pk

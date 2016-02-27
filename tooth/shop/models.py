@@ -86,7 +86,7 @@ class Purchase(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     total_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     status = models.CharField(choices=STATUSES, null=True, blank=True, max_length=20)
-    additional_info = models.CharField(max_length=250)
+    additional_info = models.CharField(max_length=250, null=True, blank=True)
     purchase_id = models.CharField(max_length=50, null=True, blank=True)
 
     def __str__(self):
@@ -117,6 +117,7 @@ class Purchase(models.Model):
 
     def save(self, *args, **kwargs):
         if self.total_price is None:
+            self.date = datetime.now()
             self.total_price = self.calculate_total_price()
             self.status = "A"
             purchase_id_text = '{} {}'.format(str(self.total_price), str(self.date))
