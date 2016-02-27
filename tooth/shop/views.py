@@ -50,6 +50,10 @@ class PurchaseListView(generic.ListView):
     template_name = "shop/purchase_list.html"
     paginate_by = 12
 
+    def get_queryset(self):
+        queryset = super(PurchaseListView, self).get_queryset().filter(purchaser=self.request.user)
+        return queryset
+
     @method_decorator(login_required)
     @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Patients').count() == 1, login_url='/forbidden'))
     def dispatch(self, *args, **kwargs):
@@ -63,6 +67,7 @@ class PurchaseOfficeListView(generic.ListView):
 
     def get_queryset(self):
         object_list = super(PurchaseOfficeListView, self).get_queryset()
+        object_list = object_list.filter(office__user=self.request.user)
         return object_list.filter(status__in=["C","D","E","F","G","H","J"]).order_by('date')
 
     @method_decorator(login_required)

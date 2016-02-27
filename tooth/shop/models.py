@@ -70,6 +70,7 @@ class Purchase(models.Model):
         ("H", "odebrane"),
         ("I", "nieopłacone"),
         ("J", "nieodebrane"),
+        ("K", "zarchiwizowane"),
     ]
     product_1 = models.ForeignKey(Product, null=True, blank=True, related_name='product_slot_1')
     quantity_1 = models.PositiveIntegerField(null=True, blank=True, default=1)
@@ -123,3 +124,7 @@ class Purchase(models.Model):
             purchase_id_text = '{} {}'.format(str(self.total_price), str(self.date))
             self.purchase_id = slugify(purchase_id_text)
         super(Purchase, self).save()
+
+    class Meta:
+        verbose_name = "Shop Purchase"
+        verbose_name_plural = 'Shop Purchases'

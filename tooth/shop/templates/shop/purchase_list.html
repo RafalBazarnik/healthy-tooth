@@ -8,7 +8,11 @@
     {% endblock %}
 
     {% block header %}
-        <h1>Twoje zamówienia</h1>
+    {% if user.groups.all.0.name == 'Patients' %}        
+    <h1>Twoje zamówienia</h1>
+    {% else %}
+    <h1>Zamówienia klientów z miejscem odbioru w Twoim gabinecie:</h1>
+    {% endif %}
     {% endblock %}
 
     {% block content %}
