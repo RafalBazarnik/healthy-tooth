@@ -1,9 +1,6 @@
 from django.conf.urls import *
-from django.contrib.sitemaps import GenericSitemap
-from django.contrib.sitemaps.views import sitemap
-from django.views.generic import ListView, DetailView
-from django.contrib.auth.decorators import login_required
-from . import views, models
+from . import views
+
 
 urlpatterns = [
 	url(r'^$', views.IndexView.as_view(), name='index'),
@@ -14,8 +11,9 @@ urlpatterns = [
 	url(r'^contact', views.contact, name='contact'),
     url(r'^thanks', views.thanks, name='thanks'),
     url(r'^forbidden', views.AccessForbiddenView.as_view(), name="forbidden"),
-	
-	# url(r'^account', views.office_account, name='office_account'),
+	url(r'^password_reset', views.password_reset, name="password_reset"),
+
+	#dentist
 	url(r'^dentists', views.DentistsListView.as_view(), name='dentists'),
 	url(r'^dentist/update/(?P<slug>[a-zA-Z0-9-]+)/?', views.DentistUpdateView.as_view(), name="dentist_update"),
 	url(r'^dentist/(?P<slug>[a-zA-Z0-9-]+)/?', views.DentistDetailView.as_view(), name='dentist'),

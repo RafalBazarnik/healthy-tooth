@@ -1,12 +1,9 @@
 from django.db import models
-from django.core.files import File
 from django_markdown.models import MarkdownField
 from django.core.validators import RegexValidator
 from django.core.validators import MaxLengthValidator, MinLengthValidator
-from django.core.validators import validate_email
 from django.contrib.auth.models import User, Group
 from django.utils.text import slugify
-from django.core.urlresolvers import reverse
 import os
 import datetime
 from random import randint

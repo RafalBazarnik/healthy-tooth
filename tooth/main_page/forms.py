@@ -1,15 +1,8 @@
 from django import forms
 from . import models
-from django.contrib.admin import widgets 
 from functools import partial
-from django.core.mail import send_mail, BadHeaderError
-from django.core.mail import send_mail
-from django.utils.text import slugify
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from django.contrib import messages
-from django.conf import settings
-from .widgets import ReadOnlyWidget
-import re
 import datetime
 
 

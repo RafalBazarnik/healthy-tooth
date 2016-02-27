@@ -52,7 +52,7 @@
                     <a href="{{purchase.office.get_absolute_url}}">{{ purchase.office.name }}
                 </td>
                 <td>
-                    <a id="more_info" target="_blank" href="{{ purchase.get_absolute_url }}">więcej informacji...</a>
+                    <a id="more_info" href="{{ purchase.get_absolute_url }}">więcej informacji...</a>
                 </td>
                     {% if user == purchase.office.user %}
                         <td><a id="more_info" href="{{ purchase.get_edit_url }}">edytuj...</a></td>

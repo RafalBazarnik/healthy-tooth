@@ -4,7 +4,6 @@ from django.template import RequestContext
 from django.views.generic import TemplateView
 from .forms import ContactForm
 from django.utils.text import slugify
-from django.core.urlresolvers import resolve
 from django.core.mail import send_mail, BadHeaderError
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.decorators import method_decorator
@@ -329,6 +328,37 @@ def logout_user(request):
     context = RequestContext(request)
     logout(request)
     return HttpResponseRedirect('/')
+
+#open
+def password_reset(request):
+    context = RequestContext(request)
+    if request.method == 'POST':
+        login = request.POST.get('login')
+        email = request.POST.get('email')
+        if User.objects.filter(username = login).count() == 1:
+            user = User.objects.get(username=login)
+            if user.email == email:
+                password = User.objects.make_random_password()
+                user.set_password(password)
+                user.save()
+                message_text = "Twoje konto w serwisie Ząbek zostało założone. Twoje hasło to: {0}.".format(password)
+                send_mail(
+                    subject="reset hasła w serwisie Ząbek",
+                    message=message_text,
+                    from_email='bazarnik.rafal@gmail.com',
+                    recipient_list=[email],
+                    fail_silently=False
+                )
+                messages.add_message(request, messages.ERROR, "Twoje nowe hasło zostało wysłane na podany adres email")
+                return render(request, 'login.html', {}, context)
+            else:
+                messages.add_message(request, messages.ERROR, "Twoje konto ma przypisany inny adres email")
+                return render(request, 'password_reset.html', {}, context)
+        else:
+            messages.add_message(request, messages.ERROR, "Nie istnieje w bazie taki użytkownik")
+            return render(request, 'password_reset.html', {}, context)
+    else:
+        return render(request, 'password_reset.html', {}, context)
 
 #open
 class IndexView(TemplateView):

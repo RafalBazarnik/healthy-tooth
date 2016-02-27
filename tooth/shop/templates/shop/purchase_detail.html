@@ -12,7 +12,28 @@
     {% endblock %}
 
     {% block content %}
-    
-        {{object.calculate_total_price}}
+    <div class="row">
+    <h4>Data: {{object.date}}</h4>
+    <h4>Cena: {{object.total_price}}</h4>
+    <h4>Status: {{object.status_verbose}}</h4>
+    <h4>Kod transakcji do przelewu: {{object.purchase_id}}</h4>
+    <h4>Produkty:</h4>
+    {% if object.product_1 %}
+    <p>{{object.product_1.name}} (cena: {{object.product_1.price_in_PLN}} PLN) X {{object.quantity_1}} szt.<p>
+    {% endif %}
+    {% if object.product_2 %}
+    <p>{{object.product_2.name}} (cena: {{object.product_2.price_in_PLN}} PLN) X {{object.quantity_2}} szt.<p>
+    {% endif %}
+    {% if object.product_3 %}
+    <p>{{object.product_3.name}} (cena: {{object.product_3.price_in_PLN}} PLN) X {{object.quantity_3}} szt.<p>
+    {% endif %}
+    {% if object.product_4 %}
+    <p>{{object.product_4.name}} (cena: {{object.product_4.price_in_PLN}} PLN) X {{object.quantity_4}} szt.<p>
+    {% endif %}
+    {% if object.product_5 %}
+    <p>{{object.product_5.name}} (cena: {{object.product_5.price_in_PLN}} PLN) X {{object.quantity_5}} szt.<p>
+    {% endif %}
+    <h4>Dodatkowe uwagi: {{object.additional_info}}</h4>
+    </div>
 
     {% endblock %}
