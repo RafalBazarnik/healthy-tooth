@@ -4,14 +4,15 @@
     {% load  static %}
 
     {% block title %}
-        Ząbek - szczegóły Twojego zamówienia
+        Ząbek - szczegóły zamówienia
     {% endblock %}
 
     {% block header %}
-        <h1>Szczegóły Twojego zamówienia</h1>
+        <h1>Szczegóły zamówienia</h1>
     {% endblock %}
 
     {% block content %}
+    {% if request.user == object.office.user or request.user == object.purchaser %}
     <div class="row">
     <h4>Data: {{object.date}}</h4>
     <h4>Cena: {{object.total_price}}</h4>
@@ -35,5 +36,5 @@
     {% endif %}
     <h4>Dodatkowe uwagi: {{object.additional_info}}</h4>
     </div>
-
+    {% endif %}
     {% endblock %}

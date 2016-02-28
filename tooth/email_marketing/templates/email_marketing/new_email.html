@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+    {% load django_markdown %}
+    {% load  static %}
+
+    {% block title %}
+        Ząbek - Marketing email
+    {% endblock %}
+
+    {% block header %}
+        <h1>Marketing email - wyślij nowy email: </h1>
+    {% endblock %}
+
+{% block content %}
+<div class="row">
+        <div class="col-md-12">
+            <div class="well well-sm">
+            <form class="form-horizontal" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                    <fieldset>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                Tytuł maila: {{ form.email_title }} {{ form.email_title.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                Użytkownik: {{ form.user }} {{ form.user.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                Miasto podstawowe: {{ form.email_city }} {{ form.email_city.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                Miasto dodatkowe: {{ form.email_city_alt1 }} {{ form.email_city_alt1.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                Miasto dodatkowe: {{ form.email_city_alt2 }} {{ form.email_city_alt2.errors }}
+                        </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                Płeć: {{ form.email_patients_sex }} {{ form.email_patients_sex.errors }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"></span> 
+                            <div class="col-md-8">
+                                Treść maila: {{ form.email_text }} {{ form.email_text.errors }}
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <div class="col-md-12 text-center">
+                                <button type="submit" class="btn btn-primary btn-lg">Wyślij</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

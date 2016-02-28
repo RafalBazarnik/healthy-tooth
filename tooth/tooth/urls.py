@@ -27,6 +27,7 @@ urlpatterns = [
     url('^markdown/', include( 'django_markdown.urls')),
     url(r'^blog', include('blog.urls', namespace='blog')),
     url(r'^shop', include('shop.urls', namespace='shop')),
+    url(r'^email_marketing', include('email_marketing.urls', namespace='email_marketing')),
     url(r'^', include('main_page.urls', namespace="main_page")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

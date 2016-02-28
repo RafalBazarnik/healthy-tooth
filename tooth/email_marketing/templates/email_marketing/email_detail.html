@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+    {% load django_markdown %}
+    {% load  static %}
+
+    {% block title %}
+        Ząbek - szczegóły Twojego emaila marketingowego
+    {% endblock %}
+
+    {% block header %}
+        <h1>Szczegóły Twojego emaila marketingowego:</h1>
+    {% endblock %}
+
+    {% block content %}
+    <div class="row">
+    <h4><b>Tytuł emaila: </b>{{object.email_title}}</h4>
+    <h4><b>Data wysłania: </b>{{object.email_date}}</h4>
+    <h4><b>Miasto podstawowe: </b>{{object.email_city}}</h4>
+    <h4><b>Miasto 2: </b>{{object.email_city_alt1}}</h4>
+    <h4><b>Miasto 3: </b>{{object.email_city_al2}}</h4>
+    <h4><b>Płeć: </b>{{object.sex_verbose}}</h4>
+    <h4><b>Treść: </b>{{object.email_text}}</h4>    
+    </div>
+
+    {% endblock %}

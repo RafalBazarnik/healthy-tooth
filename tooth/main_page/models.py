@@ -68,6 +68,16 @@ class Patient(Contact):
                             help_text="Nazwa linku w postaci - nazwisko-imie-pesel - male litery, bez polskich znaków")
     user = models.ForeignKey(User, null=True, blank=True)
 
+    def calculate_age(self):
+        today = datetime.date.today()
+        if self.date_of_birth:
+            if (today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day):
+                return today.year - self.date_of_birth.year - 1
+            else:
+                return today.year - self.date_of_birth.year
+        else:
+            return None
+
     def save(self, *args, **kwargs):
         is_new = self.user is None
         text = self.surname + " " + self.name + " " + self.pesel
@@ -93,8 +103,8 @@ class Patient(Contact):
     def get_edit_url(self):
         return "/patient/update/{0}/".format(self.slug)
 
-    def province_verbose(self):
-        return dict(Address.PROVINCE)[self.province]
+    def sex_verbose(self):
+        return dict(Patient.SEX)[self.sex]
 
     class Meta:
         verbose_name = "Patient"

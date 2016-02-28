@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+    {% load django_markdown %}
+    {% load  static %}
+
+    {% block title %}
+        Ząbek - twoje emaile marketingowe
+    {% endblock %}
+
+    {% block header %}
+    <h1>Twoje wysłane emaile marketingowe:</h1>
+    {% endblock %}
+
+    {% block content %}
+        {% if object_list %}
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Data:</th>
+                    <th>Tytuł email:</th>
+                    <th>Podstawowe miasto:</th>
+                    <th>Miasto 2:</th>
+                    <th>Miasto 3:</th>
+                    <th>Więcej informacji</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for email in object_list %}
+            <tr>
+                <td>
+                    {{ email.email_date }}
+                </td>
+                <td>
+                    {{ email.email_title }}
+                </td>
+                <td>
+                    {{ email.email_city }}
+                </td>
+                <td>
+                    {{ email.email_city_alt1 }}
+                </td>
+                <td>
+                    {{ email.email_city_alt2 }}
+                </td>
+                <td>
+                    <a id="more_info" href="{{ email.get_absolute_url }}">więcej informacji...</a>
+                </td>
+            </div>
+            </tr>
+            {% endfor %}
+            </tbody>
+            </table>
+        {% else %}
+            <p>Nie znaleziono wysłanych emaili marketingowych!</p>
+        {% endif %}
+
+        <ul class="pager">
+            {% if page_obj.has_previous %}
+                <li class="previous"><a href="?page={{ page_obj.previous_page_number }}">Poprzednia strona</a></li>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <li class="next"><a href="?page={{ page_obj.next_page_number }}">Następna strona</a></li>
+            {% endif %}
+        </ul>
+
+    {% endblock %}

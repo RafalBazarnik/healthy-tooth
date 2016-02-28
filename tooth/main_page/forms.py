@@ -184,7 +184,7 @@ class NewPatientForm(forms.ModelForm):
                   'email', 'province', 'city', 'street', 'number', 'profile_image']
 
     def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop('request')
+        # self.request = kwargs.pop('request')
         super(NewPatientForm, self).__init__(*args, **kwargs)
         self.fields['name'].error_messages['required'] = 'Proszę podać imię pacjenta!'
         self.fields['surname'].error_messages['required'] = 'Proszę podać nazwisko pacjenta!'
