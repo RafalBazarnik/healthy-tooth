@@ -198,7 +198,7 @@ class DentistDay(models.Model):
     
     @property
     def is_active(self):
-        return (self.date >= datetime.date.today())
+        return self.date >= datetime.date.today()
 
     @property
     def get_slots_dict(self):

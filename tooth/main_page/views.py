@@ -17,6 +17,7 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 from braces.views import GroupRequiredMixin, LoginRequiredMixin
 from . import models, forms
+from django.shortcuts import get_object_or_404
 from django.conf import settings
 from django.core.mail import send_mail
 
@@ -98,7 +99,6 @@ class UserAppointementSignUpView(UpdateView):
         return context
 
     @method_decorator(login_required)
-    @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Patients').count() == 1, login_url='/forbidden'))
     def dispatch(self, *args, **kwargs):
         return super(UserAppointementSignUpView, self).dispatch(*args, **kwargs)
 
@@ -129,7 +129,7 @@ class PatientHistoryView(generic.DetailView):
         return super(PatientHistoryView, self).dispatch(*args, **kwargs) 
 
 #patient
-class PatientAppointmentsCancelView(UpdateView):
+class PatientAppointmentsCancelView(generic.UpdateView):
     model = models.DentistDay
     template_name = "patient/patient_cancel_appointments.html"
     form_class = forms.UserAppointmentCancelForm
