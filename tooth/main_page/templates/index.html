@@ -13,26 +13,21 @@
     {% endblock %}
 
     {% block content %}
-    	<h3>Witamy!<h3>
 <div class="row">
 		<div class="col-md-4">
 			<img src="{% static 'img/dentistLogo.jpg' %}">
 		</div>
 		<div class="col-md-8">
 			<h2>
-				Test
+				Witamy na stronie sieci gabinetów stomatologicznych "Ząbek"
 			</h2>
-			<p class="description">
-				Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+			<h3><p class="description">
+				Jesteśmy siecią gabinetów stomatologicznych działających na terenie całej Polski. Oferujemy Państwu opiekę stomatologiczną na najwyższym, światowym poziomie. Kreowanie pięknych i zdrowych uśmiechów to nasz najwyższy priorytet.
+			
 			</p>
 			<p>
-				<a class="btn" href="{% url 'main_page:about' %}">Szczegóły...</a>
-			<h2>
-			
-<!-- 				<a class="btn" href="{% url 'main_page:office_appointment' %}"><button class="btn btn-primary btn-lg" type="submit"><h2>Umów się na wizytę</h2></button></a> -->
-
-				</h2>
-			</p>
+			<a class="btn" href="{% url 'main_page:about' %}">Więcej...</a>
+			</p></h3>
 		</div>
 	</div>
 </div>

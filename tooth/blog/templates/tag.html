@@ -18,17 +18,17 @@
             <div class="post">
             <h1><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1>
             <h3>{{ post.pub_date }}</h3>
-            {{ post.get_short_post_text|markdown }}<a style="float: right;" href="{{ post.get_absolute_url }}"> Continue reading...</a>
+            {{ post.get_short_post_text|markdown }}<a style="float: right;" href="{{ post.get_absolute_url }}"> czytaj dalej...</a>
             </div>
             {% if post.category %}
             <div class="category">
-                <span>Category: </span>
+                <span>Kategoria: </span>
             <a href="{{ post.category.get_absolute_url }}"><span class="label label-primary">{{ post.category.title }}</span></a>
             </div>
             {% endif %}
             {% endfor %}
         {% else %}
-            <p>No posts found</p>
+            <p>Nie znaleziono artykułów</p>
         {% endif %}
 
         <ul class="pager">

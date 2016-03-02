@@ -48,13 +48,6 @@ class NewMarketingEmail(generic.CreateView):
         for email in patients:
             receivers_list.append(email)
         mail = EmailMessage(form.cleaned_data.get('email_title'), form.cleaned_data.get('email_text'), from_email='user.email', bcc=receivers_list)
-        # send_mail(
-        #     subject=form.cleaned_data.get('email_title'),
-        #     message=form.cleaned_data.get('email_text'),
-        #     from_email=user.email,
-        #     bcc=receivers_list,
-        #     fail_silently=False
-        #     )
         mail.send(fail_silently=False)
         receivers_string = ', '.join(receivers_list)
         send_mail(
