@@ -41,7 +41,7 @@ class Product(models.Model):
     name = models.CharField(max_length=300)
     slug = models.SlugField(max_length=150)
     description = models.TextField()
-    photo = models.ImageField(upload_to='product_photo', blank=True)
+    photo = models.ImageField(upload_to='product_photo', blank=True, help_text="rozmiar - 400x300")
     manufacturer = models.CharField(max_length=300, blank=True)
     price_in_PLN = models.DecimalField(max_digits=6, decimal_places=2)
     retail = models.BooleanField(default=True, help_text="Do sprzedaży detalicznej = True, Do sprzedaży hurtowej - False")

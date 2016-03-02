@@ -235,16 +235,6 @@ class NewOfficeForm(forms.ModelForm):
         self.fields['street'].error_messages['required'] = 'Proszę podać ulicę!'
         self.fields['number'].error_messages['required'] = 'Proszę podać numer domu/mieszkania!'
 
-class NewAppointmentForm(forms.ModelForm):
-    class Meta:
-        model = models.Appointment
-        fields = ['name', 'surname', 'phone_number', 'phone_number_alt', 'email', 'skype', 'preferred_date',
-                  'preferred_date_alt' , 'preferred_date_alt2' , 'extra_info', 'office', 
-                  'personal_data_agreement',]
-
-class UpdateAppointmentForm(NewAppointmentForm):
-    pass
-
 class NewScheduledDay(forms.ModelForm):
     class Meta:
         model = models.DentistDay

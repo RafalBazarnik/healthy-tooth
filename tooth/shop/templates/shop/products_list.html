@@ -17,7 +17,7 @@
             {% if object_list %}
             {% for object in object_list %}
             {% if object.retail %}
-            <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+            <div class="col-md-4 thumb">
                 <a class="thumbnail" href="{{ object.get_absolute_url }}">
                 {% if object.photo %}
                     <img src="{{ object.photo.url }}"/>
@@ -26,7 +26,7 @@
                 {% endif %}
                     <div class="product_info">
                         <div style="text-align: center; white-space: nowrap;
-                        overflow: hidden; text-overflow: ellipsis; max-width: 300px;" class="product_title">{{ object.name }}</div>
+                        overflow: hidden; text-overflow: ellipsis;" class="product_title">{{ object.name }}</div>
                         <div style="text-align: center;" class="product_price">jedynie: {{ object.price_in_PLN }} PLN</div>
                     </div>
                 </a>

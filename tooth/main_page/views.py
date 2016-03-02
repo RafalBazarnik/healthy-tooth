@@ -486,18 +486,6 @@ class OfficeIndexView(generic.ListView):
         object_list = super(OfficeIndexView, self).get_queryset()
         return object_list.filter(user=self.request.user.id)
 
-#office
-class NewAppointmentView(CreateView):
-    model = models.Appointment
-    template_name = 'office/appointment.html'
-    form_class = forms.NewAppointmentForm
-
-#office
-class EditAppointmentView(UpdateView):
-    model = models.Appointment
-    template_name = 'office/appointment_edit.html'
-    form_class = forms.NewAppointmentForm
-
 #open
 class AccessForbiddenView(TemplateView):
     template_name = "forbidden.html"

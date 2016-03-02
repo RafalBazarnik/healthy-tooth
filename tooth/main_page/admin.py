@@ -22,9 +22,6 @@ class DentistAdmin(MarkdownModelAdmin):
     list_display = ("name", "surname")
     prepopulated_fields = {"slug": ("surname", "name", "pwz_number",)}
 
-class AppointmentAdmin(MarkdownModelAdmin):
-	list_display = ("name", "surname", "city")
-
 class DentistDayAdmin(MarkdownModelAdmin):
 	list_display = ("date", "dentist", "office")
 
@@ -32,5 +29,4 @@ admin.site.register(models.Patient, PatientAdmin)
 admin.site.register(models.Event, EventAdmin)
 admin.site.register(models.Office, OfficeAdmin)
 admin.site.register(models.Dentist, DentistAdmin)
-admin.site.register(models.Appointment)
 admin.site.register(models.DentistDay)

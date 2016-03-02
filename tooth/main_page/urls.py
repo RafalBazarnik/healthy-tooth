@@ -20,8 +20,6 @@ urlpatterns = [
 	url(r'^new_dentist', views.DentistCreateView.as_view(), name="new_dentist"),
 	
 	# office
-	url(r'^offices/appointment/', views.NewAppointmentView.as_view(), name="office_appointment"),
-	url(r'^offices/appointment_edit/(?P<pk>[0-9]+)/?', views.EditAppointmentView.as_view(), name="appointment_edit"),
 	url(r'^offices', views.OfficesListView.as_view(), name='offices'),
 	url(r'^office/update/(?P<slug>[a-zA-Z0-9-]+)/?', views.OfficeUpdateView.as_view(), name="office_update"),
 	url(r'^office/(?P<slug>[a-zA-Z0-9-]+)/?', views.OfficeDetailView.as_view(), name='office'),

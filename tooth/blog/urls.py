@@ -15,10 +15,5 @@ urlpatterns = [
 	url(r'^/new/', views.post_new, name='post_new'),
 	url(r'^/category/(?P<slug>[a-zA-Z0-9-]+)/?$', views.CategoryView.as_view(), name="category"),
     url(r'^/tag/(?P<slug>[a-zA-Z0-9-]+)/?$', views.TagView.as_view(), name="tag"),
-	url(r'^/search', views.search, name='search_result_blog'),
-	# url(r'^/sitemap\.xml$', sitemap,
-	# 	{'sitemaps': {'blog': GenericSitemap(info_dict, priority=0.6)}},
-	# 	name='django.contrib.sitemaps.views.sitemap'),
-	# url(r'^/feed/', feed.LatestPosts(), name="feed"),
 	url(r'^', views.BlogIndex.as_view(), name="blog"),
 	]

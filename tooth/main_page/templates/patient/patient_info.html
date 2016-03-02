@@ -17,9 +17,13 @@
         <section class="" id="patient_header">
             <div class="row">
                 <div class="col-md-2">
-                <a class="avatar">
+            <a class="avatar">
+                {% if object.profile_image %}
+                    <img src="{{ object.profile_image.url }}"/>
+                {% else %}
                     <img src="{% static 'img/patient-default.jpg' %}">
-                </a>
+                {% endif %}
+            </a>
                 </div>
                 <div class="col-md-10">
                     <h1>{{ object.name }} {{ object.surname }}</h1>
