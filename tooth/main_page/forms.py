@@ -254,7 +254,7 @@ class NewPatientForm(forms.ModelForm):
         self.fields['surname'].error_messages['required'] = 'Proszę podać nazwisko pacjenta!'
         self.fields['pesel'].error_messages['required'] = 'Proszę podać pesel pacjenta!'
         self.fields['sex'].error_messages['required'] = 'Proszę podać płeć pacjenta!'
-        self.fields['date_of_birth'].error_messages['required'] = 'Proszę podać wiek pacjenta!'
+        self.fields['date_of_birth'].error_messages['required'] = 'Proszę podać datę urodzenia pacjenta!'
         self.fields['phone_number'].error_messages['required'] = 'Proszę podać nr telefonu pacjenta!'
         self.fields['phone_number'].error_messages['invalid'] = 'Proszę podać nr telefonu pacjenta!'
         self.fields['phone_number_alt'].error_messages['required'] = 'Proszę podać nr telefonu pacjenta!'
