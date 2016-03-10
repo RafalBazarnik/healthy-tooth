@@ -4,6 +4,7 @@ from django.core.validators import RegexValidator
 from django.core.validators import MaxLengthValidator, MinLengthValidator
 from django.contrib.auth.models import User, Group
 from django.utils.text import slugify
+from django.core.mail import send_mail
 import os
 import datetime
 from random import randint
@@ -38,7 +39,7 @@ class Address(models.Model):
 
     class Meta:
         abstract = True
-            
+
 class Contact(Address):
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Niepoprawny numer telefonu. Powinien mieć minimum 9 i maksymalnie 15 cyfr")
     phone_number = models.CharField(validators=[phone_regex], blank=True, max_length=15, help_text="Numer telefonu")
@@ -83,15 +84,23 @@ class Patient(Contact):
         text = self.surname + " " + self.name + " " + self.pesel
         self.slug = slugify(text)
         if is_new:
-            password = self.pesel
+            password = User.objects.make_random_password()
             user = User.objects.create_user(username=self.slug, first_name=self.name, last_name=self.surname, email=self.email, password=password)
-            group = Group.objects.get(name='Patients') 
+            group = Group.objects.get(name='Patients')
             group.user_set.add(user)
             user.save()
             user.is_superuser = False
             user.is_staff = False
             user.is_active = True
             self.user = user
+            message_text = "Twoje konto w serwisie Ząbek zostało założone. Twój login to: {0}. A Twoje hasło to: {1}. Zachęcamy do zalogowania się i zmienienia swojego hasła".format(self.slug, password)
+            send_mail(
+                subject="założenie konta w serwisie Ząbek",
+                message=message_text,
+                from_email='bazarnik.rafal@gmail.com',
+                recipient_list=[self.email,],
+                fail_silently=False
+                )
         super(Patient, self).save()
 
     def __str__(self):
@@ -154,7 +163,7 @@ class Dentist(models.Model):
         return "/dentist/update/{0}/".format(self.slug)
 
     def save(self, *args, **kwargs):
-        slug_string = "{0} {1} {2}".format(self.surname, self.name, self.pwz_number) 
+        slug_string = "{0} {1} {2}".format(self.surname, self.name, self.pwz_number)
         self.slug = slugify(slug_string)
         super(Dentist, self).save()
 
@@ -195,7 +204,7 @@ class DentistDay(models.Model):
     @property
     def get_fields_list(self):
         return self._meta.get_fields()
-    
+
     @property
     def is_active(self):
         return self.date >= datetime.date.today()
@@ -203,28 +212,28 @@ class DentistDay(models.Model):
     @property
     def get_slots_dict(self):
         slots_dict = {self._meta.get_field('slot10_11').help_text: self.slot10_11,
-                      self._meta.get_field('slot11_12').help_text: self.slot11_12, 
-                      self._meta.get_field('slot12_13').help_text: self.slot12_13, 
-                      self._meta.get_field('slot13_14').help_text: self.slot13_14, 
-                      self._meta.get_field('slot14_15').help_text: self.slot14_15, 
-                      self._meta.get_field('slot15_16').help_text: self.slot15_16, 
-                      self._meta.get_field('slot16_17').help_text: self.slot16_17, 
-                      self._meta.get_field('slot17_18').help_text: self.slot17_18, 
-                      self._meta.get_field('slot18_19').help_text: self.slot18_19, 
+                      self._meta.get_field('slot11_12').help_text: self.slot11_12,
+                      self._meta.get_field('slot12_13').help_text: self.slot12_13,
+                      self._meta.get_field('slot13_14').help_text: self.slot13_14,
+                      self._meta.get_field('slot14_15').help_text: self.slot14_15,
+                      self._meta.get_field('slot15_16').help_text: self.slot15_16,
+                      self._meta.get_field('slot16_17').help_text: self.slot16_17,
+                      self._meta.get_field('slot17_18').help_text: self.slot17_18,
+                      self._meta.get_field('slot18_19').help_text: self.slot18_19,
                       self._meta.get_field('slot19_20').help_text: self.slot19_20}
         return slots_dict
 
     @property
     def get_free_slots_dict(self):
         slots_dict = {self._meta.get_field('slot10_11').help_text: self.slot10_11,
-                      self._meta.get_field('slot11_12').help_text: self.slot11_12, 
-                      self._meta.get_field('slot12_13').help_text: self.slot12_13, 
-                      self._meta.get_field('slot13_14').help_text: self.slot13_14, 
-                      self._meta.get_field('slot14_15').help_text: self.slot14_15, 
-                      self._meta.get_field('slot15_16').help_text: self.slot15_16, 
-                      self._meta.get_field('slot16_17').help_text: self.slot16_17, 
-                      self._meta.get_field('slot17_18').help_text: self.slot17_18, 
-                      self._meta.get_field('slot18_19').help_text: self.slot18_19, 
+                      self._meta.get_field('slot11_12').help_text: self.slot11_12,
+                      self._meta.get_field('slot12_13').help_text: self.slot12_13,
+                      self._meta.get_field('slot13_14').help_text: self.slot13_14,
+                      self._meta.get_field('slot14_15').help_text: self.slot14_15,
+                      self._meta.get_field('slot15_16').help_text: self.slot15_16,
+                      self._meta.get_field('slot16_17').help_text: self.slot16_17,
+                      self._meta.get_field('slot17_18').help_text: self.slot17_18,
+                      self._meta.get_field('slot18_19').help_text: self.slot18_19,
                       self._meta.get_field('slot19_20').help_text: self.slot19_20}
         free_slots_dict = {}
         for name, slot in slots_dict.items():
@@ -233,7 +242,7 @@ class DentistDay(models.Model):
                     if slot.groups.all()[0].name == "Offices":
                         free_slots_dict.update({name: slot})
         return free_slots_dict
-    
+
 
     @property
     def has_free_slots(self):
@@ -285,6 +294,6 @@ class Event(models.Model):
         verbose_name_plural = 'Events'
 
     def save(self, *args, **kwargs):
-        slug_string = "{0} {1} {2} {3}".format(self.title, self.event_type, self.subject, str(self.date)) 
+        slug_string = "{0} {1} {2} {3}".format(self.title, self.event_type, self.subject, str(self.date))
         self.slug = slugify(slug_string)
         super(Event, self).save()

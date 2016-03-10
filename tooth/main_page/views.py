@@ -184,16 +184,6 @@ class PatientCreateView(CreateView):
             return reverse('main_page:login_user')
 
     def form_valid(self, form):
-        text = form.cleaned_data.get('surname') + " " + form.cleaned_data.get('name') + " " + form.cleaned_data.get('pesel')
-        temp_slug = slugify(text)
-        message_text = "Twoje konto w serwisie Ząbek zostało założone. Twój login to: {0}. A Twoje hasło to Twój numer PESEL. Zachęcamy do zalogowania się i zmienienia swojego hasła".format(temp_slug)
-        send_mail(
-            subject="założenie konta w serwisie Ząbek",
-            message=message_text,
-            from_email='bazarnik.rafal@gmail.com',
-            recipient_list=[form.cleaned_data.get('email')],
-            fail_silently=False
-            )
         if self.request.user.groups.all() and self.request.user.groups.all()[0].name == "Offices":
             messages.add_message(self.request, messages.INFO, 'Konto zostało utworzone. Na skrzynkę mailową pacjenta została wysłana wiadomość z loginem i hasłem')
         else:
@@ -342,7 +332,7 @@ def password_reset(request):
                 password = User.objects.make_random_password()
                 user.set_password(password)
                 user.save()
-                message_text = "Twoje konto w serwisie Ząbek zostało założone. Twoje hasło to: {0}.".format(password)
+                message_text = "Twoje hasło w serwisie Ząbek zostało zmienione. Twoje hasło to: {0}.".format(password)
                 send_mail(
                     subject="reset hasła w serwisie Ząbek",
                     message=message_text,
