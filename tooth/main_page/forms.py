@@ -287,3 +287,13 @@ class NewScheduledDay(forms.ModelForm):
         if self.instance:
             self.fields['dentist'].queryset = models.Dentist.objects.filter(office__user=user)
             self.fields['office'].queryset = models.Office.objects.filter(user=user)
+            self.fields['slot10_11'].queryset = models.User.objects.filter(username=user)
+            self.fields['slot11_12'].queryset = models.User.objects.filter(username=user)
+            self.fields['slot12_13'].queryset = models.User.objects.filter(username=user)
+            self.fields['slot13_14'].queryset = models.User.objects.filter(username=user)
+            self.fields['slot14_15'].queryset = models.User.objects.filter(username=user)
+            self.fields['slot15_16'].queryset = models.User.objects.filter(username=user)
+            self.fields['slot16_17'].queryset = models.User.objects.filter(username=user)
+            self.fields['slot17_18'].queryset = models.User.objects.filter(username=user)
+            self.fields['slot18_19'].queryset = models.User.objects.filter(username=user)
+            self.fields['slot19_20'].queryset = models.User.objects.filter(username=user)

@@ -129,7 +129,7 @@ class Office(Contact):
     slug = models.SlugField(max_length=100, unique=True, blank=True, null=True)
 
     def __str__(self):
-        return self.name
+        return self.name + ", " + self.city + " ul. " + self.street
 
     def get_absolute_url(self):
         return "/office/{0}/".format(self.slug)

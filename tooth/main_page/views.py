@@ -220,7 +220,6 @@ class ScheduleCreateView(CreateView):
 
     def get_form_kwargs(self):
         kwargs = super(ScheduleCreateView, self).get_form_kwargs()
-        # kwargs.update({'_user': self.request.user})
         kwargs['user'] = self.request.user
         return kwargs
 
