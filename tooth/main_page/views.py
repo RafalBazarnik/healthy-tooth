@@ -126,7 +126,7 @@ class PatientHistoryView(generic.DetailView):
     @method_decorator(login_required)
     @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Patients').count() == 1, login_url='/forbidden'))
     def dispatch(self, *args, **kwargs):
-        return super(PatientHistoryView, self).dispatch(*args, **kwargs) 
+        return super(PatientHistoryView, self).dispatch(*args, **kwargs)
 
 #patient
 class PatientAppointmentsCancelView(generic.UpdateView):
@@ -146,7 +146,7 @@ class PatientAppointmentsCancelView(generic.UpdateView):
     @method_decorator(login_required)
     @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Patients').count() == 1, login_url='/forbidden'))
     def dispatch(self, *args, **kwargs):
-        return super(PatientAppointmentsCancelView, self).dispatch(*args, **kwargs) 
+        return super(PatientAppointmentsCancelView, self).dispatch(*args, **kwargs)
 
 #patient
 class PatientAppointmentsView(generic.ListView):
@@ -157,7 +157,7 @@ class PatientAppointmentsView(generic.ListView):
     def get_queryset(self):
         user_id = self.request.user.id
         object_list = super(PatientAppointmentsView, self).get_queryset()
-        return object_list.filter(Q(slot10_11=user_id) | Q(slot11_12=user_id) | Q(slot12_13=user_id) | 
+        return object_list.filter(Q(slot10_11=user_id) | Q(slot11_12=user_id) | Q(slot12_13=user_id) |
             Q(slot13_14=user_id) | Q(slot14_15=user_id) | Q(slot15_16=user_id) | Q(slot16_17=user_id) |
             Q(slot17_18=user_id) | Q(slot18_19=user_id) | Q(slot19_20=user_id)).order_by('date')
 
@@ -169,29 +169,7 @@ class PatientAppointmentsView(generic.ListView):
     @method_decorator(login_required)
     @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Patients').count() == 1, login_url='/forbidden'))
     def dispatch(self, *args, **kwargs):
-        return super(PatientAppointmentsView, self).dispatch(*args, **kwargs) 
-
-#login_required
-class UserPasswordChangeView(FormView):
-    form_class = forms.UserPasswordChangeForm
-    template_name = 'patient/change_password.html'
-
-    def get_form_kwargs(self):
-        kwargs = super(UserPasswordChangeView, self).get_form_kwargs()
-        kwargs['user'] = self.request.user
-        return kwargs
-
-    def get_success_url(self):
-        return reverse('main_page:login_user')
-
-    def form_valid(self, form):
-        form.save()
-        messages.add_message(self.request, messages.INFO, 'Hasło zostało pomyślnie zmienione')
-        return super(UserPasswordChangeView, self).form_valid(form)
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(UserPasswordChangeView, self).dispatch(*args, **kwargs)
+        return super(PatientAppointmentsView, self).dispatch(*args, **kwargs)
 
 #open
 class PatientCreateView(CreateView):
@@ -204,11 +182,6 @@ class PatientCreateView(CreateView):
             return reverse('main_page:patients')
         else:
             return reverse('main_page:login_user')
-
-    # def get_form_kwargs(self):
-    #     kwargs = super(PatientCreateView, self).get_form_kwargs()
-    #     kwargs['request'] = self.request
-    #     return kwargs
 
     def form_valid(self, form):
         text = form.cleaned_data.get('surname') + " " + form.cleaned_data.get('name') + " " + form.cleaned_data.get('pesel')
@@ -300,7 +273,7 @@ def patient_index(request):
 #open
 def login_user(request):
     context = RequestContext(request)
-    
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -328,6 +301,34 @@ def logout_user(request):
     context = RequestContext(request)
     logout(request)
     return HttpResponseRedirect('/')
+
+@login_required
+def password_change(request):
+    context = RequestContext(request)
+    if request.method == 'POST':
+        old_password = request.POST.get('old_password')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+        user = authenticate(username=request.user.username, password=old_password)
+        if user:
+            if password1 != password2:
+                messages.add_message(request, messages.WARNING, "Hasła muszą się zgadzać!")
+                return render(request, 'patient/change_password.html', {}, context)
+            else:
+                if len(password1) < 5:
+                    messages.add_message(request, messages.WARNING, "Hasło zbyt krótkie. Minimalna długość hasła to 5")
+                    return render(request, 'patient/change_password.html', {}, context)
+                else:
+                    user.set_password(password2)
+                    user.save()
+                    messages.add_message(request, messages.WARNING, "Poprawnie zmieniono hasło")
+                    return render(request, 'login.html', {}, context)
+        else:
+            messages.add_message(request, messages.WARNING, "Niepoprawne stare hasło!")
+            return render(request, 'patient/change_password.html', {}, context)
+
+    else:
+        return render(request, 'patient/change_password.html', {}, context)
 
 #open
 def password_reset(request):
@@ -373,13 +374,13 @@ class PatientsListView(generic.ListView):
     queryset = models.Patient.objects.all()
     template_name = "patient/patients_list.html"
     paginate_by = 10
-    
+
     @method_decorator(login_required)
     @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Offices').count() == 1, login_url='/forbidden'))
     def dispatch(self, *args, **kwargs):
         return super(PatientsListView, self).dispatch(*args, **kwargs)
 
-#office    
+#office
 class PatientDetailView(generic.DetailView):
     model = models.Patient
     template_name='patient/patient_detail.html'
@@ -476,7 +477,7 @@ class OfficeIndexView(generic.ListView):
     queryset = models.Office.objects.all()
     template_name = "office/office_index.html"
     paginate_by = 2
-    
+
     @method_decorator(login_required)
     @method_decorator(user_passes_test(lambda u: u.groups.filter(name='Offices').count() == 1, login_url='/forbidden'))
     def dispatch(self, *args, **kwargs):
@@ -539,7 +540,7 @@ def handler400(request):
 def search_dentist(request):
     query = request.GET.get('q', '')
     page = request.GET.get('page', 1)
-    results = models.Dentist.objects.filter(Q(name__icontains=query) | Q(surname__icontains=query) | 
+    results = models.Dentist.objects.filter(Q(name__icontains=query) | Q(surname__icontains=query) |
         Q(professional_title__icontains=query) | Q(specialties__icontains=query) | Q(pwz_number__icontains=query))
 
     pages = Paginator(results, 5)
@@ -557,7 +558,7 @@ def search_dentist(request):
 def search_patient(request):
     query = request.GET.get('q', '')
     page = request.GET.get('page', 1)
-    results = models.Patient.objects.filter(Q(name__icontains=query) | Q(surname__icontains=query) | 
+    results = models.Patient.objects.filter(Q(name__icontains=query) | Q(surname__icontains=query) |
         Q(pesel__icontains=query) | Q(city__icontains=query) | Q(street__icontains=query) | Q(phone_number__icontains=query) |
         Q(email__icontains=query))
 
@@ -576,7 +577,7 @@ def search_patient(request):
 def search_office(request):
     query = request.GET.get('q', '')
     page = request.GET.get('page', 1)
-    results = models.Office.objects.filter(Q(name__icontains=query) | Q(office_id__icontains=query) | 
+    results = models.Office.objects.filter(Q(name__icontains=query) | Q(office_id__icontains=query) |
         Q(email__icontains=query) | Q(city__icontains=query) | Q(street__icontains=query) |
         Q(phone_number__icontains=query) | Q(phone_number_alt__icontains=query))
 

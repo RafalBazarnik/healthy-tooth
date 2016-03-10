@@ -18,19 +18,19 @@ urlpatterns = [
 	url(r'^dentist/update/(?P<slug>[a-zA-Z0-9-]+)/?', views.DentistUpdateView.as_view(), name="dentist_update"),
 	url(r'^dentist/(?P<slug>[a-zA-Z0-9-]+)/?', views.DentistDetailView.as_view(), name='dentist'),
 	url(r'^new_dentist', views.DentistCreateView.as_view(), name="new_dentist"),
-	
+
 	# office
 	url(r'^offices', views.OfficesListView.as_view(), name='offices'),
 	url(r'^office/update/(?P<slug>[a-zA-Z0-9-]+)/?', views.OfficeUpdateView.as_view(), name="office_update"),
 	url(r'^office/(?P<slug>[a-zA-Z0-9-]+)/?', views.OfficeDetailView.as_view(), name='office'),
-	
+
 	# patients
 	url(r'^patients', views.PatientsListView.as_view(), name='patients'),
 	url(r'^patient/event/(?P<slug>[a-zA-Z0-9-]+)/?', views.EventDetailView.as_view(), name='event_detail'),
 	url(r'^patient/update/(?P<slug>[a-zA-Z0-9-]+)/?', views.PatientUpdateView.as_view(), name="patient_update"),
 	url(r'^patient/(?P<slug>[a-zA-Z0-9-]+)/?', views.PatientDetailView.as_view(), name='patient'),
 	url(r'^new_patient', views.PatientCreateView.as_view(), name="new_patient"),
-	url(r'^patient_zone/change_password', views.UserPasswordChangeView.as_view(), name="change_password"),
+	url(r'^change_password', views.password_change, name="change_password"),
 	url(r'^patient_zone/patient_info', views.UserPersonalDataView.as_view(), name="patient_info"),
 	url(r'^patient_zone/patient_history', views.UserEventsView.as_view(), name="patient_history"),
 	url(r'^patient_zone/patient_appointements', views.PatientAppointmentsView.as_view(), name="patient_appointements"),

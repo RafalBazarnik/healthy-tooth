@@ -36,7 +36,7 @@ class UserAppointementEditForm(forms.ModelForm):
         super(UserAppointementEditForm, self).__init__(*args, **kwargs)
         self.fields['office'].queryset = models.Office.objects.filter(user=self.user)
         self.fields['dentist'].queryset = models.Dentist.objects.filter(office__user=self.user)
-        
+
 class UserAppointementSignUpForm(forms.ModelForm):
     class Meta:
         model = models.DentistDay
@@ -54,7 +54,7 @@ class UserAppointementSignUpForm(forms.ModelForm):
         if not getattr(self.instance, 'slot10_11') or not (getattr(self.instance, 'slot10_11') == getattr(self.instance, 'office').user) or "Patients" in getattr(self.instance, 'slot10_11').groups.all():
             self.fields['slot10_11'].widget = forms.HiddenInput()
         else:
-            self.fields['slot10_11'].queryset = models.User.objects.filter(id=self.user.id) 
+            self.fields['slot10_11'].queryset = models.User.objects.filter(id=self.user.id)
         if not getattr(self.instance, 'slot11_12') or not (getattr(self.instance, 'slot11_12') == getattr(self.instance, 'office').user) or "Patients" in getattr(self.instance, 'slot11_12').groups.all():
             self.fields['slot11_12'].widget = forms.HiddenInput()
         else:
@@ -62,7 +62,7 @@ class UserAppointementSignUpForm(forms.ModelForm):
         if not getattr(self.instance, 'slot12_13') or not (getattr(self.instance, 'slot12_13') == getattr(self.instance, 'office').user) or "Patients" in getattr(self.instance, 'slot12_13').groups.all():
             self.fields['slot12_13'].widget = forms.HiddenInput()
         else:
-            self.fields['slot12_13'].queryset = models.User.objects.filter(id=self.user.id) 
+            self.fields['slot12_13'].queryset = models.User.objects.filter(id=self.user.id)
         if not getattr(self.instance, 'slot13_14') or not (getattr(self.instance, 'slot13_14') == getattr(self.instance, 'office').user) or "Patients" in getattr(self.instance, 'slot13_14').groups.all():
             self.fields['slot13_14'].widget = forms.HiddenInput()
         else:
@@ -78,7 +78,7 @@ class UserAppointementSignUpForm(forms.ModelForm):
         if not getattr(self.instance, 'slot16_17') or not (getattr(self.instance, 'slot16_17') == getattr(self.instance, 'office').user) or "Patients" in getattr(self.instance, 'slot16_17').groups.all():
             self.fields['slot16_17'].widget = forms.HiddenInput()
         else:
-            self.fields['slot16_17'].queryset = models.User.objects.filter(id=self.user.id) 
+            self.fields['slot16_17'].queryset = models.User.objects.filter(id=self.user.id)
         if not getattr(self.instance, 'slot17_18') or not (getattr(self.instance, 'slot17_18') == getattr(self.instance, 'office').user) or "Patients" in getattr(self.instance, 'slot17_18').groups.all():
             self.fields['slot17_18'].widget = forms.HiddenInput()
         else:
@@ -86,7 +86,7 @@ class UserAppointementSignUpForm(forms.ModelForm):
         if not getattr(self.instance, 'slot18_19') or not (getattr(self.instance, 'slot18_19') == getattr(self.instance, 'office').user) or "Patients" in getattr(self.instance, 'slot18_19').groups.all():
             self.fields['slot18_19'].widget = forms.HiddenInput()
         else:
-            self.fields['slot18_19'].queryset = models.User.objects.filter(id=self.user.id) 
+            self.fields['slot18_19'].queryset = models.User.objects.filter(id=self.user.id)
         if not getattr(self.instance, 'slot19_20') or not (getattr(self.instance, 'slot19_20') == getattr(self.instance, 'office').user) or "Patients" in getattr(self.instance, 'slot19_20').groups.all():
             self.fields['slot19_20'].widget = forms.HiddenInput()
         else:
@@ -194,7 +194,7 @@ class UserAppointmentCancelForm(forms.ModelForm):
         for field in fields:
             if getattr(instance, field.name) is not None:
                 if getattr(instance, field.name) == self.user:
-                    setattr(instance, field.name, office) 
+                    setattr(instance, field.name, office)
         instance.save()
         messages.add_message(self.request, messages.INFO, 'Anulowano wizytę!')
         return instance
@@ -203,36 +203,12 @@ class UserContactInfoChangeForm(forms.ModelForm):
     pass
 
 
-class UserPasswordChangeForm(forms.Form):
-    password1 = forms.CharField(label='Nowe hasło', widget=forms.PasswordInput,)
-    password2 = forms.CharField(label='Powtórz nowe hasło', widget=forms.PasswordInput,)
-
-    def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user')
-        super(UserPasswordChangeForm, self).__init__(*args, **kwargs)
-
-    def clean_new_password(self):
-        password1 = self.cleaned_data.get('new_password1')
-        password2 = self.cleaned_data.get('new_password2')
-        if password1 and password2:
-            if password1 != password2:
-                raise forms.ValidationError(self.error_messages['Hasła muszą się zgadzać!'],code=['passwords_doesnt_match'])
-        if len(password1) < 6:
-            raise forms.ValidationError(self.error_messages['Hasło zbyt krótkie. Minimalna długość hasła to 6'], code=['password_too_short'])
-        return password2
-
-    def save(self, commit=True):
-        self.user.set_password(self.cleaned_data['password1'])
-        if commit:
-            User.objects.filter(pk=self.user.id).update(password=self.user.password,)
-        return self.user
-
 class ContactForm(forms.Form):
     contact_name = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder': ' Imię i Nazwisko'}))
     contact_email = forms.EmailField(required=True, widget=forms.TextInput(attrs={'placeholder': ' Email'}))
     contact_phone = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder': ' Telefon'}))
     content = forms.CharField(required=True, widget=forms.Textarea(attrs={'placeholder': ' Wiadomość'}))
-    
+
     def __init__(self, *args, **kwargs):
         super(ContactForm, self).__init__(*args, **kwargs)
         self.fields['contact_name'].error_messages['required'] = 'Proszę podać swoje imię i nazwisko!'
@@ -268,7 +244,7 @@ class NewDentistForm(forms.ModelForm):
     class Meta:
         model = models.Dentist
         fields = ['professional_title', 'name', 'surname', 'biography', 'pwz_number', 'specialties', 'office', 'profile_image']
-    
+
     def __init__(self, *args, **kwargs):
         super(NewDentistForm, self).__init__(*args, **kwargs)
         self.fields['name'].error_messages['required'] = 'Proszę podać imię dentysty!'
@@ -278,7 +254,7 @@ class NewDentistForm(forms.ModelForm):
         self.fields['pwz_number'].error_messages['required'] = 'Proszę podać numer uprawnienia do zawodu lekarze (PWZ) dentysty!'
         self.fields['specialties'].error_messages['required'] = 'Proszę podać specjalności zawodowe dentysty!'
         self.fields['office'].error_messages['required'] = 'Proszę podać gabinet w którym pracuje dentysta!'
-        
+
 
 class NewOfficeForm(forms.ModelForm):
     class Meta:
