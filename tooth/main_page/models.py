@@ -147,9 +147,9 @@ class Dentist(models.Model):
     surname = models.CharField(max_length=100, help_text="Nazwisko")
     biography = MarkdownField(null=True, help_text="Biografia")
     profile_image = models.ImageField(upload_to="dentists", blank=True, null=True, help_text="Zdjęcie")
-    pwz_number = models.CharField(max_length=87, null=True, help_text="7-cyfrowy numer prawa wykonywania zawodu (PWZ)",
+    pwz_number = models.CharField(max_length=7, null=True, help_text="7-cyfrowy numer prawa wykonywania zawodu (PWZ)",
          validators=[MaxLengthValidator(7), MinLengthValidator(7)])
-    specialties = models.CharField(max_length=50, null=True, help_text="Specjalizacja")
+    specialties = models.CharField(max_length=100, null=True, help_text="Specjalizacja")
     slug = models.SlugField(max_length=100, unique=True, null=True, help_text="Nazwa linku w postaci - nazwisko-imie-pwz - male litery, bez polskich znaków")
     office = models.ForeignKey(Office, null=True, related_name="workplace")
 

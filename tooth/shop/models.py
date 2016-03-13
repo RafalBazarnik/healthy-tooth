@@ -7,8 +7,8 @@ import main_page
 
 # Create your models here.
 class Category(models.Model):
-    name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=150)
+    name = models.CharField(max_length=50)
+    slug = models.SlugField(max_length=50)
     description = models.TextField()
 
     def __str__(self):
@@ -42,7 +42,7 @@ class Product(models.Model):
     slug = models.SlugField(max_length=150)
     description = models.TextField()
     photo = models.ImageField(upload_to='product_photo', blank=True, help_text="rozmiar - 400x300")
-    manufacturer = models.CharField(max_length=300, blank=True)
+    manufacturer = models.CharField(max_length=100, blank=True)
     price_in_PLN = models.DecimalField(max_digits=6, decimal_places=2)
     retail = models.BooleanField(default=True, help_text="Do sprzedaży detalicznej = True, Do sprzedaży hurtowej - False")
     category = models.ForeignKey(Category, blank=True, null=True)
