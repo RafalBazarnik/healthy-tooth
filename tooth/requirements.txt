@@ -3,7 +3,7 @@ django-braces==1.8.1
 django-markdown==0.8.4
 funcparserlib==0.3.6
 Markdown==2.6.5
-Pillow==3.0.0
+Pillow==3.3.2.
 six==1.10.0
 virtualenv==13.1.2
 webcolors==1.5
