@@ -1,4 +1,4 @@
-Django==1.8.7
+django>=1.11.29
 django-braces>=1.8.1
 django-markdown>=0.8.4
 funcparserlib>=0.3.6
